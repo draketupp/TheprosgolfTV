@@ -48,6 +48,8 @@
       font-weight: bold; 
       color: #000; 
     }
+    .modal { display: none; }
+    .modal.active { display: flex; }
   </style>
 </head>
 <body>
@@ -109,6 +111,27 @@
     </div>
   </main>
 
+  <!-- Modal -->
+  <div id="modal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-50 p-4 modal">
+    <div class="bg-white rounded-2xl w-full max-w-6xl overflow-hidden relative shadow-2xl">
+      <button onclick="closeModal()" 
+              class="absolute top-4 right-6 z-20 text-white bg-black/70 hover:bg-black/90 rounded-full w-14 h-14 flex items-center justify-center text-4xl font-bold shadow">
+        ×
+      </button>
+      <div class="aspect-video bg-black relative">
+        <div id="loading" class="absolute inset-0 flex items-center justify-center text-white text-xl">
+          Loading...
+        </div>
+        <iframe id="player" class="w-full h-full" frameborder="0" allowfullscreen 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share">
+        </iframe>
+      </div>
+      <div class="p-6">
+        <h3 id="title" class="text-2xl font-bold text-gray-900 line-clamp-2"></h3>
+      </div>
+    </div>
+  </div>
+
   <script>
     const videos = [
       { id: "fTWL5avcsa8", title: "Yogi bear golf tournament.", duration: "6:30", thumbnail: "https://i.ytimg.com/vi/fTWL5avcsa8/hqdefault.jpg" },
@@ -146,25 +169,37 @@
             <h3 class="font-medium line-clamp-2">${item.title}</h3>
           </div>
         `;
-        card.onclick = () => openTwoYouTube(item.id, item.title);
+        card.onclick = () => play(item.id, item.title);
         grid.appendChild(card);
       });
     }
 
-    function openTwoYouTube(id, title) {
-      // First tab: Autoplay embed
-      const embedUrl = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
-      window.open(embedUrl, '_blank');
+    function play(id, title) {
+      const embedUrl = `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1`;
+      document.getElementById('player').src = embedUrl;
+      document.getElementById('title').textContent = title;
 
-      // Second tab: Full YouTube watch page
-      const watchUrl = `https://www.youtube.com/watch?v=${id}`;
-      window.open(watchUrl, '_blank');
+      const modal = document.getElementById('modal');
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+
+      document.getElementById('loading').style.display = 'flex';
+      document.getElementById('player').onload = () => {
+        document.getElementById('loading').style.display = 'none';
+      };
+    }
+
+    function closeModal() {
+      document.getElementById('player').src = '';
+      document.getElementById('modal').classList.remove('active');
+      document.body.style.overflow = '';
+      document.getElementById('loading').style.display = 'flex';
+      document.getElementById('loading').innerHTML = 'Loading...';
     }
 
     function showSection(section) {
       document.getElementById('videosSection').style.display = section === 'videos' ? 'block' : 'none';
       document.getElementById('shortsSection').style.display = section === 'shorts' ? 'block' : 'none';
-      
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
       event.target.classList.add('active');
     }
