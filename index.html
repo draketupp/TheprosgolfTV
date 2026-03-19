@@ -44,7 +44,7 @@
     .meta {
       font-size: 12px; color: #606060; margin-top: 4px;
     }
-    #shortsSection { display: none; }
+    #shortsSection, #collabsSection { display: none; }
     .tab-btn {
       padding: 0 0 10px 0; transition: all 0.2s;
       border-bottom: 4px solid transparent;
@@ -66,6 +66,18 @@
     .modal-btn:hover, .modal-btn:active { background: rgba(0,0,0,0.9); }
     .close-btn { right: 16px; }
     .home-btn { right: 80px; }
+    .collab-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+    .collab-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    }
     @media (max-width: 640px) {
       .profile-circle { width: 100px; height: 100px; }
       .card { min-height: 220px; }
@@ -119,9 +131,10 @@
       </div>
     </div>
     <!-- Tabs -->
-    <div class="max-w-7xl mx-auto px-6 flex gap-10 border-t pt-4 text-gray-700 font-medium text-lg">
+    <div class="max-w-7xl mx-auto px-6 flex gap-10 border-t pt-4 text-gray-700 font-medium text-lg overflow-x-auto">
       <button onclick="showSection('videos')" class="tab-btn active">VIDEOS</button>
       <button onclick="showSection('shorts')" class="tab-btn">SHORTS</button>
+      <button onclick="showSection('collabs')" class="tab-btn">COLLABS</button>
     </div>
   </div>
 
@@ -134,9 +147,40 @@
       <h2 class="text-3xl font-bold mb-8">Shorts</h2>
       <div id="shortsGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6"></div>
     </div>
+    <div id="collabsSection">
+      <h2 class="text-3xl font-bold mb-8">Collaborations</h2>
+      <p class="text-lg text-gray-600 mb-6">Check out these awesome creators I've teamed up with! ⛳️🔥</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <a href="https://www.youtube.com/@HudsonHarvey" target="_blank" rel="noopener noreferrer" class="collab-card">
+          <i class="fas fa-user-circle text-6xl text-blue-600 mb-4"></i>
+          <h3 class="text-xl font-bold">@HudsonHarvey</h3>
+          <p class="text-gray-600">Epic golf collabs & fun on the course!</p>
+        </a>
+        <a href="https://www.youtube.com/@TherealRivalsrainbowpiggy22" target="_blank" rel="noopener noreferrer" class="collab-card">
+          <i class="fas fa-user-circle text-6xl text-green-600 mb-4"></i>
+          <h3 class="text-xl font-bold">@TherealRivalsrainbowpiggy22</h3>
+          <p class="text-gray-600">Shorts & creative vibes</p>
+        </a>
+        <a href="https://www.youtube.com/@TSMjeans" target="_blank" rel="noopener noreferrer" class="collab-card">
+          <i class="fas fa-user-circle text-6xl text-purple-600 mb-4"></i>
+          <h3 class="text-xl font-bold">@TSMjeans</h3>
+          <p class="text-gray-600">Fun edits and content grind</p>
+        </a>
+        <a href="https://www.youtube.com/@draketupper" target="_blank" rel="noopener noreferrer" class="collab-card">
+          <i class="fas fa-user-circle text-6xl text-red-600 mb-4"></i>
+          <h3 class="text-xl font-bold">@draketupper</h3>
+          <p class="text-gray-600">Edits, shorts, and energy!</p>
+        </a>
+        <a href="https://www.youtube.com/@Bryden-Harris1" target="_blank" rel="noopener noreferrer" class="collab-card">
+          <i class="fas fa-user-circle text-6xl text-orange-600 mb-4"></i>
+          <h3 class="text-xl font-bold">@Bryden-Harris1</h3>
+          <p class="text-gray-600">Cool edits & flips</p>
+        </a>
+      </div>
+    </div>
   </main>
 
-  <!-- Modal -->
+  <!-- Modal (unchanged) -->
   <div id="modal" class="fixed inset-0 bg-black/90 hidden flex items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl w-full max-w-6xl overflow-hidden relative shadow-2xl flex flex-col max-h-[90vh]">
       <div class="relative h-0">
@@ -149,7 +193,6 @@
       </div>
       <div class="p-6 flex-1 overflow-y-auto">
         <h3 id="title" class="text-2xl font-bold text-gray-900 mb-4 line-clamp-2"></h3>
-        <!-- Comments placeholder -->
         <div id="commentsSection" class="mt-6">
           <h4 class="text-lg font-semibold mb-4">Comments</h4>
           <div id="commentsList" class="space-y-4"></div>
@@ -228,6 +271,7 @@
     function showSection(section) {
       document.getElementById('videosSection').style.display = section === 'videos' ? 'block' : 'none';
       document.getElementById('shortsSection').style.display = section === 'shorts' ? 'block' : 'none';
+      document.getElementById('collabsSection').style.display = section === 'collabs' ? 'block' : 'none';
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
       event.target.classList.add('active');
     }
