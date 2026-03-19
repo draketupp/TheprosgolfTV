@@ -8,20 +8,20 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
   <style>
     body { font-family: Arial, sans-serif; background: #f9f9f9; color: #030303; margin: 0; }
-    .banner-bg { 
-      background: linear-gradient(135deg, #1e3a8a, #3b82f6); 
-      background-size: 200% 200%; 
-      animation: gradient 12s ease infinite; 
+    .banner-bg {
+      background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+      background-size: 200% 200%;
+      animation: gradient 12s ease infinite;
     }
-    @keyframes gradient { 
-      0% {background-position:0% 50%;} 
-      50% {background-position:100% 50%;} 
-      100% {background-position:0% 50%;} 
+    @keyframes gradient {
+      0% {background-position:0% 50%;}
+      50% {background-position:100% 50%;}
+      100% {background-position:0% 50%;}
     }
-    .profile-circle { 
-      width: 120px; height: 120px; 
-      border: 4px solid white; 
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3); 
+    .profile-circle {
+      width: 120px; height: 120px;
+      border: 4px solid white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       object-fit: cover;
     }
     .card {
@@ -35,33 +35,33 @@
     }
     .card:active { transform: scale(0.98); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
     .card:hover { transform: translateY(-8px); box-shadow: 0 16px 30px rgba(0,0,0,0.15); }
-    .duration { 
-      position: absolute; bottom: 8px; right: 8px; 
-      background: rgba(0,0,0,0.85); color: white; 
-      font-size: 12px; padding: 3px 7px; border-radius: 4px; 
-      font-weight: 500; pointer-events: none; 
+    .duration {
+      position: absolute; bottom: 8px; right: 8px;
+      background: rgba(0,0,0,0.85); color: white;
+      font-size: 12px; padding: 3px 7px; border-radius: 4px;
+      font-weight: 500; pointer-events: none;
     }
-    .views { 
-      font-size: 12px; color: #606060; margin-top: 4px; 
+    .meta {
+      font-size: 12px; color: #606060; margin-top: 4px;
     }
     #shortsSection { display: none; }
-    .tab-btn { 
-      padding: 0 0 10px 0; transition: all 0.2s; 
-      border-bottom: 4px solid transparent; 
+    .tab-btn {
+      padding: 0 0 10px 0; transition: all 0.2s;
+      border-bottom: 4px solid transparent;
     }
-    .tab-btn.active { 
-      border-bottom: 4px solid #000; 
-      font-weight: bold; 
-      color: #000; 
+    .tab-btn.active {
+      border-bottom: 4px solid #000;
+      font-weight: bold;
+      color: #000;
     }
-    .modal-btn { 
-      position: absolute; top: 16px; 
-      background: rgba(0,0,0,0.7); color: white; 
-      border: none; border-radius: 50%; 
-      width: 48px; height: 48px; 
-      display: flex; align-items: center; justify-content: center; 
-      cursor: pointer; font-size: 24px; 
-      transition: background 0.2s; z-index: 20; 
+    .modal-btn {
+      position: absolute; top: 16px;
+      background: rgba(0,0,0,0.7); color: white;
+      border: none; border-radius: 50%;
+      width: 48px; height: 48px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 24px;
+      transition: background 0.2s; z-index: 20;
     }
     .modal-btn:hover, .modal-btn:active { background: rgba(0,0,0,0.9); }
     .close-btn { right: 16px; }
@@ -80,7 +80,7 @@
   <div class="banner-bg text-white py-12 md:py-16">
     <div class="max-w-7xl mx-auto px-6 flex flex-wrap justify-between items-center gap-8">
       <div class="flex items-center gap-6">
-        <img 
+        <img
           src="https://yt3.googleusercontent.com/ytc/AIdro_nZ0jZ5y0yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ=w176-c-k-c0x00ffffff-no-rj"
           alt="the pro's Golf profile picture"
           class="profile-circle rounded-full">
@@ -100,7 +100,7 @@
   <!-- Channel Info with profile pic -->
   <div class="bg-white border-b shadow-sm sticky top-0 z-10">
     <div class="max-w-7xl mx-auto px-6 py-8 flex items-start gap-8 flex-wrap">
-      <img 
+      <img
         src="https://yt3.googleusercontent.com/ytc/AIdro_nZ0jZ5y0yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ=w176-c-k-c0x00ffffff-no-rj"
         alt="the pro's Golf profile picture"
         class="w-28 h-28 md:w-32 md:h-32 rounded-full ring-4 ring-white shadow-lg">
@@ -108,7 +108,7 @@
         <h1 class="text-4xl font-bold">the pro's Golf</h1>
         <div class="text-base text-gray-600 mt-2">@DTprogolf • 21 subscribers • 24 videos</div>
         <p class="mt-4 text-lg text-gray-800 max-w-3xl">
-          Get ready for an EPIC showdown as drake hits to the greens...
+          Get ready for an EPIC showdown as drake hits to the greens... 
           Join the fun for exciting collaborations with @HudsonHarvey ⛳️🔥
           #Golf #Draketupp
         </p>
@@ -118,7 +118,6 @@
         </a>
       </div>
     </div>
-
     <!-- Tabs -->
     <div class="max-w-7xl mx-auto px-6 flex gap-10 border-t pt-4 text-gray-700 font-medium text-lg">
       <button onclick="showSection('videos')" class="tab-btn active">VIDEOS</button>
@@ -161,26 +160,26 @@
 
   <script>
     const videos = [
-      { id: "fTWL5avcsa8", title: "Yogi bear golf tournament.", duration: "6:30", thumbnail: "https://i.ytimg.com/vi/fTWL5avcsa8/hqdefault.jpg", views: "12 views" },
-      { id: "xcZMtN99fEM", title: "TaylorMade golf hat review. from Walmart.", duration: "1:39", thumbnail: "https://i.ytimg.com/vi/xcZMtN99fEM/hqdefault.jpg", views: "28 views" },
-      { id: "5t7G-WFLbkU", title: "Happy Gilmore, the generations trailer, #funny #movie", duration: "0:21", thumbnail: "https://i.ytimg.com/vi/5t7G-WFLbkU/hqdefault.jpg", views: "45 views" },
-      { id: "FGmM30YvZTg", title: "Happy gilmore the generations by draketupper", duration: "2:30", thumbnail: "https://i.ytimg.com/vi/FGmM30YvZTg/hqdefault.jpg", views: "67 views" },
-      { id: "nCG4cp4W-tY", title: "I did it. I did the Happy Gilmore!!.", duration: "3:36", thumbnail: "https://i.ytimg.com/vi/nCG4cp4W-tY/hqdefault.jpg", views: "89 views" },
-      { id: "t6nPe-a0hhk", title: "Range time!!", duration: "3:36", thumbnail: "https://i.ytimg.com/vi/t6nPe-a0hhk/hqdefault.jpg", views: "110 views" },
-      { id: "KV9xXJLMuMI", title: "Golfing at my campground", duration: "2:05", thumbnail: "https://i.ytimg.com/vi/KV9xXJLMuMI/hqdefault.jpg", views: "132 views" },
-      { id: "BcTzrV0fGO0", title: "Playing golf in my backyard", duration: "2:29", thumbnail: "https://i.ytimg.com/vi/BcTzrV0fGO0/hqdefault.jpg", views: "154 views" },
-      { id: "CJf6xOPhT_k", title: "Shooting till I run out of balls", duration: "0:55", thumbnail: "https://i.ytimg.com/vi/CJf6xOPhT_k/hqdefault.jpg", views: "4 views" },
+      { id: "fTWL5avcsa8", title: "Yogi bear golf tournament.", duration: "6:30", thumbnail: "https://i.ytimg.com/vi/fTWL5avcsa8/hqdefault.jpg", views: "18 views", likes: "3 likes" },
+      { id: "xcZMtN99fEM", title: "TaylorMade golf hat review. from Walmart.", duration: "1:39", thumbnail: "https://i.ytimg.com/vi/xcZMtN99fEM/hqdefault.jpg", views: "35 views", likes: "2 likes" },
+      { id: "5t7G-WFLbkU", title: "Happy Gilmore, the generations trailer, #funny #movie", duration: "0:21", thumbnail: "https://i.ytimg.com/vi/5t7G-WFLbkU/hqdefault.jpg", views: "55 views", likes: "4 likes" },
+      { id: "FGmM30YvZTg", title: "Happy gilmore the generations by draketupper", duration: "2:30", thumbnail: "https://i.ytimg.com/vi/FGmM30YvZTg/hqdefault.jpg", views: "75 views", likes: "5 likes" },
+      { id: "nCG4cp4W-tY", title: "I did it. I did the Happy Gilmore!!.", duration: "3:36", thumbnail: "https://i.ytimg.com/vi/nCG4cp4W-tY/hqdefault.jpg", views: "105 views", likes: "6 likes" },
+      { id: "t6nPe-a0hhk", title: "Range time!!", duration: "3:36", thumbnail: "https://i.ytimg.com/vi/t6nPe-a0hhk/hqdefault.jpg", views: "125 views", likes: "4 likes" },
+      { id: "KV9xXJLMuMI", title: "Golfing at my campground", duration: "2:05", thumbnail: "https://i.ytimg.com/vi/KV9xXJLMuMI/hqdefault.jpg", views: "145 views", likes: "5 likes" },
+      { id: "BcTzrV0fGO0", title: "Playing golf in my backyard", duration: "2:29", thumbnail: "https://i.ytimg.com/vi/BcTzrV0fGO0/hqdefault.jpg", views: "170 views", likes: "7 likes" },
+      { id: "CJf6xOPhT_k", title: "Shooting till I run out of balls", duration: "0:55", thumbnail: "https://i.ytimg.com/vi/CJf6xOPhT_k/hqdefault.jpg", views: "10 views", likes: "1 like" },
     ];
 
     const shorts = [
-      { id: "niNWJ3CyQLU", title: "good edit", thumbnail: "https://i.ytimg.com/vi/niNWJ3CyQLU/hqdefault.jpg", views: "Short" },
-      { id: "ScJcQ3lWFBs", title: "tiger woods edit", thumbnail: "https://i.ytimg.com/vi/ScJcQ3lWFBs/hqdefault.jpg", views: "Short" },
-      { id: "cm_W4oe5ZGU", title: "I hit a long shot in golf ⛳️", thumbnail: "https://i.ytimg.com/vi/cm_W4oe5ZGU/hqdefault.jpg", views: "Short" },
-      { id: "KNZydEOTK9s", title: "shooting my tooth out, golf Style", thumbnail: "https://i.ytimg.com/vi/KNZydEOTK9s/hqdefault.jpg", views: "Short" },
-      { id: "-EHAI9TrjVg", title: "120 yard happy gilmoe shot", thumbnail: "https://i.ytimg.com/vi/-EHAI9TrjVg/hqdefault.jpg", views: "Short" },
-      { id: "SQoK9Dp4r7k", title: "clean", thumbnail: "https://i.ytimg.com/vi/SQoK9Dp4r7k/hqdefault.jpg", views: "Short" },
-      { id: "7wPBpOzqEsI", title: "what's aura?", thumbnail: "https://i.ytimg.com/vi/7wPBpOzqEsI/hqdefault.jpg", views: "Short" },
-      { id: "fK-WGKSsUqk", title: "Moment before disaster #golf", thumbnail: "https://i.ytimg.com/vi/fK-WGKSsUqk/hqdefault.jpg", views: "Short" },
+      { id: "niNWJ3CyQLU", title: "good edit", thumbnail: "https://i.ytimg.com/vi/niNWJ3CyQLU/hqdefault.jpg", views: "Short", likes: "2 likes" },
+      { id: "ScJcQ3lWFBs", title: "tiger woods edit", thumbnail: "https://i.ytimg.com/vi/ScJcQ3lWFBs/hqdefault.jpg", views: "Short", likes: "3 likes" },
+      { id: "cm_W4oe5ZGU", title: "I hit a long shot in golf ⛳️", thumbnail: "https://i.ytimg.com/vi/cm_W4oe5ZGU/hqdefault.jpg", views: "Short", likes: "4 likes" },
+      { id: "KNZydEOTK9s", title: "shooting my tooth out, golf Style", thumbnail: "https://i.ytimg.com/vi/KNZydEOTK9s/hqdefault.jpg", views: "Short", likes: "1 like" },
+      { id: "-EHAI9TrjVg", title: "120 yard happy gilmoe shot", thumbnail: "https://i.ytimg.com/vi/-EHAI9TrjVg/hqdefault.jpg", views: "Short", likes: "5 likes" },
+      { id: "SQoK9Dp4r7k", title: "clean", thumbnail: "https://i.ytimg.com/vi/SQoK9Dp4r7k/hqdefault.jpg", views: "Short", likes: "2 likes" },
+      { id: "7wPBpOzqEsI", title: "what's aura?", thumbnail: "https://i.ytimg.com/vi/7wPBpOzqEsI/hqdefault.jpg", views: "Short", likes: "3 likes" },
+      { id: "fK-WGKSsUqk", title: "Moment before disaster #golf", thumbnail: "https://i.ytimg.com/vi/fK-WGKSsUqk/hqdefault.jpg", views: "Short", likes: "4 likes" },
     ];
 
     function renderGrid(gridId, items, isShort = false) {
@@ -196,7 +195,7 @@
           </div>
           <div class="p-4">
             <h3 class="font-medium line-clamp-2">${item.title}</h3>
-            ${item.views ? `<p class="views mt-1">${item.views}</p>` : ''}
+            <p class="meta mt-1">${item.views} • ${item.likes}</p>
           </div>
         `;
         card.onclick = () => play(item.id, item.title);
@@ -208,12 +207,10 @@
       const embedUrl = `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1`;
       document.getElementById('player').src = embedUrl;
       document.getElementById('title').textContent = title;
-
       const modal = document.getElementById('modal');
       modal.classList.remove('hidden');
       modal.classList.add('flex');
       document.body.style.overflow = 'hidden';
-
       document.getElementById('loading').style.display = 'flex';
       document.getElementById('player').onload = () => {
         document.getElementById('loading').style.display = 'none';
