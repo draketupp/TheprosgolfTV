@@ -8,19 +8,27 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
   <style>
     body { font-family: Arial, sans-serif; background: #f9f9f9; color: #030303; margin: 0; }
-    .banner-bg { background: linear-gradient(135deg, #1e3a8a, #3b82f6); background-size: 200% 200%; animation: gradient 12s ease infinite; }
-    @keyframes gradient { 0% {background-position:0% 50%;} 50% {background-position:100% 50%;} 100% {background-position:0% 50%;} }
-    .profile-circle { width: 120px; height: 120px; border: 4px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
-    .card { 
-      transition: all 0.3s ease; 
-      cursor: pointer; 
-      background: white; 
-      border-radius: 12px; 
-      overflow: hidden; 
-      box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
-      touch-action: manipulation; /* Better touch response */
+    .channel-banner {
+      background-image: url('YOUR_BANNER_URL_HERE'); /* ← Paste your REAL YouTube banner URL here! Or use: https://i.imgur.com/... if hosted elsewhere */
+      background-size: cover;
+      background-position: center;
+      background-color: #1e3a8a; /* Fallback color if image fails */
+      height: 250px; /* Adjust based on your banner aspect ratio – YouTube recommends 2560x1440, but scale down for web */
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
     }
-    .card:active { transform: scale(0.98); box-shadow: 0 8px 20px rgba(0,0,0,0.2); } /* Touch feedback */
+    .channel-banner-content {
+      text-align: center;
+      padding: 20px;
+      max-width: 90%;
+    }
+    .profile-circle { width: 140px; height: 140px; border: 6px solid white; box-shadow: 0 6px 16px rgba(0,0,0,0.4); }
+    .card { transition: all 0.3s ease; cursor: pointer; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.08); touch-action: manipulation; }
+    .card:active { transform: scale(0.98); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
     .card:hover { transform: translateY(-8px); box-shadow: 0 16px 30px rgba(0,0,0,0.15); }
     .duration { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.85); color: white; font-size: 12px; padding: 3px 7px; border-radius: 4px; font-weight: 500; pointer-events: none; }
     #shortsSection { display: none; }
@@ -36,18 +44,30 @@
     .close-btn { right: 16px; }
     .home-btn { right: 80px; }
     @media (max-width: 640px) {
-      .card { min-height: 220px; } /* Larger touch targets on mobile */
+      .channel-banner { height: 180px; }
+      .profile-circle { width: 100px; height: 100px; }
+      .card { min-height: 220px; }
       button { padding: 1rem 2rem; font-size: 1.1rem; }
     }
   </style>
 </head>
 <body>
-  <!-- Banner -->
+  <!-- Your YouTube Banner at the top -->
+  <div class="channel-banner">
+    <div class="channel-banner-content">
+      <img src="https://yt3.googleusercontent.com/ytc/AIdro_nZ0jZ5y0yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ=w176-c-k-c0x00ffffff-no-rj" 
+           alt="the pro's Golf Logo" class="profile-circle rounded-full mx-auto mb-4">
+      <h1 class="text-4xl md:text-6xl font-extrabold">the pro's Golf</h1>
+      <p class="text-xl md:text-2xl mt-2">⛳ Epic Golf Adventures • 21 Subs • Join the Fun!</p>
+    </div>
+  </div>
+
+  <!-- Subscribe & Stats Section -->
   <div class="banner-bg text-white py-12 md:py-16">
     <div class="max-w-7xl mx-auto px-6 flex flex-wrap justify-between items-center gap-8">
       <div class="flex items-center gap-6">
         <img src="https://yt3.googleusercontent.com/ytc/AIdro_nZ0jZ5y0yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ=w176-c-k-c0x00ffffff-no-rj" 
-             alt="the pro's Golf" class="profile-circle rounded-full">
+             alt="the pro's Golf Logo" class="profile-circle rounded-full">
         <div>
           <div class="text-6xl md:text-7xl font-extrabold">21</div>
           <div class="text-xl md:text-2xl mt-1">subscribers</div>
@@ -61,11 +81,11 @@
     </div>
   </div>
 
-  <!-- Channel Info -->
+  <!-- Channel Info Section -->
   <div class="bg-white border-b shadow-sm sticky top-0 z-10">
     <div class="max-w-7xl mx-auto px-6 py-8 flex items-start gap-8 flex-wrap">
       <img src="https://yt3.googleusercontent.com/ytc/AIdro_nZ0jZ5y0yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ=w176-c-k-c0x00ffffff-no-rj" 
-           alt="Profile" class="w-28 h-28 md:w-32 md:h-32 rounded-full ring-4 ring-white shadow-lg">
+           alt="the pro's Golf Logo" class="w-28 h-28 md:w-32 md:h-32 rounded-full ring-4 ring-white shadow-lg">
       <div class="flex-1">
         <h1 class="text-4xl font-bold">the pro's Golf</h1>
         <div class="text-base text-gray-600 mt-2">@DTprogolf • 21 subscribers • 24 videos</div>
@@ -81,26 +101,25 @@
       </div>
     </div>
 
-    <!-- Tabs -->
     <div class="max-w-7xl mx-auto px-6 flex gap-10 border-t pt-4 text-gray-700 font-medium text-lg">
       <button onclick="showSection('videos')" class="tab-btn active">VIDEOS</button>
       <button onclick="showSection('shorts')" class="tab-btn">SHORTS</button>
     </div>
   </div>
 
+  <!-- Main content, modal, script (unchanged from previous) -->
   <main class="max-w-7xl mx-auto px-6 py-10">
     <div id="videosSection">
       <h2 class="text-3xl font-bold mb-8">My Videos</h2>
       <div id="videoGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8"></div>
     </div>
-
     <div id="shortsSection">
       <h2 class="text-3xl font-bold mb-8">Shorts</h2>
       <div id="shortsGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6"></div>
     </div>
   </main>
 
-  <!-- Modal (unchanged, with home button) -->
+  <!-- Modal -->
   <div id="modal" class="fixed inset-0 bg-black/90 hidden flex items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl w-full max-w-6xl overflow-hidden relative shadow-2xl flex flex-col max-h-[90vh]">
       <div class="modal-header">
@@ -122,7 +141,7 @@
   </div>
 
   <script>
-    const API_KEY = 'YOUR_API_KEY_HERE'; // Replace if using comments feature
+    const API_KEY = 'YOUR_API_KEY_HERE'; // Optional for comments
 
     const videos = [
       { id: "fTWL5avcsa8", title: "Yogi bear golf tournament.", duration: "6:30", thumbnail: "https://i.ytimg.com/vi/fTWL5avcsa8/hqdefault.jpg" },
@@ -134,7 +153,6 @@
       { id: "KV9xXJLMuMI", title: "Golfing at my campground", duration: "2:05", thumbnail: "https://i.ytimg.com/vi/KV9xXJLMuMI/hqdefault.jpg" },
       { id: "BcTzrV0fGO0", title: "Playing golf in my backyard", duration: "2:29", thumbnail: "https://i.ytimg.com/vi/BcTzrV0fGO0/hqdefault.jpg" },
       { id: "CJf6xOPhT_k", title: "Shooting till I run out of balls", duration: "0:55", thumbnail: "https://i.ytimg.com/vi/CJf6xOPhT_k/hqdefault.jpg" },
-      // Add even more if you have additional IDs!
     ];
 
     const shorts = [
@@ -182,8 +200,6 @@
       document.getElementById('player').onload = () => {
         document.getElementById('loading').style.display = 'none';
       };
-
-      // If using comments: loadComments(id);
     }
 
     function closeModal() {
@@ -192,7 +208,6 @@
       document.getElementById('modal').classList.remove('flex');
       document.body.style.overflow = '';
       document.getElementById('loading').style.display = 'flex';
-      // If comments: document.getElementById('commentsList').innerHTML = '';
     }
 
     function showSection(section) {
