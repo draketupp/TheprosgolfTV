@@ -2,38 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>the pro's Golf</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
   <style>
     body { font-family: Arial, sans-serif; background: #f9f9f9; color: #030303; margin: 0; }
-    .channel-banner { 
-      background-image: url('https://example.com/your-real-banner.jpg'); /* ← Replace with your ACTUAL banner URL from YouTube or hosted image */
-      background-size: cover; 
-      background-position: center; 
-      height: 300px; /* Adjust height as needed for your banner aspect ratio */
-      position: relative;
-    }
-    .channel-banner::before { 
-      content: ''; 
-      position: absolute; 
-      inset: 0; 
-      background: rgba(0,0,0,0.4); /* Dark overlay for text readability */
-    }
-    .channel-banner-content { 
-      position: relative; 
-      z-index: 1; 
-      height: 100%; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      text-align: center; 
-      color: white; 
-      text-shadow: 2px 2px 6px black;
-    }
+    .banner-bg { background: linear-gradient(135deg, #1e3a8a, #3b82f6); background-size: 200% 200%; animation: gradient 12s ease infinite; }
+    @keyframes gradient { 0% {background-position:0% 50%;} 50% {background-position:100% 50%;} 100% {background-position:0% 50%;} }
     .profile-circle { width: 120px; height: 120px; border: 4px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
-    .card { transition: all 0.25s ease; cursor: pointer; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
+    .card { 
+      transition: all 0.3s ease; 
+      cursor: pointer; 
+      background: white; 
+      border-radius: 12px; 
+      overflow: hidden; 
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
+      touch-action: manipulation; /* Better touch response */
+    }
+    .card:active { transform: scale(0.98); box-shadow: 0 8px 20px rgba(0,0,0,0.2); } /* Touch feedback */
     .card:hover { transform: translateY(-8px); box-shadow: 0 16px 30px rgba(0,0,0,0.15); }
     .duration { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.85); color: white; font-size: 12px; padding: 3px 7px; border-radius: 4px; font-weight: 500; pointer-events: none; }
     #shortsSection { display: none; }
@@ -45,47 +32,40 @@
     .comment-text { margin: 4px 0; }
     .comment-meta { font-size: 12px; color: #666; }
     .modal-btn { position: absolute; top: 16px; background: rgba(0,0,0,0.7); color: white; border: none; border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 24px; transition: background 0.2s; z-index: 20; }
-    .modal-btn:hover { background: rgba(0,0,0,0.9); }
+    .modal-btn:hover, .modal-btn:active { background: rgba(0,0,0,0.9); }
     .close-btn { right: 16px; }
     .home-btn { right: 80px; }
+    @media (max-width: 640px) {
+      .card { min-height: 220px; } /* Larger touch targets on mobile */
+      button { padding: 1rem 2rem; font-size: 1.1rem; }
+    }
   </style>
 </head>
 <body>
-  <!-- New Custom YouTube Banner Section (top of home page) -->
-  <div class="channel-banner">
-    <div class="channel-banner-content">
-      <div>
-        <h1 class="text-5xl md:text-7xl font-extrabold mb-2">THE PRO'S</h1>
-        <p class="text-2xl md:text-4xl font-bold">GOLF ⛳</p>
-        <p class="text-xl mt-4">21 Subscribers • Epic Golf Adventures with Drake & More!</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Existing Gradient Banner with Logo & Subscribe -->
-  <div class="bg-gradient-to-r from-blue-900 to-blue-500 text-white py-12 md:py-16">
+  <!-- Banner -->
+  <div class="banner-bg text-white py-12 md:py-16">
     <div class="max-w-7xl mx-auto px-6 flex flex-wrap justify-between items-center gap-8">
       <div class="flex items-center gap-6">
         <img src="https://yt3.googleusercontent.com/ytc/AIdro_nZ0jZ5y0yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ=w176-c-k-c0x00ffffff-no-rj" 
-             alt="the pro's Golf Logo" class="profile-circle rounded-full">
+             alt="the pro's Golf" class="profile-circle rounded-full">
         <div>
           <div class="text-6xl md:text-7xl font-extrabold">21</div>
           <div class="text-xl md:text-2xl mt-1">subscribers</div>
           <div class="mt-3 text-3xl md:text-4xl font-bold">2,011,938 to go! 🔥</div>
         </div>
       </div>
-      <button onclick="alert('Thanks Drake! ⛳ Let’s get to 2 million!')" 
-              class="bg-red-600 hover:bg-red-700 px-10 py-5 rounded-full font-bold text-xl flex items-center gap-3 shadow-lg transition">
+      <a href="https://www.youtube.com/@DTprogolf?sub_confirmation=1" target="_blank" rel="noopener noreferrer"
+         class="bg-red-600 hover:bg-red-700 px-10 py-5 rounded-full font-bold text-xl flex items-center gap-3 shadow-lg transition">
         <i class="fab fa-youtube text-2xl"></i> SUBSCRIBE!
-      </button>
+      </a>
     </div>
   </div>
 
-  <!-- Channel Info (with logo again) -->
+  <!-- Channel Info -->
   <div class="bg-white border-b shadow-sm sticky top-0 z-10">
     <div class="max-w-7xl mx-auto px-6 py-8 flex items-start gap-8 flex-wrap">
       <img src="https://yt3.googleusercontent.com/ytc/AIdro_nZ0jZ5y0yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ=w176-c-k-c0x00ffffff-no-rj" 
-           alt="the pro's Golf Logo" class="w-28 h-28 md:w-32 md:h-32 rounded-full ring-4 ring-white shadow-lg">
+           alt="Profile" class="w-28 h-28 md:w-32 md:h-32 rounded-full ring-4 ring-white shadow-lg">
       <div class="flex-1">
         <h1 class="text-4xl font-bold">the pro's Golf</h1>
         <div class="text-base text-gray-600 mt-2">@DTprogolf • 21 subscribers • 24 videos</div>
@@ -94,10 +74,10 @@
           Join the fun for exciting collaborations with @HudsonHarvey ⛳️🔥 
           #Golf #Draketupp
         </p>
-        <button onclick="alert('Subscribed! Welcome to the crew! ⛳')" 
-                class="mt-6 bg-black text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-900 transition">
+        <a href="https://www.youtube.com/@DTprogolf?sub_confirmation=1" target="_blank" rel="noopener noreferrer"
+           class="mt-6 inline-block bg-black text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-900 transition">
           SUBSCRIBE
-        </button>
+        </a>
       </div>
     </div>
 
@@ -108,17 +88,125 @@
     </div>
   </div>
 
-  <!-- Main Content, Modal, Script (unchanged from previous version with comments & home button) -->
   <main class="max-w-7xl mx-auto px-6 py-10">
-    <!-- ... rest of main content, grids, etc. ... -->
+    <div id="videosSection">
+      <h2 class="text-3xl font-bold mb-8">My Videos</h2>
+      <div id="videoGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8"></div>
+    </div>
+
+    <div id="shortsSection">
+      <h2 class="text-3xl font-bold mb-8">Shorts</h2>
+      <div id="shortsGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6"></div>
+    </div>
   </main>
 
-  <!-- Modal (with Home button) -->
-  <!-- ... modal code from previous response ... -->
+  <!-- Modal (unchanged, with home button) -->
+  <div id="modal" class="fixed inset-0 bg-black/90 hidden flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl w-full max-w-6xl overflow-hidden relative shadow-2xl flex flex-col max-h-[90vh]">
+      <div class="modal-header">
+        <button onclick="closeModal()" class="modal-btn close-btn"><i class="fas fa-times"></i></button>
+        <button onclick="closeModal()" class="modal-btn home-btn"><i class="fas fa-home"></i></button>
+      </div>
+      <div class="aspect-video bg-black relative">
+        <div id="loading" class="absolute inset-0 flex items-center justify-center text-white text-xl">Loading video...</div>
+        <iframe id="player" class="w-full h-full" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+      </div>
+      <div class="p-6 flex-1 overflow-y-auto">
+        <h3 id="title" class="text-2xl font-bold text-gray-900 mb-4 line-clamp-2"></h3>
+        <div id="commentsSection">
+          <h4 class="text-lg font-semibold mb-4">Comments</h4>
+          <div id="commentsList" class="space-y-4"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
-    // ... full script from previous (renderGrid, play, loadComments, closeModal, etc.) ...
-    // Make sure to include your API_KEY for comments if using that feature
+    const API_KEY = 'YOUR_API_KEY_HERE'; // Replace if using comments feature
+
+    const videos = [
+      { id: "fTWL5avcsa8", title: "Yogi bear golf tournament.", duration: "6:30", thumbnail: "https://i.ytimg.com/vi/fTWL5avcsa8/hqdefault.jpg" },
+      { id: "xcZMtN99fEM", title: "TaylorMade golf hat review. from Walmart.", duration: "1:39", thumbnail: "https://i.ytimg.com/vi/xcZMtN99fEM/hqdefault.jpg" },
+      { id: "5t7G-WFLbkU", title: "Happy Gilmore, the generations trailer, #funny #movie", duration: "0:21", thumbnail: "https://i.ytimg.com/vi/5t7G-WFLbkU/hqdefault.jpg" },
+      { id: "FGmM30YvZTg", title: "Happy gilmore the generations by draketupper", duration: "2:30", thumbnail: "https://i.ytimg.com/vi/FGmM30YvZTg/hqdefault.jpg" },
+      { id: "nCG4cp4W-tY", title: "I did it. I did the Happy Gilmore!!.", duration: "3:36", thumbnail: "https://i.ytimg.com/vi/nCG4cp4W-tY/hqdefault.jpg" },
+      { id: "t6nPe-a0hhk", title: "Range time!!", duration: "3:36", thumbnail: "https://i.ytimg.com/vi/t6nPe-a0hhk/hqdefault.jpg" },
+      { id: "KV9xXJLMuMI", title: "Golfing at my campground", duration: "2:05", thumbnail: "https://i.ytimg.com/vi/KV9xXJLMuMI/hqdefault.jpg" },
+      { id: "BcTzrV0fGO0", title: "Playing golf in my backyard", duration: "2:29", thumbnail: "https://i.ytimg.com/vi/BcTzrV0fGO0/hqdefault.jpg" },
+      { id: "CJf6xOPhT_k", title: "Shooting till I run out of balls", duration: "0:55", thumbnail: "https://i.ytimg.com/vi/CJf6xOPhT_k/hqdefault.jpg" },
+      // Add even more if you have additional IDs!
+    ];
+
+    const shorts = [
+      { id: "niNWJ3CyQLU", title: "good edit", thumbnail: "https://i.ytimg.com/vi/niNWJ3CyQLU/hqdefault.jpg" },
+      { id: "ScJcQ3lWFBs", title: "tiger woods edit", thumbnail: "https://i.ytimg.com/vi/ScJcQ3lWFBs/hqdefault.jpg" },
+      { id: "cm_W4oe5ZGU", title: "I hit a long shot in golf ⛳️", thumbnail: "https://i.ytimg.com/vi/cm_W4oe5ZGU/hqdefault.jpg" },
+      { id: "KNZydEOTK9s", title: "shooting my tooth out, golf Style", thumbnail: "https://i.ytimg.com/vi/KNZydEOTK9s/hqdefault.jpg" },
+      { id: "-EHAI9TrjVg", title: "120 yard happy gilmoe shot", thumbnail: "https://i.ytimg.com/vi/-EHAI9TrjVg/hqdefault.jpg" },
+      { id: "SQoK9Dp4r7k", title: "clean", thumbnail: "https://i.ytimg.com/vi/SQoK9Dp4r7k/hqdefault.jpg" },
+      { id: "7wPBpOzqEsI", title: "what's aura?", thumbnail: "https://i.ytimg.com/vi/7wPBpOzqEsI/hqdefault.jpg" },
+      { id: "fK-WGKSsUqk", title: "Moment before disaster #golf", thumbnail: "https://i.ytimg.com/vi/fK-WGKSsUqk/hqdefault.jpg" },
+    ];
+
+    function renderGrid(gridId, items, isShort = false) {
+      const grid = document.getElementById(gridId);
+      grid.innerHTML = '';
+      items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="relative">
+            <img src="${item.thumbnail}" alt="${item.title}" class="w-full aspect-video object-cover">
+            <span class="duration">${item.duration || (isShort ? 'Short' : '')}</span>
+          </div>
+          <div class="p-4">
+            <h3 class="font-medium line-clamp-2">${item.title}</h3>
+          </div>
+        `;
+        card.onclick = () => play(item.id, item.title);
+        grid.appendChild(card);
+      });
+    }
+
+    function play(id, title) {
+      const embedUrl = `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1`;
+      document.getElementById('player').src = embedUrl;
+      document.getElementById('title').textContent = title;
+
+      const modal = document.getElementById('modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+
+      document.getElementById('loading').style.display = 'flex';
+      document.getElementById('player').onload = () => {
+        document.getElementById('loading').style.display = 'none';
+      };
+
+      // If using comments: loadComments(id);
+    }
+
+    function closeModal() {
+      document.getElementById('player').src = '';
+      document.getElementById('modal').classList.add('hidden');
+      document.getElementById('modal').classList.remove('flex');
+      document.body.style.overflow = '';
+      document.getElementById('loading').style.display = 'flex';
+      // If comments: document.getElementById('commentsList').innerHTML = '';
+    }
+
+    function showSection(section) {
+      document.getElementById('videosSection').style.display = section === 'videos' ? 'block' : 'none';
+      document.getElementById('shortsSection').style.display = section === 'shorts' ? 'block' : 'none';
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+
+    window.onload = () => {
+      renderGrid('videoGrid', videos);
+      renderGrid('shortsGrid', shorts, true);
+      showSection('videos');
+    };
   </script>
 </body>
 </html>
