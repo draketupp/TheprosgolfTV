@@ -44,7 +44,7 @@
     .meta {
       font-size: 12px; color: #606060; margin-top: 4px;
     }
-    .likes { color: #ff0000; } /* Red for likes to stand out */
+    .likes { color: #ff0000; }
     #shortsSection, #collabsSection { display: none; }
     .tab-btn {
       padding: 0 0 10px 0; transition: all 0.2s;
@@ -134,11 +134,9 @@
         class="w-28 h-28 md:w-32 md:h-32 rounded-full ring-4 ring-white shadow-lg">
       <div class="flex-1">
         <h1 class="text-4xl font-bold">the pro's Golf</h1>
-        <div class="text-base text-gray-600 mt-2">@DTprogolf • 21 subscribers • 24 videos</div>
+        <div class="text-base text-gray-600 mt-2">@DTprogolf • 21 subscribers • 25 videos</div>
         <p class="mt-4 text-lg text-gray-800 max-w-3xl">
-          Get ready for an EPIC showdown as drake hits to the greens... 
-          Join the fun for exciting collaborations with @HudsonHarvey ⛳️🔥
-          #Golf #Draketupp
+          Get ready for an EPIC showdown as drake hits to the greens and Watch our day of golf! In this one-of-a-kind golf adventure, it out on the course, show casing his best swings, and some comedy, and just some friends. Whether you're a golf pro or beginner you might just be looking for some laughs, you won't want to miss their epic scores and unexpected surprises! Who will come out on top? 🥳🏆 Join the fun for exciting collaborations with Hudson Harvey Brantley Davis and Bryden Harris. ⛳️🔥 #Golf #Draketupper
         </p>
         <a href="https://www.youtube.com/@DTprogolf?sub_confirmation=1" target="_blank" rel="noopener noreferrer"
            class="mt-6 inline-block bg-black text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-900 transition">
@@ -273,7 +271,7 @@
     }
 
     function play(id, title) {
-      const embedUrl = `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1`;
+      const embedUrl = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
       document.getElementById('player').src = embedUrl;
       document.getElementById('title').textContent = title;
       const modal = document.getElementById('modal');
@@ -302,9 +300,8 @@
       event.target.classList.add('active');
     }
 
-    // Fetch latest video (replace UC... with your actual channel ID)
     async function loadLatestVideo() {
-      const channelID = 'UCYOURCHANNELIDHERE';  // REPLACE THIS!
+      const channelID = 'UCJjRscH3l030SOmy2tWxcoA';  // Your channel ID
       const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelID}`;
       const jsonApi = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
 
@@ -325,7 +322,9 @@
         }
       } catch (error) {
         console.error('Error loading latest video:', error);
-        document.getElementById('latestLoading').innerHTML = 'Couldn\'t load latest video – check back after uploading! ⛳️';
+        document.getElementById('latestLoading').innerHTML = 'Couldn\'t load latest video right now – it\'s "Yogi bear golf tournament." for now! ⛳️';
+        document.getElementById('latestIframe').src = 'https://www.youtube.com/embed/fTWL5avcsa8?rel=0&modestbranding=1';
+        document.getElementById('latestTitle').textContent = 'Yogi bear golf tournament.';
       }
     }
 
