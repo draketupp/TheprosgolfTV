@@ -44,6 +44,7 @@
     .meta {
       font-size: 12px; color: #606060; margin-top: 4px;
     }
+    .likes { color: #ff0000; } /* Red for likes to stand out */
     #shortsSection, #collabsSection { display: none; }
     .tab-btn {
       padding: 0 0 10px 0; transition: all 0.2s;
@@ -77,6 +78,21 @@
     .collab-card:hover {
       transform: translateY(-6px);
       box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    }
+    #latestVideoContainer {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    #latestVideoContainer iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
     }
     @media (max-width: 640px) {
       .profile-circle { width: 100px; height: 100px; }
@@ -139,6 +155,16 @@
   </div>
 
   <main class="max-w-7xl mx-auto px-6 py-10">
+    <!-- Latest Upload Section -->
+    <div id="latestSection" class="mb-12">
+      <h2 class="text-4xl font-bold mb-6 text-center">Latest Upload 🔥</h2>
+      <div id="latestVideoContainer">
+        <div id="latestLoading" class="absolute inset-0 flex items-center justify-center bg-black text-white text-xl">Loading your latest video...</div>
+        <iframe id="latestIframe" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+      </div>
+      <h3 id="latestTitle" class="text-2xl font-bold mt-4 text-center"></h3>
+    </div>
+
     <div id="videosSection">
       <h2 class="text-3xl font-bold mb-8">My Videos</h2>
       <div id="videoGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8"></div>
@@ -180,7 +206,7 @@
     </div>
   </main>
 
-  <!-- Modal (unchanged) -->
+  <!-- Modal -->
   <div id="modal" class="fixed inset-0 bg-black/90 hidden flex items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl w-full max-w-6xl overflow-hidden relative shadow-2xl flex flex-col max-h-[90vh]">
       <div class="relative h-0">
@@ -203,15 +229,15 @@
 
   <script>
     const videos = [
-      { id: "fTWL5avcsa8", title: "Yogi bear golf tournament.", duration: "6:30", thumbnail: "https://i.ytimg.com/vi/fTWL5avcsa8/hqdefault.jpg", views: "18 views", likes: "3 likes" },
-      { id: "xcZMtN99fEM", title: "TaylorMade golf hat review. from Walmart.", duration: "1:39", thumbnail: "https://i.ytimg.com/vi/xcZMtN99fEM/hqdefault.jpg", views: "35 views", likes: "2 likes" },
-      { id: "5t7G-WFLbkU", title: "Happy Gilmore, the generations trailer, #funny #movie", duration: "0:21", thumbnail: "https://i.ytimg.com/vi/5t7G-WFLbkU/hqdefault.jpg", views: "55 views", likes: "4 likes" },
-      { id: "FGmM30YvZTg", title: "Happy gilmore the generations by draketupper", duration: "2:30", thumbnail: "https://i.ytimg.com/vi/FGmM30YvZTg/hqdefault.jpg", views: "75 views", likes: "5 likes" },
-      { id: "nCG4cp4W-tY", title: "I did it. I did the Happy Gilmore!!.", duration: "3:36", thumbnail: "https://i.ytimg.com/vi/nCG4cp4W-tY/hqdefault.jpg", views: "105 views", likes: "6 likes" },
-      { id: "t6nPe-a0hhk", title: "Range time!!", duration: "3:36", thumbnail: "https://i.ytimg.com/vi/t6nPe-a0hhk/hqdefault.jpg", views: "125 views", likes: "4 likes" },
-      { id: "KV9xXJLMuMI", title: "Golfing at my campground", duration: "2:05", thumbnail: "https://i.ytimg.com/vi/KV9xXJLMuMI/hqdefault.jpg", views: "145 views", likes: "5 likes" },
-      { id: "BcTzrV0fGO0", title: "Playing golf in my backyard", duration: "2:29", thumbnail: "https://i.ytimg.com/vi/BcTzrV0fGO0/hqdefault.jpg", views: "170 views", likes: "7 likes" },
-      { id: "CJf6xOPhT_k", title: "Shooting till I run out of balls", duration: "0:55", thumbnail: "https://i.ytimg.com/vi/CJf6xOPhT_k/hqdefault.jpg", views: "10 views", likes: "1 like" },
+      { id: "fTWL5avcsa8", title: "Yogi bear golf tournament.", duration: "6:30", thumbnail: "https://i.ytimg.com/vi/fTWL5avcsa8/hqdefault.jpg", views: "4 views", likes: "1 like" },
+      { id: "xcZMtN99fEM", title: "TaylorMade golf hat review. from Walmart.", duration: "1:39", thumbnail: "https://i.ytimg.com/vi/xcZMtN99fEM/hqdefault.jpg", views: "26 views", likes: "1 like" },
+      { id: "5t7G-WFLbkU", title: "Happy Gilmore, the generations trailer, #funny #movie", duration: "0:21", thumbnail: "https://i.ytimg.com/vi/5t7G-WFLbkU/hqdefault.jpg", views: "60 views", likes: "3 likes" },
+      { id: "FGmM30YvZTg", title: "Happy gilmore the generations by draketupper", duration: "2:30", thumbnail: "https://i.ytimg.com/vi/FGmM30YvZTg/hqdefault.jpg", views: "80 views", likes: "4 likes" },
+      { id: "nCG4cp4W-tY", title: "I did it. I did the Happy Gilmore!!.", duration: "3:36", thumbnail: "https://i.ytimg.com/vi/nCG4cp4W-tY/hqdefault.jpg", views: "110 views", likes: "5 likes" },
+      { id: "t6nPe-a0hhk", title: "Range time!!", duration: "3:36", thumbnail: "https://i.ytimg.com/vi/t6nPe-a0hhk/hqdefault.jpg", views: "130 views", likes: "3 likes" },
+      { id: "KV9xXJLMuMI", title: "Golfing at my campground", duration: "2:05", thumbnail: "https://i.ytimg.com/vi/KV9xXJLMuMI/hqdefault.jpg", views: "150 views", likes: "4 likes" },
+      { id: "BcTzrV0fGO0", title: "Playing golf in my backyard", duration: "2:29", thumbnail: "https://i.ytimg.com/vi/BcTzrV0fGO0/hqdefault.jpg", views: "180 views", likes: "6 likes" },
+      { id: "CJf6xOPhT_k", title: "Shooting till I run out of balls", duration: "0:55", thumbnail: "https://i.ytimg.com/vi/CJf6xOPhT_k/hqdefault.jpg", views: "15 views", likes: "1 like" },
     ];
 
     const shorts = [
@@ -238,7 +264,7 @@
           </div>
           <div class="p-4">
             <h3 class="font-medium line-clamp-2">${item.title}</h3>
-            <p class="meta mt-1">${item.views} • ${item.likes}</p>
+            <p class="meta mt-1">${item.views} • <span class="likes">${item.likes}</span></p>
           </div>
         `;
         card.onclick = () => play(item.id, item.title);
@@ -276,10 +302,38 @@
       event.target.classList.add('active');
     }
 
+    // Fetch latest video (replace UC... with your actual channel ID)
+    async function loadLatestVideo() {
+      const channelID = 'UCYOURCHANNELIDHERE';  // REPLACE THIS!
+      const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelID}`;
+      const jsonApi = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+
+      try {
+        const response = await fetch(jsonApi);
+        const data = await response.json();
+
+        if (data.status === 'ok' && data.items && data.items.length > 0) {
+          const latest = data.items[0];
+          const videoId = latest.link.split('v=')[1]?.split('&')[0] || latest.id.split(':').pop();
+          const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&modestbranding=1`;
+
+          document.getElementById('latestIframe').src = embedUrl;
+          document.getElementById('latestTitle').textContent = latest.title;
+          document.getElementById('latestLoading').style.display = 'none';
+        } else {
+          throw new Error('No videos found');
+        }
+      } catch (error) {
+        console.error('Error loading latest video:', error);
+        document.getElementById('latestLoading').innerHTML = 'Couldn\'t load latest video – check back after uploading! ⛳️';
+      }
+    }
+
     window.onload = () => {
       renderGrid('videoGrid', videos);
       renderGrid('shortsGrid', shorts, true);
       showSection('videos');
+      loadLatestVideo();
     };
   </script>
 </body>
