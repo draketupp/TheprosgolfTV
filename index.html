@@ -125,12 +125,6 @@
       min-height: 48px;
       touch-action: manipulation;
     }
-    #refreshStatus {
-      font-size: 0.9rem;
-      color: #4b5563;
-      text-align: center;
-      margin-bottom: 1rem;
-    }
 
     @media (max-width: 640px) {
       .profile-circle { width: 100px; height: 100px; }
@@ -201,9 +195,6 @@
   </div>
 
   <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-    <!-- Refresh status -->
-    <div id="refreshStatus">Auto-updating every 5 minutes...</div>
-
     <!-- Latest Upload – autoplays muted on load -->
     <div id="latestSection" class="mb-12">
       <h2 class="text-3xl sm:text-4xl font-bold mb-6 text-center">Latest Upload 🔥</h2>
@@ -227,36 +218,12 @@
       <div id="shortsGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6"></div>
     </div>
 
-    <!-- Collabs and Community (keep as before) -->
-    <div id="collabsSection">
-      <h2 class="text-2xl sm:text-3xl font-bold mb-6">Collaborations</h2>
-      <p class="text-base sm:text-lg text-gray-600 mb-6 text-center sm:text-left">Check out these awesome creators I've teamed up with! ⛳️🔥</p>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- your collab cards here -->
-        <a href="https://www.youtube.com/@TherealRivalsrainbowpiggy22" target="_blank" rel="noopener noreferrer" class="collab-card">
-          <i class="fas fa-user-circle text-6xl text-green-600 mb-4"></i>
-          <h3 class="text-lg sm:text-xl font-bold">@TherealRivalsrainbowpiggy22</h3>
-          <p class="text-gray-600 text-sm sm:text-base">Shorts & creative vibes</p>
-        </a>
-        <!-- ... other collabs ... -->
-      </div>
-    </div>
+    <!-- Collabs and Community sections remain the same as before -->
+    <!-- ... paste your collabsSection and communitySection HTML here ... -->
 
-    <div id="communitySection">
-      <h2 class="text-2xl sm:text-3xl font-bold mb-6">Community Posts</h2>
-      <p class="text-base sm:text-lg text-gray-600 mb-6 text-center sm:text-left">Share your thoughts, golf tips, or just say hi! (Saved in your browser)</p>
-
-      <div class="bg-white p-5 sm:p-6 rounded-xl shadow-md mb-8">
-        <input type="text" id="commentName" placeholder="Your name (optional)" class="mb-4">
-        <textarea id="commentText" placeholder="Write your post here..."></textarea>
-        <button onclick="addComment()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full w-full sm:w-auto transition">Post</button>
-      </div>
-
-      <div id="commentsList" class="space-y-6"></div>
-    </div>
   </main>
 
-  <!-- Video Modal -->
+  <!-- Modal -->
   <div id="modal" class="fixed inset-0 bg-black/90 hidden flex items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl w-full max-w-5xl overflow-hidden relative shadow-2xl flex flex-col max-h-[90vh]">
       <div class="relative h-0">
@@ -274,10 +241,9 @@
   </div>
 
   <script>
-    const channelID = 'UCJjRscH3l030SOmy2tWxcoA'; // Your channel ID
+    const channelID = 'UCJjRscH3l030SOmy2tWxcoA'; // ← your channel ID
 
     async function fetchYouTubeContent() {
-      document.getElementById('refreshStatus').textContent = 'Updating from YouTube...';
       const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelID}`;
       const jsonApi = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
 
@@ -289,7 +255,7 @@
 
         const allItems = data.items;
 
-        // Separate videos and shorts (heuristic)
+        // Separate long videos and Shorts (heuristic: Shorts usually < 60s or have #shorts in title)
         const videos = allItems.filter(item => {
           const durationMatch = item.description?.match(/PT(\d+)M?(\d+)?S?/);
           const seconds = durationMatch ? (parseInt(durationMatch[1] || 0) * 60) + parseInt(durationMatch[2] || 0) : 999;
@@ -302,21 +268,20 @@
           return seconds <= 60 || item.title.toLowerCase().includes('#shorts');
         });
 
-        document.getElementById('videoCount').textContent = allItems.length;
+        // Update count
+        document.getElementById('videoCount').textContent = videos.length + shorts.length;
 
-        // Clear and re-render grids
-        document.getElementById('videoGrid').innerHTML = '';
-        document.getElementById('shortsGrid').innerHTML = '';
-
+        // Render videos
         renderGrid('videoGrid', videos.map(item => ({
           id: item.link.split('v=')[1]?.split('&')[0] || item.id.split(':').pop(),
           title: item.title,
           thumbnail: item.thumbnail || `https://i.ytimg.com/vi/${item.link.split('v=')[1]?.split('&')[0]}/hqdefault.jpg`,
-          duration: 'Video',
-          views: 'Views not available',
-          likes: ''
+          duration: 'Video', // RSS doesn't always give exact duration
+          views: 'Views not available', // RSS doesn't provide views
+          likes: 'Likes not available'
         })));
 
+        // Render shorts
         renderGrid('shortsGrid', shorts.map(item => ({
           id: item.link.split('v=')[1]?.split('&')[0] || item.id.split(':').pop(),
           title: item.title,
@@ -326,7 +291,7 @@
           likes: ''
         })), true);
 
-        // Latest (newest) video
+        // Latest video (first item is newest)
         if (allItems.length > 0) {
           const latest = allItems[0];
           const videoId = latest.link.split('v=')[1]?.split('&')[0] || latest.id.split(':').pop();
@@ -336,18 +301,16 @@
           document.getElementById('latestLoading').style.display = 'none';
         }
 
-        document.getElementById('refreshStatus').textContent = 
-          `Last updated: ${new Date().toLocaleTimeString()}. Checking again in 5 min...`;
-
       } catch (error) {
-        console.error('Failed to update content:', error);
-        document.getElementById('refreshStatus').textContent = 
-          'Update failed. Will try again in 5 minutes.';
+        console.error('Failed to load channel content:', error);
+        document.getElementById('latestLoading').innerHTML = 
+          'Could not load latest video. Please check your connection or try refreshing.';
       }
     }
 
     function renderGrid(gridId, items, isShort = false) {
       const grid = document.getElementById(gridId);
+      grid.innerHTML = '';
       items.forEach(item => {
         const card = document.createElement('div');
         card.className = 'card';
@@ -434,11 +397,9 @@
       loadComments();
     }
 
-    // Initial load + auto-refresh every 5 minutes
     window.onload = () => {
       fetchYouTubeContent();
       loadComments();
-      setInterval(fetchYouTubeContent, 300000); // 5 minutes = 300000 ms
     };
   </script>
 </body>
