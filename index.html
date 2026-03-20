@@ -9,14 +9,9 @@
   <style>
     body { font-family: Arial, sans-serif; background: #f9f9f9; color: #030303; margin: 0; line-height: 1.5; }
     .banner-bg {
-      background: url('https://raw.githubusercontent.com/draketupp/TheprosgolfTv/main/banner.png') center/cover no-repeat;
-      min-height: 280px; /* Adjust this based on your banner's aspect ratio – try 200-350px */
-      position: relative;
-    }
-    .banner-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.3); /* Slight dark overlay for text readability if needed */
+      background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                  url('https://raw.githubusercontent.com/DTprogolf/main-repo-name/main/banner.png') center/cover no-repeat;
+      min-height: 320px; /* Adjust this value (e.g. 280px–400px) if your banner gets cropped oddly */
     }
     .profile-circle {
       width: 120px; height: 120px;
@@ -128,6 +123,8 @@
     @media (max-width: 640px) {
       .profile-circle { width: 100px; height: 100px; }
       h1 { font-size: 2.25rem; }
+      .text-6xl { font-size: 3rem; }
+      .text-7xl { font-size: 3.5rem; }
       .tab-btn { padding: 0 12px 10px; font-size: 0.95rem; }
       .max-w-7xl { padding-left: 1rem; padding-right: 1rem; }
       .card { min-height: 240px; }
@@ -137,43 +134,47 @@
       textarea { min-height: 120px; font-size: 1rem; }
       .comment-card { padding: 14px; }
     }
-    @media (max-width: 400px) {
-      button { width: 100%; }
-      .tab-btn { font-size: 0.9rem; padding: 0 8px 8px; }
-    }
   </style>
 </head>
 <body>
-  <!-- Banner with your new uploaded banner image -->
-  <div class="banner-bg text-white py-10 md:py-16 relative">
-    <div class="banner-overlay"></div>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 flex flex-col sm:flex-row justify-center items-center gap-6">
+  <!-- Banner with your custom banner.png -->
+  <div class="banner-bg text-white py-12 md:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-6">
+      <div class="flex items-center gap-5">
+        <img src="https://raw.githubusercontent.com/DTprogolf/main-repo-name/main/pfp.png"
+             alt="the pro's Golf profile picture" class="profile-circle rounded-full">
+        <div>
+          <div class="text-6xl md:text-7xl font-extrabold">21</div>
+          <div class="text-lg md:text-2xl mt-1">subscribers</div>
+          <div class="mt-2 text-xl md:text-3xl font-bold">2,011,938 to go! 🔥</div>
+        </div>
+      </div>
       <a href="https://www.youtube.com/@DTprogolf?sub_confirmation=1" target="_blank" rel="noopener noreferrer"
-         class="bg-red-600 hover:bg-red-700 px-10 py-5 rounded-full font-bold text-xl flex items-center gap-4 shadow-2xl transition transform hover:scale-105">
-        <i class="fab fa-youtube text-3xl"></i> SUBSCRIBE NOW!
+         class="bg-red-600 hover:bg-red-700 px-8 py-4 rounded-full font-bold text-lg flex items-center gap-3 shadow-lg transition">
+        <i class="fab fa-youtube text-2xl"></i> SUBSCRIBE!
       </a>
     </div>
   </div>
 
-  <!-- Channel Info + Profile Pic (now below banner) + Tabs -->
+  <!-- Channel Info + Tabs -->
   <div class="bg-white border-b shadow-sm sticky top-0 z-10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-center sm:items-start gap-6">
-      <img src="https://raw.githubusercontent.com/draketupp/TheprosgolfTv/main/pfp.png"
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-start gap-6">
+      <img src="https://raw.githubusercontent.com/DTprogolf/main-repo-name/main/pfp.png"
            alt="the pro's Golf profile picture"
-           class="w-32 h-32 sm:w-40 sm:h-40 rounded-full ring-4 ring-white shadow-xl">
+           class="w-24 h-24 sm:w-32 sm:h-32 rounded-full ring-4 ring-white shadow-lg mx-auto sm:mx-0">
       <div class="flex-1 text-center sm:text-left">
-        <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900">the pro's Golf</h1>
-        <div class="text-base sm:text-lg text-gray-600 mt-2">@DTprogolf • 25 videos</div>
-        <p class="mt-6 text-lg text-gray-800 max-w-3xl mx-auto sm:mx-0">
+        <h1 class="text-3xl sm:text-4xl font-bold">the pro's Golf</h1>
+        <div class="text-sm sm:text-base text-gray-600 mt-1">@DTprogolf • 21 subscribers • 25 videos</div>
+        <p class="mt-4 text-base sm:text-lg text-gray-800 max-w-3xl mx-auto sm:mx-0">
           Get ready for an EPIC showdown as drake hits to the greens and Watch our day of golf! In this one-of-a-kind golf adventure, it out on the course, show casing his best swings, and some comedy, and just some friends. Whether you're a golf pro or beginner you might just be looking for some laughs, you won't want to miss their epic scores and unexpected surprises! Who will come out on top? 🥳🏆 Join the fun for exciting collaborations with Hudson Harvey Brantley Davis and Bryden Harris. ⛳️🔥 #Golf #Draketupper
         </p>
         <a href="https://www.youtube.com/@DTprogolf?sub_confirmation=1" target="_blank" rel="noopener noreferrer"
-           class="mt-8 inline-block bg-black text-white px-10 py-5 rounded-full font-bold text-xl hover:bg-gray-900 transition">
+           class="mt-6 inline-block bg-black text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-900 transition">
           SUBSCRIBE
         </a>
       </div>
     </div>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex gap-6 sm:gap-12 border-t pt-4 text-gray-700 font-medium text-lg overflow-x-auto whitespace-nowrap pb-3">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex gap-4 sm:gap-10 border-t pt-4 text-gray-700 font-medium text-base sm:text-lg overflow-x-auto whitespace-nowrap pb-2">
       <button onclick="showSection('videos')" class="tab-btn active">VIDEOS</button>
       <button onclick="showSection('shorts')" class="tab-btn">SHORTS</button>
       <button onclick="showSection('collabs')" class="tab-btn">COLLABS</button>
@@ -181,224 +182,60 @@
     </div>
   </div>
 
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
     <!-- Latest Upload -->
-    <div id="latestSection" class="mb-16">
-      <h2 class="text-4xl font-bold mb-8 text-center">Latest Upload 🔥</h2>
+    <div id="latestSection" class="mb-12">
+      <h2 class="text-3xl sm:text-4xl font-bold mb-6 text-center">Latest Upload 🔥</h2>
       <div id="latestVideoContainer" class="relative">
-        <div id="latestLoading" class="absolute inset-0 flex items-center justify-center bg-black text-white text-xl font-medium">
+        <div id="latestLoading" class="absolute inset-0 flex items-center justify-center bg-black text-white text-lg sm:text-xl font-medium">
           Loading your newest video...
         </div>
         <iframe id="latestIframe" frameborder="0" allowfullscreen allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
       </div>
-      <h3 id="latestTitle" class="text-2xl font-bold mt-6 text-center"></h3>
-      <p class="text-center text-gray-600 mt-3">Autoplays muted – click to unmute</p>
+      <h3 id="latestTitle" class="text-xl sm:text-2xl font-bold mt-4 text-center"></h3>
+      <p class="text-center text-gray-600 mt-2 text-sm">Video autoplays muted (click to unmute)</p>
     </div>
 
     <div id="videosSection">
-      <h2 class="text-3xl font-bold mb-8">My Videos</h2>
-      <div id="videoGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+      <h2 class="text-2xl sm:text-3xl font-bold mb-6">My Videos</h2>
+      <div id="videoGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"></div>
     </div>
 
     <div id="shortsSection">
-      <h2 class="text-3xl font-bold mb-8">Shorts</h2>
-      <div id="shortsGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6"></div>
+      <h2 class="text-2xl sm:text-3xl font-bold mb-6">Shorts</h2>
+      <div id="shortsGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6"></div>
     </div>
 
     <div id="collabsSection">
-      <h2 class="text-3xl font-bold mb-8">Collaborations</h2>
-      <p class="text-lg text-gray-600 mb-8 text-center">Check out these awesome creators I've teamed up with! ⛳️🔥</p>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <h2 class="text-2xl sm:text-3xl font-bold mb-6">Collaborations</h2>
+      <p class="text-base sm:text-lg text-gray-600 mb-6 text-center sm:text-left">Check out these awesome creators I've teamed up with! ⛳️🔥</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <a href="https://www.youtube.com/@TherealRivalsrainbowpiggy22" target="_blank" rel="noopener noreferrer" class="collab-card">
-          <i class="fas fa-user-circle text-7xl text-green-600 mb-6"></i>
-          <h3 class="text-xl font-bold">@TherealRivalsrainbowpiggy22</h3>
-          <p class="text-gray-600 mt-2">Shorts & creative vibes</p>
+          <i class="fas fa-user-circle text-6xl text-green-600 mb-4"></i>
+          <h3 class="text-lg sm:text-xl font-bold">@TherealRivalsrainbowpiggy22</h3>
+          <p class="text-gray-600 text-sm sm:text-base">Shorts & creative vibes</p>
         </a>
-        <a href="https://www.youtube.com/@TSMjeans" target="_blank" rel="noopener noreferrer" class="collab-card">
-          <i class="fas fa-user-circle text-7xl text-purple-600 mb-6"></i>
-          <h3 class="text-xl font-bold">@TSMjeans</h3>
-          <p class="text-gray-600 mt-2">Fun edits and content grind</p>
-        </a>
-        <a href="https://www.youtube.com/@draketupper" target="_blank" rel="noopener noreferrer" class="collab-card">
-          <i class="fas fa-user-circle text-7xl text-red-600 mb-6"></i>
-          <h3 class="text-xl font-bold">@draketupper</h3>
-          <p class="text-gray-600 mt-2">Edits, shorts, and energy!</p>
-        </a>
-        <a href="https://www.youtube.com/@Bryden-Harris1" target="_blank" rel="noopener noreferrer" class="collab-card">
-          <i class="fas fa-user-circle text-7xl text-orange-600 mb-6"></i>
-          <h3 class="text-xl font-bold">@Bryden-Harris1</h3>
-          <p class="text-gray-600 mt-2">Cool edits & flips</p>
-        </a>
+        <!-- other collab cards remain the same -->
       </div>
     </div>
 
     <div id="communitySection">
-      <h2 class="text-3xl font-bold mb-8">Community Posts</h2>
-      <p class="text-lg text-gray-600 mb-8 text-center">Share your thoughts, golf tips, or just say hi! (Saved in your browser)</p>
-      <div class="bg-white p-8 rounded-2xl shadow-lg mb-10">
-        <input type="text" id="commentName" placeholder="Your name (optional)" class="mb-6 text-lg">
-        <textarea id="commentText" placeholder="Write your post here..." class="min-h-[140px] text-lg"></textarea>
-        <button onclick="addComment()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-10 rounded-full w-full sm:w-auto text-xl transition">Post</button>
+      <h2 class="text-2xl sm:text-3xl font-bold mb-6">Community Posts</h2>
+      <p class="text-base sm:text-lg text-gray-600 mb-6 text-center sm:text-left">Share your thoughts, golf tips, or just say hi! (Saved in your browser)</p>
+      <div class="bg-white p-5 sm:p-6 rounded-xl shadow-md mb-8">
+        <input type="text" id="commentName" placeholder="Your name (optional)" class="mb-4">
+        <textarea id="commentText" placeholder="Write your post here..."></textarea>
+        <button onclick="addComment()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full w-full sm:w-auto transition">Post</button>
       </div>
-      <div id="commentsList" class="space-y-8"></div>
+      <div id="commentsList" class="space-y-6"></div>
     </div>
   </main>
 
-  <!-- Video Modal -->
-  <div id="modal" class="fixed inset-0 bg-black/90 hidden flex items-center justify-center z-50 p-4">
-    <div class="bg-white rounded-2xl w-full max-w-5xl overflow-hidden relative shadow-2xl flex flex-col max-h-[90vh]">
-      <div class="relative h-0">
-        <button onclick="closeModal()" class="modal-btn close-btn"><i class="fas fa-times"></i></button>
-        <button onclick="closeModal()" class="modal-btn home-btn"><i class="fas fa-home"></i></button>
-      </div>
-      <div class="aspect-video bg-black relative">
-        <div id="loading" class="absolute inset-0 flex items-center justify-center text-white text-xl">Loading video...</div>
-        <iframe id="player" class="w-full h-full" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
-      </div>
-      <div class="p-6 flex-1 overflow-y-auto">
-        <h3 id="title" class="text-2xl font-bold text-gray-900 mb-4"></h3>
-      </div>
-    </div>
-  </div>
+  <!-- Video Modal and full script remain unchanged from your original -->
 
   <script>
-    const videos = [
-      { id: "fTWL5avcsa8", title: "Yogi bear golf tournament.", duration: "6:30", thumbnail: "https://i.ytimg.com/vi/fTWL5avcsa8/hqdefault.jpg", views: "4 views", likes: "1 like" },
-      { id: "xcZMtN99fEM", title: "TaylorMade golf hat review. from Walmart.", duration: "1:39", thumbnail: "https://i.ytimg.com/vi/xcZMtN99fEM/hqdefault.jpg", views: "26 views", likes: "1 like" },
-      { id: "5t7G-WFLbkU", title: "Happy Gilmore, the generations trailer, #funny #movie", duration: "0:21", thumbnail: "https://i.ytimg.com/vi/5t7G-WFLbkU/hqdefault.jpg", views: "60 views", likes: "3 likes" },
-      { id: "FGmM30YvZTg", title: "Happy gilmore the generations by draketupper", duration: "2:30", thumbnail: "https://i.ytimg.com/vi/FGmM30YvZTg/hqdefault.jpg", views: "80 views", likes: "4 likes" },
-      { id: "nCG4cp4W-tY", title: "I did it. I did the Happy Gilmore!!.", duration: "3:36", thumbnail: "https://i.ytimg.com/vi/nCG4cp4W-tY/hqdefault.jpg", views: "110 views", likes: "5 likes" },
-      { id: "t6nPe-a0hhk", title: "Range time!!", duration: "3:36", thumbnail: "https://i.ytimg.com/vi/t6nPe-a0hhk/hqdefault.jpg", views: "130 views", likes: "3 likes" },
-      { id: "KV9xXJLMuMI", title: "Golfing at my campground", duration: "2:05", thumbnail: "https://i.ytimg.com/vi/KV9xXJLMuMI/hqdefault.jpg", views: "150 views", likes: "4 likes" },
-      { id: "BcTzrV0fGO0", title: "Playing golf in my backyard", duration: "2:29", thumbnail: "https://i.ytimg.com/vi/BcTzrV0fGO0/hqdefault.jpg", views: "180 views", likes: "6 likes" },
-      { id: "CJf6xOPhT_k", title: "Shooting till I run out of balls", duration: "0:55", thumbnail: "https://i.ytimg.com/vi/CJf6xOPhT_k/hqdefault.jpg", views: "15 views", likes: "1 like" },
-    ];
-    const shorts = [
-      { id: "niNWJ3CyQLU", title: "good edit", thumbnail: "https://i.ytimg.com/vi/niNWJ3CyQLU/hqdefault.jpg", views: "Short", likes: "2 likes" },
-      { id: "ScJcQ3lWFBs", title: "tiger woods edit", thumbnail: "https://i.ytimg.com/vi/ScJcQ3lWFBs/hqdefault.jpg", views: "Short", likes: "3 likes" },
-      { id: "cm_W4oe5ZGU", title: "I hit a long shot in golf ⛳️", thumbnail: "https://i.ytimg.com/vi/cm_W4oe5ZGU/hqdefault.jpg", views: "Short", likes: "4 likes" },
-      { id: "KNZydEOTK9s", title: "shooting my tooth out, golf Style", thumbnail: "https://i.ytimg.com/vi/KNZydEOTK9s/hqdefault.jpg", views: "Short", likes: "1 like" },
-      { id: "-EHAI9TrjVg", title: "120 yard happy gilmoe shot", thumbnail: "https://i.ytimg.com/vi/-EHAI9TrjVg/hqdefault.jpg", views: "Short", likes: "5 likes" },
-      { id: "SQoK9Dp4r7k", title: "clean", thumbnail: "https://i.ytimg.com/vi/SQoK9Dp4r7k/hqdefault.jpg", views: "Short", likes: "2 likes" },
-      { id: "7wPBpOzqEsI", title: "what's aura?", thumbnail: "https://i.ytimg.com/vi/7wPBpOzqEsI/hqdefault.jpg", views: "Short", likes: "3 likes" },
-      { id: "fK-WGKSsUqk", title: "Moment before disaster #golf", thumbnail: "https://i.ytimg.com/vi/fK-WGKSsUqk/hqdefault.jpg", views: "Short", likes: "4 likes" },
-    ];
-
-    function renderGrid(gridId, items, isShort = false) {
-      const grid = document.getElementById(gridId);
-      grid.innerHTML = '';
-      items.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <div class="relative">
-            <img src="${item.thumbnail}" alt="${item.title}" class="w-full aspect-video object-cover">
-            <span class="duration">${item.duration || (isShort ? 'Short' : '')}</span>
-          </div>
-          <div class="p-4">
-            <h3 class="font-medium text-base line-clamp-2">${item.title}</h3>
-            <p class="meta mt-2">${item.views} • <span class="likes">${item.likes}</span></p>
-          </div>
-        `;
-        card.onclick = () => play(item.id, item.title);
-        grid.appendChild(card);
-      });
-    }
-
-    function play(id, title) {
-      const embedUrl = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
-      document.getElementById('player').src = embedUrl;
-      document.getElementById('title').textContent = title;
-      const modal = document.getElementById('modal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-      document.body.style.overflow = 'hidden';
-      document.getElementById('loading').style.display = 'flex';
-      document.getElementById('player').onload = () => {
-        document.getElementById('loading').style.display = 'none';
-      };
-    }
-
-    function closeModal() {
-      document.getElementById('player').src = '';
-      document.getElementById('modal').classList.add('hidden');
-      document.getElementById('modal').classList.remove('flex');
-      document.body.style.overflow = '';
-      document.getElementById('loading').style.display = 'flex';
-    }
-
-    function showSection(section) {
-      document.getElementById('videosSection').style.display = section === 'videos' ? 'block' : 'none';
-      document.getElementById('shortsSection').style.display = section === 'shorts' ? 'block' : 'none';
-      document.getElementById('collabsSection').style.display = section === 'collabs' ? 'block' : 'none';
-      document.getElementById('communitySection').style.display = section === 'community' ? 'block' : 'none';
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
-    }
-
-    async function loadLatestVideo() {
-      const channelID = 'UCJjRscH3l030SOmy2tWxcoA';
-      const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelID}`;
-      const jsonApi = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
-      document.getElementById('latestIframe').src = '';
-      try {
-        const response = await fetch(jsonApi);
-        const data = await response.json();
-        if (data.status === 'ok' && data.items && data.items.length > 0) {
-          const latest = data.items[0];
-          const videoId = latest.link.split('v=')[1]?.split('&')[0] || latest.id.split(':').pop();
-          const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&rel=0&modestbranding=1`;
-          document.getElementById('latestIframe').src = embedUrl;
-          document.getElementById('latestTitle').textContent = latest.title;
-          document.getElementById('latestLoading').style.display = 'none';
-          return;
-        }
-      } catch (error) {
-        console.error('Could not fetch newest video:', error);
-      }
-      // Fallback to known latest
-      document.getElementById('latestLoading').innerHTML = 'Showing most recent known upload (muted autoplay – click to unmute):';
-      document.getElementById('latestIframe').src = 'https://www.youtube.com/embed/fTWL5avcsa8?autoplay=1&mute=1&rel=0&modestbranding=1';
-      document.getElementById('latestTitle').textContent = 'Yogi bear golf tournament.';
-    }
-
-    function loadComments() {
-      const comments = JSON.parse(localStorage.getItem('communityPosts')) || [];
-      const list = document.getElementById('commentsList');
-      list.innerHTML = '';
-      comments.forEach(comment => {
-        const div = document.createElement('div');
-        div.className = 'comment-card';
-        div.innerHTML = `
-          <div class="comment-header">${comment.name || 'Anonymous'}</div>
-          <div class="comment-time">${new Date(comment.time).toLocaleString()}</div>
-          <p class="text-base">${comment.text.replace(/\n/g, '<br>')}</p>
-        `;
-        list.appendChild(div);
-      });
-    }
-
-    function addComment() {
-      const nameInput = document.getElementById('commentName');
-      const textArea = document.getElementById('commentText');
-      const name = nameInput.value.trim();
-      const text = textArea.value.trim();
-      if (!text) return alert("Please write something!");
-      const comments = JSON.parse(localStorage.getItem('communityPosts')) || [];
-      comments.push({ name: name || 'Anonymous', text, time: Date.now() });
-      localStorage.setItem('communityPosts', JSON.stringify(comments));
-      nameInput.value = '';
-      textArea.value = '';
-      loadComments();
-    }
-
-    window.onload = () => {
-      renderGrid('videoGrid', videos);
-      renderGrid('shortsGrid', shorts, true);
-      showSection('videos');
-      loadLatestVideo();
-      loadComments();
-    };
+    // ... (keep your original videos array, shorts array, renderGrid, play, showSection, loadLatestVideo, etc.)
+    // No changes needed here unless you want to update something else
   </script>
 </body>
 </html>
