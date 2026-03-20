@@ -126,7 +126,6 @@
       touch-action: manipulation;
     }
 
-    /* Mobile optimizations */
     @media (max-width: 640px) {
       .profile-circle { width: 100px; height: 100px; }
       h1 { font-size: 2.25rem; }
@@ -187,7 +186,6 @@
       </div>
     </div>
 
-    <!-- Tabs -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 flex gap-4 sm:gap-10 border-t pt-4 text-gray-700 font-medium text-base sm:text-lg overflow-x-auto whitespace-nowrap pb-2">
       <button onclick="showSection('videos')" class="tab-btn active">VIDEOS</button>
       <button onclick="showSection('shorts')" class="tab-btn">SHORTS</button>
@@ -197,12 +195,14 @@
   </div>
 
   <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-    <!-- Latest Upload – auto-fetches newest, fallback to playable known latest -->
-    <div id="latestSection" class="mb-10">
-      <h2 class="text-3xl sm:text-4xl font-bold mb-4 text-center">Latest Upload 🔥</h2>
-      <div id="latestVideoContainer">
-        <div id="latestLoading" class="absolute inset-0 flex items-center justify-center bg-black text-white text-lg">Loading your newest video...</div>
-        <iframe id="latestIframe" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+    <!-- Latest Upload – always shows something playable immediately -->
+    <div id="latestSection" class="mb-12">
+      <h2 class="text-3xl sm:text-4xl font-bold mb-6 text-center">Latest Upload 🔥</h2>
+      <div id="latestVideoContainer" class="relative">
+        <div id="latestLoading" class="absolute inset-0 flex items-center justify-center bg-black text-white text-lg sm:text-xl font-medium">
+          Loading your newest video...
+        </div>
+        <iframe id="latestIframe" frameborder="0" allowfullscreen allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
       </div>
       <h3 id="latestTitle" class="text-xl sm:text-2xl font-bold mt-4 text-center"></h3>
     </div>
@@ -244,7 +244,6 @@
       </div>
     </div>
 
-    <!-- Community Section -->
     <div id="communitySection">
       <h2 class="text-2xl sm:text-3xl font-bold mb-6">Community Posts</h2>
       <p class="text-base sm:text-lg text-gray-600 mb-6 text-center sm:text-left">Share your thoughts, golf tips, or just say hi! (Saved in your browser)</p>
@@ -277,6 +276,7 @@
   </div>
 
   <script>
+    // Your full videos and shorts lists
     const videos = [
       { id: "fTWL5avcsa8", title: "Yogi bear golf tournament.", duration: "6:30", thumbnail: "https://i.ytimg.com/vi/fTWL5avcsa8/hqdefault.jpg", views: "4 views", likes: "1 like" },
       { id: "xcZMtN99fEM", title: "TaylorMade golf hat review. from Walmart.", duration: "1:39", thumbnail: "https://i.ytimg.com/vi/xcZMtN99fEM/hqdefault.jpg", views: "26 views", likes: "1 like" },
@@ -352,10 +352,13 @@
       event.target.classList.add('active');
     }
 
+    // Load newest video – tries real newest first, falls back to known latest and plays it
     async function loadLatestVideo() {
-      const channelID = 'UCJjRscH3l030SOmy2tWxcoA'; // your channel ID
+      const channelID = 'UCJjRscH3l030SOmy2tWxcoA';
       const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelID}`;
       const jsonApi = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+
+      document.getElementById('latestIframe').src = ''; // clear first
 
       try {
         const response = await fetch(jsonApi);
@@ -364,21 +367,24 @@
         if (data.status === 'ok' && data.items && data.items.length > 0) {
           const latest = data.items[0];
           const videoId = latest.link.split('v=')[1]?.split('&')[0] || latest.id.split(':').pop();
-          const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&modestbranding=1`;
+          const embedUrl = `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`;
 
           document.getElementById('latestIframe').src = embedUrl;
           document.getElementById('latestTitle').textContent = latest.title;
           document.getElementById('latestLoading').style.display = 'none';
-        } else {
-          throw new Error('No videos found in feed');
+          return; // success - done
         }
       } catch (error) {
-        console.error('Failed to load newest video from feed:', error);
-        // Fallback to known latest (playable with sound)
-        document.getElementById('latestLoading').innerHTML = 'Couldn\'t fetch newest – showing latest known video (playable):';
-        document.getElementById('latestIframe').src = 'https://www.youtube.com/embed/fTWL5avcsa8?rel=0&modestbranding=1';
-        document.getElementById('latestTitle').textContent = 'Yogi bear golf tournament.';
+        console.error('Could not fetch newest video:', error);
       }
+
+      // Fallback: show and make playable the known latest video immediately
+      document.getElementById('latestLoading').innerHTML = 
+        'Showing your most recent known upload (click play):';
+      document.getElementById('latestIframe').src = 
+        'https://www.youtube.com/embed/fTWL5avcsa8?rel=0&modestbranding=1';
+      document.getElementById('latestTitle').textContent = 
+        'Yogi bear golf tournament.';
     }
 
     function loadComments() {
@@ -404,7 +410,7 @@
       const text = textArea.value.trim();
 
       if (!text) {
-        alert("Please write something!");
+        alert("Please write something before posting!");
         return;
       }
 
@@ -421,7 +427,7 @@
       renderGrid('videoGrid', videos);
       renderGrid('shortsGrid', shorts, true);
       showSection('videos');
-      loadLatestVideo();
+      loadLatestVideo(); // this now ensures something is always playable
       loadComments();
     };
   </script>
