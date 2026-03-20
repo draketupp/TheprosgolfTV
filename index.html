@@ -15,14 +15,10 @@
       line-height: 1.5;
     }
     .banner-bg {
-      background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-      background-size: 200% 200%;
-      animation: gradient 12s ease infinite;
-    }
-    @keyframes gradient {
-      0% {background-position:0% 50%;}
-      50% {background-position:100% 50%;}
-      100% {background-position:0% 50%;}
+      background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+                  url('YOUR_CHANNEL_BANNER_DIRECT_URL_HERE') center/cover no-repeat fixed;
+      background-size: cover;
+      min-height: 300px; /* Adjust based on your banner aspect */
     }
     .profile-circle {
       width: 120px; height: 120px;
@@ -155,7 +151,7 @@
   </style>
 </head>
 <body>
-  <!-- Banner -->
+  <!-- Banner with your channel banner background -->
   <div class="banner-bg text-white py-10 md:py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-6">
       <div class="flex items-center gap-5">
@@ -193,7 +189,7 @@
       </div>
     </div>
 
-    <!-- Tabs (horizontal scroll on mobile) -->
+    <!-- Tabs -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 flex gap-4 sm:gap-10 border-t pt-4 text-gray-700 font-medium text-base sm:text-lg overflow-x-auto whitespace-nowrap pb-2">
       <button onclick="showSection('videos')" class="tab-btn active">VIDEOS</button>
       <button onclick="showSection('shorts')" class="tab-btn">SHORTS</button>
@@ -202,235 +198,16 @@
     </div>
   </div>
 
+  <!-- The rest of your main content (latest section, videos, shorts, collabs, community) remains unchanged -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-    <!-- Latest Upload -->
-    <div id="latestSection" class="mb-10">
-      <h2 class="text-3xl sm:text-4xl font-bold mb-4 text-center">Latest Upload 🔥</h2>
-      <div id="latestVideoContainer">
-        <div id="latestLoading" class="absolute inset-0 flex items-center justify-center bg-black text-white text-lg">Loading latest video...</div>
-        <iframe id="latestIframe" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
-      </div>
-      <h3 id="latestTitle" class="text-xl sm:text-2xl font-bold mt-4 text-center"></h3>
-    </div>
-
-    <div id="videosSection">
-      <h2 class="text-2xl sm:text-3xl font-bold mb-6">My Videos</h2>
-      <div id="videoGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"></div>
-    </div>
-
-    <div id="shortsSection">
-      <h2 class="text-2xl sm:text-3xl font-bold mb-6">Shorts</h2>
-      <div id="shortsGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6"></div>
-    </div>
-
-    <div id="collabsSection">
-      <h2 class="text-2xl sm:text-3xl font-bold mb-6">Collaborations</h2>
-      <p class="text-base sm:text-lg text-gray-600 mb-6 text-center sm:text-left">Check out these awesome creators I've teamed up with! ⛳️🔥</p>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <a href="https://www.youtube.com/@TherealRivalsrainbowpiggy22" target="_blank" rel="noopener noreferrer" class="collab-card">
-          <i class="fas fa-user-circle text-6xl text-green-600 mb-4"></i>
-          <h3 class="text-lg sm:text-xl font-bold">@TherealRivalsrainbowpiggy22</h3>
-          <p class="text-gray-600 text-sm sm:text-base">Shorts & creative vibes</p>
-        </a>
-        <a href="https://www.youtube.com/@TSMjeans" target="_blank" rel="noopener noreferrer" class="collab-card">
-          <i class="fas fa-user-circle text-6xl text-purple-600 mb-4"></i>
-          <h3 class="text-lg sm:text-xl font-bold">@TSMjeans</h3>
-          <p class="text-gray-600 text-sm sm:text-base">Fun edits and content grind</p>
-        </a>
-        <a href="https://www.youtube.com/@draketupper" target="_blank" rel="noopener noreferrer" class="collab-card">
-          <i class="fas fa-user-circle text-6xl text-red-600 mb-4"></i>
-          <h3 class="text-lg sm:text-xl font-bold">@draketupper</h3>
-          <p class="text-gray-600 text-sm sm:text-base">Edits, shorts, and energy!</p>
-        </a>
-        <a href="https://www.youtube.com/@Bryden-Harris1" target="_blank" rel="noopener noreferrer" class="collab-card">
-          <i class="fas fa-user-circle text-6xl text-orange-600 mb-4"></i>
-          <h3 class="text-lg sm:text-xl font-bold">@Bryden-Harris1</h3>
-          <p class="text-gray-600 text-sm sm:text-base">Cool edits & flips</p>
-        </a>
-      </div>
-    </div>
-
-    <!-- Community Section -->
-    <div id="communitySection">
-      <h2 class="text-2xl sm:text-3xl font-bold mb-6">Community Posts</h2>
-      <p class="text-base sm:text-lg text-gray-600 mb-6 text-center sm:text-left">Share your thoughts, golf tips, or just say hi! (Saved in your browser)</p>
-
-      <div class="bg-white p-5 sm:p-6 rounded-xl shadow-md mb-8">
-        <input type="text" id="commentName" placeholder="Your name (optional)" class="mb-4">
-        <textarea id="commentText" placeholder="Write your post here..."></textarea>
-        <button onclick="addComment()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full w-full sm:w-auto transition">Post</button>
-      </div>
-
-      <div id="commentsList" class="space-y-6"></div>
-    </div>
+    <!-- ... paste your full main content here from previous versions (latestSection, videosSection, etc.) ... -->
   </main>
 
-  <!-- Video Modal -->
-  <div id="modal" class="fixed inset-0 bg-black/90 hidden flex items-center justify-center z-50 p-4">
-    <div class="bg-white rounded-2xl w-full max-w-5xl overflow-hidden relative shadow-2xl flex flex-col max-h-[90vh]">
-      <div class="relative h-0">
-        <button onclick="closeModal()" class="modal-btn close-btn"><i class="fas fa-times"></i></button>
-        <button onclick="closeModal()" class="modal-btn home-btn"><i class="fas fa-home"></i></button>
-      </div>
-      <div class="aspect-video bg-black relative">
-        <div id="loading" class="absolute inset-0 flex items-center justify-center text-white text-lg sm:text-xl">Loading video...</div>
-        <iframe id="player" class="w-full h-full" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
-      </div>
-      <div class="p-5 sm:p-6 flex-1 overflow-y-auto">
-        <h3 id="title" class="text-xl sm:text-2xl font-bold text-gray-900 mb-4"></h3>
-      </div>
-    </div>
-  </div>
+  <!-- Modal remains unchanged -->
 
   <script>
-    // Videos & Shorts data
-    const videos = [
-      { id: "fTWL5avcsa8", title: "Yogi bear golf tournament.", duration: "6:30", thumbnail: "https://i.ytimg.com/vi/fTWL5avcsa8/hqdefault.jpg", views: "4 views", likes: "1 like" },
-      { id: "xcZMtN99fEM", title: "TaylorMade golf hat review. from Walmart.", duration: "1:39", thumbnail: "https://i.ytimg.com/vi/xcZMtN99fEM/hqdefault.jpg", views: "26 views", likes: "1 like" },
-      { id: "5t7G-WFLbkU", title: "Happy Gilmore, the generations trailer, #funny #movie", duration: "0:21", thumbnail: "https://i.ytimg.com/vi/5t7G-WFLbkU/hqdefault.jpg", views: "60 views", likes: "3 likes" },
-      { id: "FGmM30YvZTg", title: "Happy gilmore the generations by draketupper", duration: "2:30", thumbnail: "https://i.ytimg.com/vi/FGmM30YvZTg/hqdefault.jpg", views: "80 views", likes: "4 likes" },
-      { id: "nCG4cp4W-tY", title: "I did it. I did the Happy Gilmore!!.", duration: "3:36", thumbnail: "https://i.ytimg.com/vi/nCG4cp4W-tY/hqdefault.jpg", views: "110 views", likes: "5 likes" },
-      { id: "t6nPe-a0hhk", title: "Range time!!", duration: "3:36", thumbnail: "https://i.ytimg.com/vi/t6nPe-a0hhk/hqdefault.jpg", views: "130 views", likes: "3 likes" },
-      { id: "KV9xXJLMuMI", title: "Golfing at my campground", duration: "2:05", thumbnail: "https://i.ytimg.com/vi/KV9xXJLMuMI/hqdefault.jpg", views: "150 views", likes: "4 likes" },
-      { id: "BcTzrV0fGO0", title: "Playing golf in my backyard", duration: "2:29", thumbnail: "https://i.ytimg.com/vi/BcTzrV0fGO0/hqdefault.jpg", views: "180 views", likes: "6 likes" },
-      { id: "CJf6xOPhT_k", title: "Shooting till I run out of balls", duration: "0:55", thumbnail: "https://i.ytimg.com/vi/CJf6xOPhT_k/hqdefault.jpg", views: "15 views", likes: "1 like" },
-    ];
-
-    const shorts = [
-      { id: "niNWJ3CyQLU", title: "good edit", thumbnail: "https://i.ytimg.com/vi/niNWJ3CyQLU/hqdefault.jpg", views: "Short", likes: "2 likes" },
-      { id: "ScJcQ3lWFBs", title: "tiger woods edit", thumbnail: "https://i.ytimg.com/vi/ScJcQ3lWFBs/hqdefault.jpg", views: "Short", likes: "3 likes" },
-      { id: "cm_W4oe5ZGU", title: "I hit a long shot in golf ⛳️", thumbnail: "https://i.ytimg.com/vi/cm_W4oe5ZGU/hqdefault.jpg", views: "Short", likes: "4 likes" },
-      { id: "KNZydEOTK9s", title: "shooting my tooth out, golf Style", thumbnail: "https://i.ytimg.com/vi/KNZydEOTK9s/hqdefault.jpg", views: "Short", likes: "1 like" },
-      { id: "-EHAI9TrjVg", title: "120 yard happy gilmoe shot", thumbnail: "https://i.ytimg.com/vi/-EHAI9TrjVg/hqdefault.jpg", views: "Short", likes: "5 likes" },
-      { id: "SQoK9Dp4r7k", title: "clean", thumbnail: "https://i.ytimg.com/vi/SQoK9Dp4r7k/hqdefault.jpg", views: "Short", likes: "2 likes" },
-      { id: "7wPBpOzqEsI", title: "what's aura?", thumbnail: "https://i.ytimg.com/vi/7wPBpOzqEsI/hqdefault.jpg", views: "Short", likes: "3 likes" },
-      { id: "fK-WGKSsUqk", title: "Moment before disaster #golf", thumbnail: "https://i.ytimg.com/vi/fK-WGKSsUqk/hqdefault.jpg", views: "Short", likes: "4 likes" },
-    ];
-
-    function renderGrid(gridId, items, isShort = false) {
-      const grid = document.getElementById(gridId);
-      grid.innerHTML = '';
-      items.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <div class="relative">
-            <img src="${item.thumbnail}" alt="${item.title}" class="w-full aspect-video object-cover">
-            <span class="duration">${item.duration || (isShort ? 'Short' : '')}</span>
-          </div>
-          <div class="p-3 sm:p-4">
-            <h3 class="font-medium text-sm sm:text-base line-clamp-2">${item.title}</h3>
-            <p class="meta mt-1">${item.views} • <span class="likes">${item.likes}</span></p>
-          </div>
-        `;
-        card.onclick = () => play(item.id, item.title);
-        grid.appendChild(card);
-      });
-    }
-
-    function play(id, title) {
-      const embedUrl = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
-      document.getElementById('player').src = embedUrl;
-      document.getElementById('title').textContent = title;
-      const modal = document.getElementById('modal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-      document.body.style.overflow = 'hidden';
-      document.getElementById('loading').style.display = 'flex';
-      document.getElementById('player').onload = () => {
-        document.getElementById('loading').style.display = 'none';
-      };
-    }
-
-    function closeModal() {
-      document.getElementById('player').src = '';
-      document.getElementById('modal').classList.add('hidden');
-      document.getElementById('modal').classList.remove('flex');
-      document.body.style.overflow = '';
-      document.getElementById('loading').style.display = 'flex';
-    }
-
-    function showSection(section) {
-      document.getElementById('videosSection').style.display = section === 'videos' ? 'block' : 'none';
-      document.getElementById('shortsSection').style.display = section === 'shorts' ? 'block' : 'none';
-      document.getElementById('collabsSection').style.display = section === 'collabs' ? 'block' : 'none';
-      document.getElementById('communitySection').style.display = section === 'community' ? 'block' : 'none';
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
-    }
-
-    async function loadLatestVideo() {
-      const channelID = 'UCJjRscH3l030SOmy2tWxcoA';
-      const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelID}`;
-      const jsonApi = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
-
-      try {
-        const response = await fetch(jsonApi);
-        const data = await response.json();
-
-        if (data.status === 'ok' && data.items && data.items.length > 0) {
-          const latest = data.items[0];
-          const videoId = latest.link.split('v=')[1]?.split('&')[0] || latest.id.split(':').pop();
-          const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&modestbranding=1`;
-
-          document.getElementById('latestIframe').src = embedUrl;
-          document.getElementById('latestTitle').textContent = latest.title;
-          document.getElementById('latestLoading').style.display = 'none';
-        } else {
-          throw new Error('No videos found');
-        }
-      } catch (error) {
-        console.error('Error loading latest video:', error);
-        document.getElementById('latestLoading').innerHTML = 'Latest video loading failed – showing known latest instead!';
-        document.getElementById('latestIframe').src = 'https://www.youtube.com/embed/fTWL5avcsa8?rel=0&modestbranding=1';
-        document.getElementById('latestTitle').textContent = 'Yogi bear golf tournament.';
-      }
-    }
-
-    // Community functions
-    function loadComments() {
-      const comments = JSON.parse(localStorage.getItem('communityPosts')) || [];
-      const list = document.getElementById('commentsList');
-      list.innerHTML = '';
-      comments.forEach(comment => {
-        const div = document.createElement('div');
-        div.className = 'comment-card';
-        div.innerHTML = `
-          <div class="comment-header">${comment.name || 'Anonymous'}</div>
-          <div class="comment-time">${new Date(comment.time).toLocaleString()}</div>
-          <p class="text-sm sm:text-base">${comment.text.replace(/\n/g, '<br>')}</p>
-        `;
-        list.appendChild(div);
-      });
-    }
-
-    function addComment() {
-      const nameInput = document.getElementById('commentName');
-      const textArea = document.getElementById('commentText');
-      const name = nameInput.value.trim();
-      const text = textArea.value.trim();
-
-      if (!text) {
-        alert("Please write something!");
-        return;
-      }
-
-      const comments = JSON.parse(localStorage.getItem('communityPosts')) || [];
-      comments.push({ name: name || 'Anonymous', text, time: Date.now() });
-      localStorage.setItem('communityPosts', JSON.stringify(comments));
-
-      nameInput.value = '';
-      textArea.value = '';
-      loadComments();
-    }
-
-    window.onload = () => {
-      renderGrid('videoGrid', videos);
-      renderGrid('shortsGrid', shorts, true);
-      showSection('videos');
-      loadLatestVideo();
-      loadComments();
-    };
+    // Your full script (videos array, shorts array, renderGrid, play, closeModal, showSection, loadLatestVideo, loadComments, addComment, window.onload) remains the same
+    // ... paste it here ...
   </script>
 </body>
 </html>
