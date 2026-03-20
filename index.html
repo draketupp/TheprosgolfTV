@@ -8,53 +8,160 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
   <style>
     body { font-family: Arial, sans-serif; background: #f9f9f9; color: #030303; margin: 0; line-height: 1.5; }
-    .banner-bg { background: linear-gradient(135deg, #1e3a8a, #3b82f6); background-size: 200% 200%; animation: gradient 12s ease infinite; }
-    @keyframes gradient { 0% {background-position:0% 50%;} 50% {background-position:100% 50%;} 100% {background-position:0% 50%;} }
-    .profile-circle { width: 120px; height: 120px; border: 4px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.3); object-fit: cover; }
-    .card { transition: all 0.3s ease; cursor: pointer; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
-    .card:active { transform: scale(0.98); } .card:hover { transform: translateY(-8px); box-shadow: 0 16px 30px rgba(0,0,0,0.15); }
-    .duration { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.85); color: white; font-size: 12px; padding: 3px 7px; border-radius: 4px; }
-    .meta { font-size: 13px; color: #606060; margin-top: 6px; }
+    .banner-bg {
+      background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+      background-size: 200% 200%;
+      animation: gradient 12s ease infinite;
+    }
+    @keyframes gradient {
+      0% {background-position:0% 50%;}
+      50% {background-position:100% 50%;}
+      100% {background-position:0% 50%;}
+    }
+    .profile-circle {
+      width: 120px; height: 120px;
+      border: 4px solid white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      object-fit: cover;
+    }
+    .card {
+      transition: all 0.3s ease;
+      cursor: pointer;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      touch-action: manipulation;
+    }
+    .card:active { transform: scale(0.98); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+    .card:hover { transform: translateY(-8px); box-shadow: 0 16px 30px rgba(0,0,0,0.15); }
+    .duration {
+      position: absolute; bottom: 8px; right: 8px;
+      background: rgba(0,0,0,0.85); color: white;
+      font-size: 12px; padding: 3px 7px; border-radius: 4px;
+      font-weight: 500; pointer-events: none;
+    }
+    .meta {
+      font-size: 13px; color: #606060; margin-top: 6px;
+    }
     .likes { color: #ff0000; }
     #shortsSection, #collabsSection, #communitySection { display: none; }
-    .tab-btn { padding: 0 16px 12px; transition: all 0.2s; border-bottom: 4px solid transparent; white-space: nowrap; }
-    .tab-btn.active { border-bottom: 4px solid #000; font-weight: bold; color: #000; }
-    .modal-btn { position: absolute; top: 16px; background: rgba(0,0,0,0.7); color: white; border: none; border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 24px; }
-    .modal-btn:hover { background: rgba(0,0,0,0.9); }
-    .close-btn { right: 16px; } .home-btn { right: 80px; }
-    .collab-card { background: #ffffff; border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: all 0.3s ease; }
-    .collab-card:hover { transform: translateY(-6px); box-shadow: 0 12px 24px rgba(0,0,0,0.15); }
-    #latestVideoContainer { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
-    #latestVideoContainer iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-    .comment-card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    .comment-header { font-weight: bold; color: #1e40af; }
-    .comment-time { font-size: 0.875rem; color: #6b7280; }
-    textarea, input[type="text"] { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; margin-bottom: 12px; }
-    button { padding: 12px 24px; font-size: 1.1rem; min-height: 48px; }
-    #refreshStatus { font-size: 0.9rem; color: #4b5563; text-align: center; margin-bottom: 1rem; }
+    .tab-btn {
+      padding: 0 16px 12px;
+      transition: all 0.2s;
+      border-bottom: 4px solid transparent;
+      white-space: nowrap;
+    }
+    .tab-btn.active {
+      border-bottom: 4px solid #000;
+      font-weight: bold;
+      color: #000;
+    }
+    .modal-btn {
+      position: absolute; top: 16px;
+      background: rgba(0,0,0,0.7); color: white;
+      border: none; border-radius: 50%;
+      width: 48px; height: 48px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 24px;
+      transition: background 0.2s; z-index: 20;
+    }
+    .modal-btn:hover, .modal-btn:active { background: rgba(0,0,0,0.9); }
+    .close-btn { right: 16px; }
+    .home-btn { right: 80px; }
+    .collab-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+    .collab-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    }
+    #latestVideoContainer {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    #latestVideoContainer iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+    }
+    .comment-card {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .comment-header {
+      font-weight: bold;
+      color: #1e40af;
+      margin-bottom: 4px;
+    }
+    .comment-time {
+      font-size: 0.875rem;
+      color: #6b7280;
+      margin-bottom: 8px;
+    }
+    textarea, input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      font-size: 1rem;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 1.1rem;
+      min-height: 48px;
+      touch-action: manipulation;
+    }
 
     @media (max-width: 640px) {
       .profile-circle { width: 100px; height: 100px; }
       h1 { font-size: 2.25rem; }
+      .text-6xl { font-size: 3rem; }
+      .text-7xl { font-size: 3.5rem; }
       .tab-btn { padding: 0 12px 10px; font-size: 0.95rem; }
+      .max-w-7xl { padding-left: 1rem; padding-right: 1rem; }
       .card { min-height: 240px; }
-      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+      .grid-cols-4, .grid-cols-3, .grid-cols-5 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+      #shortsGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .collab-card { padding: 16px; }
+      textarea { min-height: 120px; font-size: 1rem; }
+      .comment-card { padding: 14px; }
+    }
+
+    @media (max-width: 400px) {
+      button { width: 100%; }
+      .tab-btn { font-size: 0.9rem; padding: 0 8px 8px; }
     }
   </style>
 </head>
 <body>
-  <!-- Banner & Channel Info (unchanged) -->
+  <!-- Banner -->
   <div class="banner-bg text-white py-10 md:py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-6">
       <div class="flex items-center gap-5">
-        <img src="https://yt3.googleusercontent.com/ytc/AIdro_nZ0jZ5y0yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ=w176-c-k-c0x00ffffff-no-rj" alt="profile" class="profile-circle rounded-full">
+        <img src="https://yt3.googleusercontent.com/ytc/AIdro_nZ0jZ5y0yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ=w176-c-k-c0x00ffffff-no-rj"
+             alt="the pro's Golf profile picture" class="profile-circle rounded-full">
         <div>
           <div class="text-6xl md:text-7xl font-extrabold">21</div>
           <div class="text-lg md:text-2xl mt-1">subscribers</div>
           <div class="mt-2 text-xl md:text-3xl font-bold">2,011,938 to go! 🔥</div>
         </div>
       </div>
-      <a href="https://www.youtube.com/@DTprogolf?sub_confirmation=1" target="_blank" class="bg-red-600 hover:bg-red-700 px-8 py-4 rounded-full font-bold text-lg flex items-center gap-3 shadow-lg transition">
+      <a href="https://www.youtube.com/@DTprogolf?sub_confirmation=1" target="_blank" rel="noopener noreferrer"
+         class="bg-red-600 hover:bg-red-700 px-8 py-4 rounded-full font-bold text-lg flex items-center gap-3 shadow-lg transition">
         <i class="fab fa-youtube text-2xl"></i> SUBSCRIBE!
       </a>
     </div>
@@ -63,14 +170,19 @@
   <!-- Channel Info + Tabs -->
   <div class="bg-white border-b shadow-sm sticky top-0 z-10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-start gap-6">
-      <img src="https://yt3.googleusercontent.com/ytc/AIdro_nZ0jZ5y0yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ=w176-c-k-c0x00ffffff-no-rj" alt="profile" class="w-24 h-24 sm:w-32 sm:h-32 rounded-full ring-4 ring-white shadow-lg mx-auto sm:mx-0">
+      <img src="https://yt3.googleusercontent.com/ytc/AIdro_nZ0jZ5y0yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ5yZ=w176-c-k-c0x00ffffff-no-rj"
+           alt="the pro's Golf profile picture"
+           class="w-24 h-24 sm:w-32 sm:h-32 rounded-full ring-4 ring-white shadow-lg mx-auto sm:mx-0">
       <div class="flex-1 text-center sm:text-left">
         <h1 class="text-3xl sm:text-4xl font-bold">the pro's Golf</h1>
-        <div class="text-sm sm:text-base text-gray-600 mt-1">@DTprogolf • 21 subscribers • <span id="videoCount">loading...</span> videos</div>
+        <div class="text-sm sm:text-base text-gray-600 mt-1">@DTprogolf • 21 subscribers • 25 videos</div>
         <p class="mt-4 text-base sm:text-lg text-gray-800 max-w-3xl mx-auto sm:mx-0">
           Get ready for an EPIC showdown as drake hits to the greens and Watch our day of golf! In this one-of-a-kind golf adventure, it out on the course, show casing his best swings, and some comedy, and just some friends. Whether you're a golf pro or beginner you might just be looking for some laughs, you won't want to miss their epic scores and unexpected surprises! Who will come out on top? 🥳🏆 Join the fun for exciting collaborations with Hudson Harvey Brantley Davis and Bryden Harris. ⛳️🔥 #Golf #Draketupper
         </p>
-        <a href="https://www.youtube.com/@DTprogolf?sub_confirmation=1" target="_blank" class="mt-6 inline-block bg-black text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-900 transition">SUBSCRIBE</a>
+        <a href="https://www.youtube.com/@DTprogolf?sub_confirmation=1" target="_blank" rel="noopener noreferrer"
+           class="mt-6 inline-block bg-black text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-900 transition">
+          SUBSCRIBE
+        </a>
       </div>
     </div>
 
@@ -83,16 +195,17 @@
   </div>
 
   <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-    <div id="refreshStatus" class="text-center text-gray-600 mb-4">Auto-updating every 5 minutes...</div>
-
-    <!-- Latest Upload (autoplays muted) -->
+    <!-- Latest Upload – autoplays on load (muted to comply with browser rules) -->
     <div id="latestSection" class="mb-12">
       <h2 class="text-3xl sm:text-4xl font-bold mb-6 text-center">Latest Upload 🔥</h2>
       <div id="latestVideoContainer" class="relative">
-        <div id="latestLoading" class="absolute inset-0 flex items-center justify-center bg-black text-white text-lg">Loading newest video...</div>
+        <div id="latestLoading" class="absolute inset-0 flex items-center justify-center bg-black text-white text-lg sm:text-xl font-medium">
+          Loading your newest video...
+        </div>
         <iframe id="latestIframe" frameborder="0" allowfullscreen allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
       </div>
       <h3 id="latestTitle" class="text-xl sm:text-2xl font-bold mt-4 text-center"></h3>
+      <p class="text-center text-gray-600 mt-2 text-sm">Video autoplays muted (click to unmute)</p>
     </div>
 
     <div id="videosSection">
@@ -105,11 +218,48 @@
       <div id="shortsGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6"></div>
     </div>
 
-    <!-- Collabs & Community (same as before) -->
-    <!-- [Your collabsSection and communitySection code here – unchanged] -->
+    <div id="collabsSection">
+      <h2 class="text-2xl sm:text-3xl font-bold mb-6">Collaborations</h2>
+      <p class="text-base sm:text-lg text-gray-600 mb-6 text-center sm:text-left">Check out these awesome creators I've teamed up with! ⛳️🔥</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <a href="https://www.youtube.com/@TherealRivalsrainbowpiggy22" target="_blank" rel="noopener noreferrer" class="collab-card">
+          <i class="fas fa-user-circle text-6xl text-green-600 mb-4"></i>
+          <h3 class="text-lg sm:text-xl font-bold">@TherealRivalsrainbowpiggy22</h3>
+          <p class="text-gray-600 text-sm sm:text-base">Shorts & creative vibes</p>
+        </a>
+        <a href="https://www.youtube.com/@TSMjeans" target="_blank" rel="noopener noreferrer" class="collab-card">
+          <i class="fas fa-user-circle text-6xl text-purple-600 mb-4"></i>
+          <h3 class="text-lg sm:text-xl font-bold">@TSMjeans</h3>
+          <p class="text-gray-600 text-sm sm:text-base">Fun edits and content grind</p>
+        </a>
+        <a href="https://www.youtube.com/@draketupper" target="_blank" rel="noopener noreferrer" class="collab-card">
+          <i class="fas fa-user-circle text-6xl text-red-600 mb-4"></i>
+          <h3 class="text-lg sm:text-xl font-bold">@draketupper</h3>
+          <p class="text-gray-600 text-sm sm:text-base">Edits, shorts, and energy!</p>
+        </a>
+        <a href="https://www.youtube.com/@Bryden-Harris1" target="_blank" rel="noopener noreferrer" class="collab-card">
+          <i class="fas fa-user-circle text-6xl text-orange-600 mb-4"></i>
+          <h3 class="text-lg sm:text-xl font-bold">@Bryden-Harris1</h3>
+          <p class="text-gray-600 text-sm sm:text-base">Cool edits & flips</p>
+        </a>
+      </div>
+    </div>
+
+    <div id="communitySection">
+      <h2 class="text-2xl sm:text-3xl font-bold mb-6">Community Posts</h2>
+      <p class="text-base sm:text-lg text-gray-600 mb-6 text-center sm:text-left">Share your thoughts, golf tips, or just say hi! (Saved in your browser)</p>
+
+      <div class="bg-white p-5 sm:p-6 rounded-xl shadow-md mb-8">
+        <input type="text" id="commentName" placeholder="Your name (optional)" class="mb-4">
+        <textarea id="commentText" placeholder="Write your post here..."></textarea>
+        <button onclick="addComment()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full w-full sm:w-auto transition">Post</button>
+      </div>
+
+      <div id="commentsList" class="space-y-6"></div>
+    </div>
   </main>
 
-  <!-- Modal -->
+  <!-- Video Modal -->
   <div id="modal" class="fixed inset-0 bg-black/90 hidden flex items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl w-full max-w-5xl overflow-hidden relative shadow-2xl flex flex-col max-h-[90vh]">
       <div class="relative h-0">
@@ -117,7 +267,7 @@
         <button onclick="closeModal()" class="modal-btn home-btn"><i class="fas fa-home"></i></button>
       </div>
       <div class="aspect-video bg-black relative">
-        <div id="loading" class="absolute inset-0 flex items-center justify-center text-white text-lg">Loading video...</div>
+        <div id="loading" class="absolute inset-0 flex items-center justify-center text-white text-lg sm:text-xl">Loading video...</div>
         <iframe id="player" class="w-full h-full" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
       </div>
       <div class="p-5 sm:p-6 flex-1 overflow-y-auto">
@@ -127,45 +277,28 @@
   </div>
 
   <script>
-    const channelID = 'UCJjRscH3l030SOmy2tWxcoA';
+    const videos = [
+      { id: "fTWL5avcsa8", title: "Yogi bear golf tournament.", duration: "6:30", thumbnail: "https://i.ytimg.com/vi/fTWL5avcsa8/hqdefault.jpg", views: "4 views", likes: "1 like" },
+      { id: "xcZMtN99fEM", title: "TaylorMade golf hat review. from Walmart.", duration: "1:39", thumbnail: "https://i.ytimg.com/vi/xcZMtN99fEM/hqdefault.jpg", views: "26 views", likes: "1 like" },
+      { id: "5t7G-WFLbkU", title: "Happy Gilmore, the generations trailer, #funny #movie", duration: "0:21", thumbnail: "https://i.ytimg.com/vi/5t7G-WFLbkU/hqdefault.jpg", views: "60 views", likes: "3 likes" },
+      { id: "FGmM30YvZTg", title: "Happy gilmore the generations by draketupper", duration: "2:30", thumbnail: "https://i.ytimg.com/vi/FGmM30YvZTg/hqdefault.jpg", views: "80 views", likes: "4 likes" },
+      { id: "nCG4cp4W-tY", title: "I did it. I did the Happy Gilmore!!.", duration: "3:36", thumbnail: "https://i.ytimg.com/vi/nCG4cp4W-tY/hqdefault.jpg", views: "110 views", likes: "5 likes" },
+      { id: "t6nPe-a0hhk", title: "Range time!!", duration: "3:36", thumbnail: "https://i.ytimg.com/vi/t6nPe-a0hhk/hqdefault.jpg", views: "130 views", likes: "3 likes" },
+      { id: "KV9xXJLMuMI", title: "Golfing at my campground", duration: "2:05", thumbnail: "https://i.ytimg.com/vi/KV9xXJLMuMI/hqdefault.jpg", views: "150 views", likes: "4 likes" },
+      { id: "BcTzrV0fGO0", title: "Playing golf in my backyard", duration: "2:29", thumbnail: "https://i.ytimg.com/vi/BcTzrV0fGO0/hqdefault.jpg", views: "180 views", likes: "6 likes" },
+      { id: "CJf6xOPhT_k", title: "Shooting till I run out of balls", duration: "0:55", thumbnail: "https://i.ytimg.com/vi/CJf6xOPhT_k/hqdefault.jpg", views: "15 views", likes: "1 like" },
+    ];
 
-    // Hard-coded fallback (so videos never disappear)
-    const fallbackVideos = [ /* your 9 videos here - same as before */ ];
-    const fallbackShorts = [ /* your 8 shorts here - same as before */ ];
-
-    async function fetchYouTubeContent() {
-      document.getElementById('refreshStatus').innerHTML = '🔄 Updating from YouTube...';
-      const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelID}`;
-      const jsonApi = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
-
-      try {
-        const res = await fetch(jsonApi);
-        const data = await res.json();
-
-        if (data.status === 'ok' && data.items) {
-          const all = data.items;
-          const videos = all.filter(i => !i.title.toLowerCase().includes('#shorts') && (i.description || '').match(/PT(\d+M)?(\d+S)?/));
-          const shorts = all.filter(i => i.title.toLowerCase().includes('#shorts') || (i.description || '').match(/PT(\d+M)?(\d+S)?/));
-
-          renderGrid('videoGrid', videos);
-          renderGrid('shortsGrid', shorts, true);
-          document.getElementById('videoCount').textContent = all.length;
-
-          // Latest
-          const latest = all[0];
-          const id = latest.link.split('v=')[1]?.split('&')[0] || latest.id.split(':').pop();
-          document.getElementById('latestIframe').src = `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&rel=0&modestbranding=1`;
-          document.getElementById('latestTitle').textContent = latest.title;
-          document.getElementById('latestLoading').style.display = 'none';
-        }
-      } catch (e) {
-        console.log("Live fetch failed → using cached list");
-        renderGrid('videoGrid', fallbackVideos);
-        renderGrid('shortsGrid', fallbackShorts, true);
-        document.getElementById('videoCount').textContent = fallbackVideos.length + fallbackShorts.length;
-      }
-      document.getElementById('refreshStatus').innerHTML = `✅ Updated ${new Date().toLocaleTimeString()}`;
-    }
+    const shorts = [
+      { id: "niNWJ3CyQLU", title: "good edit", thumbnail: "https://i.ytimg.com/vi/niNWJ3CyQLU/hqdefault.jpg", views: "Short", likes: "2 likes" },
+      { id: "ScJcQ3lWFBs", title: "tiger woods edit", thumbnail: "https://i.ytimg.com/vi/ScJcQ3lWFBs/hqdefault.jpg", views: "Short", likes: "3 likes" },
+      { id: "cm_W4oe5ZGU", title: "I hit a long shot in golf ⛳️", thumbnail: "https://i.ytimg.com/vi/cm_W4oe5ZGU/hqdefault.jpg", views: "Short", likes: "4 likes" },
+      { id: "KNZydEOTK9s", title: "shooting my tooth out, golf Style", thumbnail: "https://i.ytimg.com/vi/KNZydEOTK9s/hqdefault.jpg", views: "Short", likes: "1 like" },
+      { id: "-EHAI9TrjVg", title: "120 yard happy gilmoe shot", thumbnail: "https://i.ytimg.com/vi/-EHAI9TrjVg/hqdefault.jpg", views: "Short", likes: "5 likes" },
+      { id: "SQoK9Dp4r7k", title: "clean", thumbnail: "https://i.ytimg.com/vi/SQoK9Dp4r7k/hqdefault.jpg", views: "Short", likes: "2 likes" },
+      { id: "7wPBpOzqEsI", title: "what's aura?", thumbnail: "https://i.ytimg.com/vi/7wPBpOzqEsI/hqdefault.jpg", views: "Short", likes: "3 likes" },
+      { id: "fK-WGKSsUqk", title: "Moment before disaster #golf", thumbnail: "https://i.ytimg.com/vi/fK-WGKSsUqk/hqdefault.jpg", views: "Short", likes: "4 likes" },
+    ];
 
     function renderGrid(gridId, items, isShort = false) {
       const grid = document.getElementById(gridId);
@@ -175,12 +308,12 @@
         card.className = 'card';
         card.innerHTML = `
           <div class="relative">
-            <img src="${item.thumbnail || `https://i.ytimg.com/vi/${item.id}/hqdefault.jpg`}" class="w-full aspect-video object-cover">
-            <span class="duration">${item.duration || (isShort ? 'Short' : 'Video')}</span>
+            <img src="${item.thumbnail}" alt="${item.title}" class="w-full aspect-video object-cover">
+            <span class="duration">${item.duration || (isShort ? 'Short' : '')}</span>
           </div>
           <div class="p-3 sm:p-4">
             <h3 class="font-medium text-sm sm:text-base line-clamp-2">${item.title}</h3>
-            <p class="meta mt-1">Views • Likes</p>
+            <p class="meta mt-1">${item.views} • <span class="likes">${item.likes}</span></p>
           </div>
         `;
         card.onclick = () => play(item.id, item.title);
@@ -189,11 +322,17 @@
     }
 
     function play(id, title) {
-      document.getElementById('player').src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+      const embedUrl = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+      document.getElementById('player').src = embedUrl;
       document.getElementById('title').textContent = title;
-      document.getElementById('modal').classList.remove('hidden');
-      document.getElementById('modal').classList.add('flex');
+      const modal = document.getElementById('modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
       document.body.style.overflow = 'hidden';
+      document.getElementById('loading').style.display = 'flex';
+      document.getElementById('player').onload = () => {
+        document.getElementById('loading').style.display = 'none';
+      };
     }
 
     function closeModal() {
@@ -201,26 +340,95 @@
       document.getElementById('modal').classList.add('hidden');
       document.getElementById('modal').classList.remove('flex');
       document.body.style.overflow = '';
+      document.getElementById('loading').style.display = 'flex';
     }
 
     function showSection(section) {
-      document.querySelectorAll('#videosSection, #shortsSection, #collabsSection, #communitySection').forEach(s => s.style.display = 'none');
-      if (section === 'videos') document.getElementById('videosSection').style.display = 'block';
-      if (section === 'shorts') document.getElementById('shortsSection').style.display = 'block';
-      if (section === 'collabs') document.getElementById('collabsSection').style.display = 'block';
-      if (section === 'community') document.getElementById('communitySection').style.display = 'block';
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('videosSection').style.display = section === 'videos' ? 'block' : 'none';
+      document.getElementById('shortsSection').style.display = section === 'shorts' ? 'block' : 'none';
+      document.getElementById('collabsSection').style.display = section === 'collabs' ? 'block' : 'none';
+      document.getElementById('communitySection').style.display = section === 'community' ? 'block' : 'none';
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
       event.target.classList.add('active');
     }
 
-    // Community functions (unchanged)
-    function loadComments() { /* same as before */ }
-    function addComment() { /* same as before */ }
+    async function loadLatestVideo() {
+      const channelID = 'UCJjRscH3l030SOmy2tWxcoA';
+      const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelID}`;
+      const jsonApi = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+
+      document.getElementById('latestIframe').src = ''; // clear first
+
+      try {
+        const response = await fetch(jsonApi);
+        const data = await response.json();
+
+        if (data.status === 'ok' && data.items && data.items.length > 0) {
+          const latest = data.items[0];
+          const videoId = latest.link.split('v=')[1]?.split('&')[0] || latest.id.split(':').pop();
+          // Autoplay + muted (required for reliable browser autoplay)
+          const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&rel=0&modestbranding=1`;
+
+          document.getElementById('latestIframe').src = embedUrl;
+          document.getElementById('latestTitle').textContent = latest.title;
+          document.getElementById('latestLoading').style.display = 'none';
+          return;
+        }
+      } catch (error) {
+        console.error('Could not fetch newest video:', error);
+      }
+
+      // Fallback: autoplay the known latest video (muted)
+      document.getElementById('latestLoading').innerHTML = 
+        'Showing your most recent known upload (autoplays muted – click to unmute):';
+      document.getElementById('latestIframe').src = 
+        'https://www.youtube.com/embed/fTWL5avcsa8?autoplay=1&mute=1&rel=0&modestbranding=1';
+      document.getElementById('latestTitle').textContent = 
+        'Yogi bear golf tournament.';
+    }
+
+    function loadComments() {
+      const comments = JSON.parse(localStorage.getItem('communityPosts')) || [];
+      const list = document.getElementById('commentsList');
+      list.innerHTML = '';
+      comments.forEach(comment => {
+        const div = document.createElement('div');
+        div.className = 'comment-card';
+        div.innerHTML = `
+          <div class="comment-header">${comment.name || 'Anonymous'}</div>
+          <div class="comment-time">${new Date(comment.time).toLocaleString()}</div>
+          <p class="text-sm sm:text-base">${comment.text.replace(/\n/g, '<br>')}</p>
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    function addComment() {
+      const nameInput = document.getElementById('commentName');
+      const textArea = document.getElementById('commentText');
+      const name = nameInput.value.trim();
+      const text = textArea.value.trim();
+
+      if (!text) {
+        alert("Please write something!");
+        return;
+      }
+
+      const comments = JSON.parse(localStorage.getItem('communityPosts')) || [];
+      comments.push({ name: name || 'Anonymous', text, time: Date.now() });
+      localStorage.setItem('communityPosts', JSON.stringify(comments));
+
+      nameInput.value = '';
+      textArea.value = '';
+      loadComments();
+    }
 
     window.onload = () => {
-      fetchYouTubeContent();
+      renderGrid('videoGrid', videos);
+      renderGrid('shortsGrid', shorts, true);
+      showSection('videos');
+      loadLatestVideo(); // Autoplay starts here
       loadComments();
-      setInterval(fetchYouTubeContent, 300000); // every 5 minutes
     };
   </script>
 </body>
