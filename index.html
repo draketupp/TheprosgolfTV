@@ -10,14 +10,8 @@
     body { font-family: Arial, sans-serif; background: #f9f9f9; color: #030303; margin: 0; line-height: 1.5; }
     .banner-bg {
       background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
-                  url('https://raw.githubusercontent.com/draketupp/TheprosgolfTv/main/banner.png') center/cover no-repeat;
-      background-size: cover;
-      min-height: 300px; /* adjust based on your banner aspect ratio */
-    }
-    @keyframes gradient {
-      0% {background-position:0% 50%;}
-      50% {background-position:100% 50%;}
-      100% {background-position:0% 50%;}
+                  url('https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/banner.png') center/cover no-repeat;
+      min-height: 250px; /* Adjust based on your banner's aspect ratio */
     }
     .profile-circle {
       width: 120px; height: 120px;
@@ -129,8 +123,6 @@
     @media (max-width: 640px) {
       .profile-circle { width: 100px; height: 100px; }
       h1 { font-size: 2.25rem; }
-      .text-6xl { font-size: 3rem; }
-      .text-7xl { font-size: 3.5rem; }
       .tab-btn { padding: 0 12px 10px; font-size: 0.95rem; }
       .max-w-7xl { padding-left: 1rem; padding-right: 1rem; }
       .card { min-height: 240px; }
@@ -147,26 +139,10 @@
   </style>
 </head>
 <body>
-  <!-- Banner – now using your uploaded banner.png as background -->
-  <div class="banner-bg text-white py-10 md:py-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-6">
-      <div class="flex items-center gap-5">
-        <img src="https://raw.githubusercontent.com/draketupp/TheprosgolfTv/main/pfp.png"
-             alt="the pro's Golf profile picture" class="profile-circle rounded-full">
-        <div>
-          <div class="text-6xl md:text-7xl font-extrabold">21</div>
-          <div class="text-lg md:text-2xl mt-1">subscribers</div>
-          <div class="mt-2 text-xl md:text-3xl font-bold">2,011,938 to go! 🔥</div>
-        </div>
-      </div>
-      <a href="https://www.youtube.com/@DTprogolf?sub_confirmation=1" target="_blank" rel="noopener noreferrer"
-         class="bg-red-600 hover:bg-red-700 px-8 py-4 rounded-full font-bold text-lg flex items-center gap-3 shadow-lg transition">
-        <i class="fab fa-youtube text-2xl"></i> SUBSCRIBE!
-      </a>
-    </div>
-  </div>
+  <!-- Banner background only (no text/count/goal on top) -->
+  <div class="banner-bg"></div>
 
-  <!-- Channel Info + Tabs -->
+  <!-- Channel Info + Tabs (profile pic here, no sub goal) -->
   <div class="bg-white border-b shadow-sm sticky top-0 z-10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-start gap-6">
       <img src="https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/pfp.png"
@@ -193,7 +169,7 @@
   </div>
 
   <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-    <!-- Latest Upload – autoplays on load (muted to comply with browser rules) -->
+    <!-- Latest Upload -->
     <div id="latestSection" class="mb-12">
       <h2 class="text-3xl sm:text-4xl font-bold mb-6 text-center">Latest Upload 🔥</h2>
       <div id="latestVideoContainer" class="relative">
@@ -280,19 +256,28 @@
       { id: "FGmM30YvZTg", title: "Happy gilmore the generations by draketupper", duration: "2:30", thumbnail: "https://i.ytimg.com/vi/FGmM30YvZTg/hqdefault.jpg", views: "80 views", likes: "4 likes" },
       { id: "nCG4cp4W-tY", title: "I did it. I did the Happy Gilmore!!.", duration: "3:36", thumbnail: "https://i.ytimg.com/vi/nCG4cp4W-tY/hqdefault.jpg", views: "110 views", likes: "5 likes" },
       { id: "t6nPe-a0hhk", title: "Range time!!", duration: "3:36", thumbnail: "https://i.ytimg.com/vi/t6nPe-a0hhk/hqdefault.jpg", views: "130 views", likes: "3 likes" },
-      { id: "KV9xXJLMuMI", title: "Golfing at my campground", duration: "2:05", thumbnail: "https://i.ytimg.com/vi/KV9xXJLMuMI/hqdefault.jpg", views: "150 views", likes: "4 likes" },
+      { id: "KV9xXJLMuMI", title: "Golfing at my campground @Sjl-f4b thanks BDavis for helping me make this video", duration: "2:05", thumbnail: "https://i.ytimg.com/vi/KV9xXJLMuMI/hqdefault.jpg", views: "150 views", likes: "4 likes" },
       { id: "BcTzrV0fGO0", title: "Playing golf in my backyard", duration: "2:29", thumbnail: "https://i.ytimg.com/vi/BcTzrV0fGO0/hqdefault.jpg", views: "180 views", likes: "6 likes" },
       { id: "CJf6xOPhT_k", title: "Shooting till I run out of balls", duration: "0:55", thumbnail: "https://i.ytimg.com/vi/CJf6xOPhT_k/hqdefault.jpg", views: "15 views", likes: "1 like" },
+      // Add more here if you upload new ones or find additional IDs (channel shows ~25 total, but only 9 public long-form visible)
     ];
+
     const shorts = [
-      { id: "niNWJ3CyQLU", title: "good edit", thumbnail: "https://i.ytimg.com/vi/niNWJ3CyQLU/hqdefault.jpg", views: "Short", likes: "2 likes" },
       { id: "ScJcQ3lWFBs", title: "tiger woods edit", thumbnail: "https://i.ytimg.com/vi/ScJcQ3lWFBs/hqdefault.jpg", views: "Short", likes: "3 likes" },
-      { id: "cm_W4oe5ZGU", title: "I hit a long shot in golf ⛳️", thumbnail: "https://i.ytimg.com/vi/cm_W4oe5ZGU/hqdefault.jpg", views: "Short", likes: "4 likes" },
-      { id: "KNZydEOTK9s", title: "shooting my tooth out, golf Style", thumbnail: "https://i.ytimg.com/vi/KNZydEOTK9s/hqdefault.jpg", views: "Short", likes: "1 like" },
-      { id: "-EHAI9TrjVg", title: "120 yard happy gilmoe shot", thumbnail: "https://i.ytimg.com/vi/-EHAI9TrjVg/hqdefault.jpg", views: "Short", likes: "5 likes" },
+      { id: "niNWJ3CyQLU", title: "good edit", thumbnail: "https://i.ytimg.com/vi/niNWJ3CyQLU/hqdefault.jpg", views: "Short", likes: "2 likes" },
       { id: "SQoK9Dp4r7k", title: "clean", thumbnail: "https://i.ytimg.com/vi/SQoK9Dp4r7k/hqdefault.jpg", views: "Short", likes: "2 likes" },
+      { id: "KNZydEOTK9s", title: "shooting my tooth out, golf Style.", thumbnail: "https://i.ytimg.com/vi/KNZydEOTK9s/hqdefault.jpg", views: "Short", likes: "1 like" },
       { id: "7wPBpOzqEsI", title: "what's aura?", thumbnail: "https://i.ytimg.com/vi/7wPBpOzqEsI/hqdefault.jpg", views: "Short", likes: "3 likes" },
       { id: "fK-WGKSsUqk", title: "Moment before disaster #golf", thumbnail: "https://i.ytimg.com/vi/fK-WGKSsUqk/hqdefault.jpg", views: "Short", likes: "4 likes" },
+      { id: "-EHAI9TrjVg", title: "120 yard happy gilmoe shot", thumbnail: "https://i.ytimg.com/vi/-EHAI9TrjVg/hqdefault.jpg", views: "Short", likes: "5 likes" },
+      { id: "EwTWuE-rJxg", title: "I Feel bad for the guy.", thumbnail: "https://i.ytimg.com/vi/EwTWuE-rJxg/hqdefault.jpg", views: "Short", likes: "?" },
+      { id: "fWIz6SWeBU0", title: "A couple of my videos all together", thumbnail: "https://i.ytimg.com/vi/fWIz6SWeBU0/hqdefault.jpg", views: "Short", likes: "?" },
+      { id: "L8p8xfH7iV0", title: "happy gilmore 2 edit", thumbnail: "https://i.ytimg.com/vi/L8p8xfH7iV0/hqdefault.jpg", views: "Short", likes: "?" },
+      { id: "J-IfCLHWq1o", title: "me and my friends were playing golf", thumbnail: "https://i.ytimg.com/vi/J-IfCLHWq1o/hqdefault.jpg", views: "Short", likes: "?" },
+      { id: "cm_W4oe5ZGU", title: "I hit a long shot in golf ⛳️", thumbnail: "https://i.ytimg.com/vi/cm_W4oe5ZGU/hqdefault.jpg", views: "Short", likes: "4 likes" },
+      { id: "DcJxLT78qFg", title: "happy gilmore edit #golfer", thumbnail: "https://i.ytimg.com/vi/DcJxLT78qFg/hqdefault.jpg", views: "Short", likes: "?" },
+      { id: "ef-b3dlHysE", title: "shooting till I run out of balls", thumbnail: "https://i.ytimg.com/vi/ef-b3dlHysE/hqdefault.jpg", views: "Short", likes: "?" },
+      { id: "PvwR-kOKVG0", title: "golf short", thumbnail: "https://i.ytimg.com/vi/PvwR-kOKVG0/hqdefault.jpg", views: "Short", likes: "?" },
     ];
 
     function renderGrid(gridId, items, isShort = false) {
@@ -341,4 +326,78 @@
     function showSection(section) {
       document.getElementById('videosSection').style.display = section === 'videos' ? 'block' : 'none';
       document.getElementById('shortsSection').style.display = section === 'shorts' ? 'block' : 'none';
-      document.getElementById('collabsSection').style.display = section
+      document.getElementById('collabsSection').style.display = section === 'collabs' ? 'block' : 'none';
+      document.getElementById('communitySection').style.display = section === 'community' ? 'block' : 'none';
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      if (event && event.target) event.target.classList.add('active');
+    }
+
+    async function loadLatestVideo() {
+      const channelID = 'UCJjRscH3l030SOmy2tWxcoA';
+      const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelID}`;
+      const jsonApi = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+      document.getElementById('latestIframe').src = '';
+      try {
+        const response = await fetch(jsonApi);
+        const data = await response.json();
+        if (data.status === 'ok' && data.items && data.items.length > 0) {
+          const latest = data.items[0];
+          const videoId = latest.link.split('v=')[1]?.split('&')[0] || latest.id.split(':').pop();
+          const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&rel=0&modestbranding=1`;
+          document.getElementById('latestIframe').src = embedUrl;
+          document.getElementById('latestTitle').textContent = latest.title;
+          document.getElementById('latestLoading').style.display = 'none';
+          return;
+        }
+      } catch (error) {
+        console.error('Could not fetch newest video:', error);
+      }
+      // Fallback to known latest
+      document.getElementById('latestLoading').innerHTML = 'Showing your most recent known upload (autoplays muted – click to unmute):';
+      document.getElementById('latestIframe').src = 'https://www.youtube.com/embed/fTWL5avcsa8?autoplay=1&mute=1&rel=0&modestbranding=1';
+      document.getElementById('latestTitle').textContent = 'Yogi bear golf tournament.';
+    }
+
+    function loadComments() {
+      const comments = JSON.parse(localStorage.getItem('communityPosts')) || [];
+      const list = document.getElementById('commentsList');
+      list.innerHTML = '';
+      comments.forEach(comment => {
+        const div = document.createElement('div');
+        div.className = 'comment-card';
+        div.innerHTML = `
+          <div class="comment-header">${comment.name || 'Anonymous'}</div>
+          <div class="comment-time">${new Date(comment.time).toLocaleString()}</div>
+          <p class="text-sm sm:text-base">${comment.text.replace(/\n/g, '<br>')}</p>
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    function addComment() {
+      const nameInput = document.getElementById('commentName');
+      const textArea = document.getElementById('commentText');
+      const name = nameInput.value.trim();
+      const text = textArea.value.trim();
+      if (!text) {
+        alert("Please write something!");
+        return;
+      }
+      const comments = JSON.parse(localStorage.getItem('communityPosts')) || [];
+      comments.push({ name: name || 'Anonymous', text, time: Date.now() });
+      localStorage.setItem('communityPosts', JSON.stringify(comments));
+      nameInput.value = '';
+      textArea.value = '';
+      loadComments();
+    }
+
+    window.onload = () => {
+      renderGrid('videoGrid', videos);
+      renderGrid('shortsGrid', shorts, true);
+      showSection('videos');
+      loadLatestVideo();
+      loadComments();
+    };
+  </script>
+</body>
+</html>
