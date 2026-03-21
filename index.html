@@ -10,7 +10,7 @@
     body { font-family: Arial, sans-serif; background: #f9f9f9; color: #030303; margin: 0; line-height: 1.5; }
     .banner-bg {
       background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
-                  url('https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/banner.png') center/cover no-repeat;
+                  url('https://raw.githubusercontent.com/draketupp/TheprosgolfTV/main/banner.png') center/cover no-repeat;
       min-height: 320px;
     }
     .profile-circle {
@@ -36,9 +36,7 @@
       font-size: 12px; padding: 3px 7px; border-radius: 4px;
       font-weight: 500; pointer-events: none;
     }
-    .meta {
-      font-size: 13px; color: #606060; margin-top: 6px;
-    }
+    .meta { font-size: 13px; color: #606060; margin-top: 6px; }
     .likes { color: #ff0000; }
     #shortsSection, #collabsSection, #communitySection { display: none; }
     .tab-btn {
@@ -96,16 +94,8 @@
       margin-bottom: 16px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
-    .comment-header {
-      font-weight: bold;
-      color: #1e40af;
-      margin-bottom: 4px;
-    }
-    .comment-time {
-      font-size: 0.875rem;
-      color: #6b7280;
-      margin-bottom: 8px;
-    }
+    .comment-header { font-weight: bold; color: #1e40af; margin-bottom: 4px; }
+    .comment-time { font-size: 0.875rem; color: #6b7280; margin-bottom: 8px; }
     textarea, input[type="text"] {
       width: 100%;
       padding: 12px;
@@ -128,9 +118,6 @@
       .card { min-height: 240px; }
       .grid-cols-4, .grid-cols-3, .grid-cols-5 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
       #shortsGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .collab-card { padding: 16px; }
-      textarea { min-height: 120px; font-size: 1rem; }
-      .comment-card { padding: 14px; }
     }
   </style>
 </head>
@@ -139,7 +126,7 @@
   <div class="banner-bg text-white py-10 md:py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-6">
       <div class="flex items-center gap-5">
-        <img src="https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/pfp.png"
+        <img src="https://raw.githubusercontent.com/draketupp/TheprosgolfTV/main/pfp.png"
              alt="the pro's Golf profile picture" class="profile-circle rounded-full">
         <div>
           <div class="text-6xl md:text-7xl font-extrabold">21</div>
@@ -157,7 +144,7 @@
   <!-- Channel Info + Tabs -->
   <div class="bg-white border-b shadow-sm sticky top-0 z-10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-start gap-6">
-      <img src="https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/pfp.png"
+      <img src="https://raw.githubusercontent.com/draketupp/TheprosgolfTV/main/pfp.png"
            alt="the pro's Golf profile picture"
            class="w-24 h-24 sm:w-32 sm:h-32 rounded-full ring-4 ring-white shadow-lg mx-auto sm:mx-0">
       <div class="flex-1 text-center sm:text-left">
@@ -173,15 +160,15 @@
       </div>
     </div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 flex gap-4 sm:gap-10 border-t pt-4 text-gray-700 font-medium text-base sm:text-lg overflow-x-auto whitespace-nowrap pb-2">
-      <button onclick="showSection('videos')" class="tab-btn active">VIDEOS</button>
-      <button onclick="showSection('shorts')" class="tab-btn">SHORTS</button>
-      <button onclick="showSection('collabs')" class="tab-btn">COLLABS</button>
-      <button onclick="showSection('community')" class="tab-btn">COMMUNITY</button>
+      <button onclick="showSection('videos', event)" class="tab-btn active">VIDEOS</button>
+      <button onclick="showSection('shorts', event)" class="tab-btn">SHORTS</button>
+      <button onclick="showSection('collabs', event)" class="tab-btn">COLLABS</button>
+      <button onclick="showSection('community', event)" class="tab-btn">COMMUNITY</button>
     </div>
   </div>
 
   <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-    <!-- Latest Upload – auto-fetches from YouTube RSS -->
+    <!-- Latest Upload – auto-fetches via RSS -->
     <div id="latestSection" class="mb-12">
       <h2 class="text-3xl sm:text-4xl font-bold mb-6 text-center">Latest Upload 🔥</h2>
       <div id="latestVideoContainer" class="relative">
@@ -285,6 +272,7 @@
 
     function renderGrid(gridId, items, isShort = false) {
       const grid = document.getElementById(gridId);
+      if (!grid) return;
       grid.innerHTML = '';
       items.forEach(item => {
         const card = document.createElement('div');
@@ -320,19 +308,22 @@
 
     function closeModal() {
       document.getElementById('player').src = '';
-      document.getElementById('modal').classList.add('hidden');
-      document.getElementById('modal').classList.remove('flex');
+      const modal = document.getElementById('modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
       document.body.style.overflow = '';
       document.getElementById('loading').style.display = 'flex';
     }
 
-    function showSection(section) {
+    function showSection(section, event) {
+      if (event) event.preventDefault();
       document.getElementById('videosSection').style.display = section === 'videos' ? 'block' : 'none';
       document.getElementById('shortsSection').style.display = section === 'shorts' ? 'block' : 'none';
       document.getElementById('collabsSection').style.display = section === 'collabs' ? 'block' : 'none';
       document.getElementById('communitySection').style.display = section === 'community' ? 'block' : 'none';
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
+      const clickedBtn = document.querySelector(`button[onclick*="showSection('${section}'"]`);
+      if (clickedBtn) clickedBtn.classList.add('active');
     }
 
     async function loadLatestVideo() {
@@ -349,13 +340,14 @@
 
       try {
         const response = await fetch(jsonApi);
+        if (!response.ok) throw new Error('Network response was not ok');
         const data = await response.json();
         if (data.status === 'ok' && data.items && data.items.length > 0) {
           const latest = data.items[0];
           const videoId = latest.link.split('v=')[1]?.split('&')[0] || latest.id.split(':').pop();
           const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&rel=0&modestbranding=1`;
           iframe.src = embedUrl;
-          titleEl.textContent = latest.title;
+          titleEl.textContent = latest.title || 'Latest Upload';
           loading.style.display = 'none';
           return;
         }
@@ -363,7 +355,6 @@
         console.error('Could not fetch newest video:', error);
       }
 
-      // Fallback if fetch fails or no items
       loading.textContent = 'Showing most recent known upload (autoplays muted – click to unmute):';
       iframe.src = 'https://www.youtube.com/embed/fTWL5avcsa8?autoplay=1&mute=1&rel=0&modestbranding=1';
       titleEl.textContent = 'Yogi bear golf tournament.';
@@ -372,6 +363,7 @@
     function loadComments() {
       const comments = JSON.parse(localStorage.getItem('communityPosts')) || [];
       const list = document.getElementById('commentsList');
+      if (!list) return;
       list.innerHTML = '';
       comments.forEach(comment => {
         const div = document.createElement('div');
@@ -406,7 +398,7 @@
       renderGrid('videoGrid', videos);
       renderGrid('shortsGrid', shorts, true);
       showSection('videos');
-      loadLatestVideo();  // This auto-pulls your latest from YouTube RSS
+      loadLatestVideo();
       loadComments();
     };
   </script>
