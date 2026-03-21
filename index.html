@@ -254,7 +254,7 @@
     const API_KEY = 'AIzaSyCiGyW1HmtYSaLZv-PCA05hwRS0ZIR4P2Y';
     const CHANNEL_ID = 'UCJjRscH3l030SOmy2tWxcoA';
 
-    // Hardcoded shorts remain as-is (can be made dynamic later if desired)
+    // Your hardcoded shorts (you can later replace with API too)
     const shorts = [
       { id: "niNWJ3CyQLU", title: "good edit", thumbnail: "https://i.ytimg.com/vi/niNWJ3CyQLU/hqdefault.jpg", views: "Short", likes: "2 likes" },
       { id: "ScJcQ3lWFBs", title: "tiger woods edit", thumbnail: "https://i.ytimg.com/vi/ScJcQ3lWFBs/hqdefault.jpg", views: "Short", likes: "3 likes" },
@@ -273,29 +273,8 @@
       const url = new URL(`https://www.googleapis.com/youtube/v3/${endpoint}`);
       url.search = new URLSearchParams({ ...params, key: API_KEY }).toString();
       const res = await fetch(url);
-      if (!res.ok) {
-        const errText = await res.text();
-        throw new Error(`YouTube API ${res.status}: ${errText}`);
-      }
+      if (!res.ok) throw new Error(`YouTube API ${res.status}: ${await res.text()}`);
       return res.json();
-    }
-
-    // Convert ISO 8601 duration (PT5M30S) → "5:30"
-    function formatDuration(iso) {
-      if (!iso) return '??:??';
-      const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-      if (!match) return '??:??';
-      const h = match[1] ? parseInt(match[1]) : 0;
-      const m = match[2] ? parseInt(match[2]) : 0;
-      const s = match[3] ? parseInt(match[3]) : 0;
-      if (h > 0) return `${h}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-      return `${m}:${s.toString().padStart(2,'0')}`;
-    }
-
-    // Format numbers: 1234 → 1.2K, 45000 → 45K, etc.
-    function formatNumber(num) {
-      if (!num) return '0';
-      return new Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 1 }).format(num);
     }
 
     function renderGrid(gridId, items, isShort = false) {
@@ -312,10 +291,7 @@
           </div>
           <div class="p-3 sm:p-4">
             <h3 class="font-medium text-sm sm:text-base line-clamp-2">${item.title}</h3>
-            <p class="meta mt-1">
-              ${item.views ? `${formatNumber(item.views)} views` : '? views'} • 
-              <span class="likes">${item.likes ? `${formatNumber(item.likes)} likes` : '? likes'}</span>
-            </p>
+            <p class="meta mt-1">${item.views || '? views'} • <span class="likes">${item.likes || '? likes'}</span></p>
           </div>
         `;
         card.onclick = () => play(item.id, item.title);
@@ -332,7 +308,9 @@
       modal.classList.add('flex');
       document.body.style.overflow = 'hidden';
       document.getElementById('loading').style.display = 'flex';
-      document.getElementById('player').onload = () => document.getElementById('loading').style.display = 'none';
+      document.getElementById('player').onload = () => {
+        document.getElementById('loading').style.display = 'none';
+      };
     }
 
     function closeModal() {
@@ -353,7 +331,7 @@
     }
 
     // ────────────────────────────────────────────────
-    //  LOAD LATEST VIDEO (unchanged – uses search for simplicity)
+    //  LOAD LATEST VIDEO
     // ────────────────────────────────────────────────
     async function loadLatestVideo() {
       const loading = document.getElementById('latestLoading');
@@ -381,16 +359,17 @@
           return;
         }
       } catch (err) {
-        console.error('Latest fetch failed:', err);
+        console.error('Latest video fetch failed:', err);
       }
 
-      loading.textContent = 'Showing fallback video';
+      // Fallback
+      loading.textContent = 'Showing fallback video (API issue)';
       iframe.src = 'https://www.youtube.com/embed/fTWL5avcsa8?autoplay=1&mute=1&rel=0&modestbranding=1';
       titleEl.textContent = 'Yogi bear golf tournament.';
     }
 
     // ────────────────────────────────────────────────
-    //  LOAD ALL VIDEOS + ENRICH + FILTER SHORTS
+    //  LOAD ALL VIDEOS (My Videos section)
     // ────────────────────────────────────────────────
     async function loadVideosGrid() {
       const grid = document.getElementById('videoGrid');
@@ -400,40 +379,45 @@
       grid.innerHTML = '<p class="col-span-full text-center py-8">Loading videos...</p>';
 
       try {
+        // Try to get uploads playlist ID
         let playlistId;
         try {
-          const channelData = await fetchYT('channels', { part: 'contentDetails', id: CHANNEL_ID });
+          const channelData = await fetchYT('channels', {
+            part: 'contentDetails',
+            id: CHANNEL_ID
+          });
           playlistId = channelData?.items?.[0]?.contentDetails?.relatedPlaylists?.uploads;
         } catch (e) {
-          console.warn('Playlist fetch failed, using search fallback');
+          console.warn('Could not get uploads playlist, falling back to search');
         }
 
-        const videoIds = [];
-        const basicInfo = {}; // id → {title, thumbnail}
+        const videos = [];
 
         if (playlistId) {
+          // Preferred: use playlistItems
           let nextPage = '';
           do {
             const data = await fetchYT('playlistItems', {
               part: 'snippet',
               maxResults: 50,
-              playlistId,
+              playlistId: playlistId,
               pageToken: nextPage
             });
+
             data.items.forEach(item => {
               if (item.snippet.resourceId.kind === 'youtube#video') {
-                const id = item.snippet.resourceId.videoId;
-                videoIds.push(id);
-                basicInfo[id] = {
+                videos.push({
+                  id: item.snippet.resourceId.videoId,
                   title: item.snippet.title,
-                  thumbnail: item.snippet.thumbnails?.high?.url || item.snippet.thumbnails?.medium?.url || item.snippet.thumbnails?.default?.url
-                };
+                  thumbnail: item.snippet.thumbnails?.high?.url || item.snippet.thumbnails?.medium?.url || item.snippet.thumbnails?.default?.url,
+                });
               }
             });
+
             nextPage = data.nextPageToken;
           } while (nextPage);
         } else {
-          // Search fallback
+          // Fallback: search
           const data = await fetchYT('search', {
             part: 'snippet',
             channelId: CHANNEL_ID,
@@ -442,57 +426,30 @@
             type: 'video'
           });
           data.items?.forEach(vid => {
-            const id = vid.id.videoId;
-            videoIds.push(id);
-            basicInfo[id] = {
-              title: vid.snippet.title,
-              thumbnail: vid.snippet.thumbnails?.high?.url || vid.snippet.thumbnails?.medium?.url || vid.snippet.thumbnails?.default?.url
-            };
-          });
-        }
-
-        if (videoIds.length === 0) throw new Error('No videos found');
-
-        // Batch fetch details (duration, views, likes) – max 50 IDs per call
-        const videos = [];
-        for (let i = 0; i < videoIds.length; i += 50) {
-          const batch = videoIds.slice(i, i + 50);
-          const details = await fetchYT('videos', {
-            part: 'contentDetails,statistics',
-            id: batch.join(',')
-          });
-
-          details.items?.forEach(v => {
-            const id = v.id;
-            const dur = formatDuration(v.contentDetails?.duration);
-            const seconds = (v.contentDetails?.duration || '').match(/PT(\d+)S/)?.[1] || 0;
-
-            // Filter: exclude if duration <= 60 seconds (proxy for Shorts)
-            if (parseInt(seconds) <= 60 && dur !== '0:00') return;
-
             videos.push({
-              id,
-              title: basicInfo[id]?.title || v.snippet?.title || 'Untitled',
-              thumbnail: basicInfo[id]?.thumbnail || '',
-              duration: dur,
-              views: v.statistics?.viewCount || 0,
-              likes: v.statistics?.likeCount || 0
+              id: vid.id.videoId,
+              title: vid.snippet.title,
+              thumbnail: vid.snippet.thumbnails?.high?.url || vid.snippet.thumbnails?.medium?.url || vid.snippet.thumbnails?.default?.url,
             });
           });
         }
 
-        countEl.textContent = videos.length;
-        renderGrid('videoGrid', videos);
+        if (videos.length > 0) {
+          countEl.textContent = videos.length;
+          renderGrid('videoGrid', videos);
+        } else {
+          throw new Error('No videos found');
+        }
 
       } catch (err) {
-        console.error('Videos load failed:', err);
-        grid.innerHTML = '<p class="col-span-full text-center py-8 text-red-600">Could not load videos. Try refreshing.</p>';
+        console.error('Failed to load videos:', err);
+        grid.innerHTML = '<p class="col-span-full text-center py-8 text-red-600">Could not load videos automatically. Please check back later.</p>';
         countEl.textContent = '?';
       }
     }
 
     // ────────────────────────────────────────────────
-    //  COMMUNITY (unchanged)
+    //  COMMUNITY COMMENTS (localStorage)
     // ────────────────────────────────────────────────
     function loadComments() {
       const comments = JSON.parse(localStorage.getItem('communityPosts')) || [];
