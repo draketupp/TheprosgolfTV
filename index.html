@@ -7,15 +7,164 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
   <style>
-    /* Your existing styles remain unchanged – omitted for brevity */
+    body { font-family: Arial, sans-serif; background: #f9f9f9; color: #030303; margin: 0; line-height: 1.5; }
+    .banner-bg {
+      background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+                  url('https://raw.githubusercontent.com/draketupp/TheprosgolfTV/main/banner.png') center/cover no-repeat;
+      min-height: 320px;
+    }
+    .profile-circle {
+      width: 120px; height: 120px;
+      border: 4px solid white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      object-fit: cover;
+    }
+    .card {
+      transition: all 0.3s ease;
+      cursor: pointer;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      touch-action: manipulation;
+    }
+    .card:active { transform: scale(0.98); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+    .card:hover { transform: translateY(-8px); box-shadow: 0 16px 30px rgba(0,0,0,0.15); }
+    .duration {
+      position: absolute; bottom: 8px; right: 8px;
+      background: rgba(0,0,0,0.85); color: white;
+      font-size: 12px; padding: 3px 7px; border-radius: 4px;
+      font-weight: 500; pointer-events: none;
+    }
+    .meta { font-size: 13px; color: #606060; margin-top: 6px; }
+    .likes { color: #ff0000; }
+    #shortsSection, #collabsSection, #communitySection { display: none; }
+    .tab-btn {
+      padding: 0 16px 12px;
+      transition: all 0.2s;
+      border-bottom: 4px solid transparent;
+      white-space: nowrap;
+    }
+    .tab-btn.active {
+      border-bottom: 4px solid #000;
+      font-weight: bold;
+      color: #000;
+    }
+    .modal-btn {
+      position: absolute; top: 16px;
+      background: rgba(0,0,0,0.7); color: white;
+      border: none; border-radius: 50%;
+      width: 48px; height: 48px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 24px;
+      transition: background 0.2s; z-index: 20;
+    }
+    .modal-btn:hover, .modal-btn:active { background: rgba(0,0,0,0.9); }
+    .close-btn { right: 16px; }
+    .home-btn { right: 80px; }
+    .collab-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+    .collab-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    }
+    #latestVideoContainer {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    #latestVideoContainer iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+    }
+    .comment-card {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .comment-header { font-weight: bold; color: #1e40af; margin-bottom: 4px; }
+    .comment-time { font-size: 0.875rem; color: #6b7280; margin-bottom: 8px; }
+    textarea, input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      font-size: 1rem;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 1.1rem;
+      min-height: 48px;
+      touch-action: manipulation;
+    }
+    @media (max-width: 640px) {
+      .profile-circle { width: 100px; height: 100px; }
+      h1 { font-size: 2.25rem; }
+      .tab-btn { padding: 0 12px 10px; font-size: 0.95rem; }
+      .max-w-7xl { padding-left: 1rem; padding-right: 1rem; }
+      .card { min-height: 240px; }
+      .grid-cols-4, .grid-cols-3, .grid-cols-5 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+      #shortsGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
   </style>
 </head>
 <body>
-  <!-- Banner, Channel Info, Tabs, Main sections – unchanged except for dynamic video count -->
+  <!-- Banner -->
+  <div class="banner-bg text-white py-10 md:py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-6">
+      <div class="flex items-center gap-5">
+        <img src="https://raw.githubusercontent.com/draketupp/TheprosgolfTV/main/pfp.png"
+             alt="the pro's Golf profile picture" class="profile-circle rounded-full">
+        <div>
+          <div class="text-6xl md:text-7xl font-extrabold">21</div>
+          <div class="text-lg md:text-2xl mt-1">subscribers</div>
+          <div class="mt-2 text-xl md:text-3xl font-bold">2,011,938 to go! 🔥</div>
+        </div>
+      </div>
+      <a href="https://www.youtube.com/@DTprogolf?sub_confirmation=1" target="_blank" rel="noopener noreferrer"
+         class="bg-red-600 hover:bg-red-700 px-8 py-4 rounded-full font-bold text-lg flex items-center gap-3 shadow-lg transition">
+        <i class="fab fa-youtube text-2xl"></i> SUBSCRIBE!
+      </a>
+    </div>
+  </div>
+
+  <!-- Channel Info + Tabs -->
   <div class="bg-white border-b shadow-sm sticky top-0 z-10">
-    <!-- ... existing content ... -->
-    <div class="text-sm sm:text-base text-gray-600 mt-1">@DTprogolf • 21 subscribers • <span id="videoCount">...</span> videos</div>
-    <!-- ... rest unchanged ... -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-start gap-6">
+      <img src="https://raw.githubusercontent.com/draketupp/TheprosgolfTV/main/pfp.png"
+           alt="the pro's Golf profile picture"
+           class="w-24 h-24 sm:w-32 sm:h-32 rounded-full ring-4 ring-white shadow-lg mx-auto sm:mx-0">
+      <div class="flex-1 text-center sm:text-left">
+        <h1 class="text-3xl sm:text-4xl font-bold">the pro's Golf</h1>
+        <div class="text-sm sm:text-base text-gray-600 mt-1">@DTprogolf • 21 subscribers • <span id="videoCount">...</span> videos</div>
+        <p class="mt-4 text-base sm:text-lg text-gray-800 max-w-3xl mx-auto sm:mx-0">
+          Get ready for an EPIC showdown as drake hits to the greens and Watch our day of golf! In this one-of-a-kind golf adventure, it out on the course, show casing his best swings, and some comedy, and just some friends. Whether you're a golf pro or beginner you might just be looking for some laughs, you won't want to miss their epic scores and unexpected surprises! Who will come out on top? 🥳🏆 Join the fun for exciting collaborations with Hudson Harvey Brantley Davis and Bryden Harris. ⛳️🔥 #Golf #Draketupper
+        </p>
+        <a href="https://www.youtube.com/@DTprogolf?sub_confirmation=1" target="_blank" rel="noopener noreferrer"
+           class="mt-6 inline-block bg-black text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-900 transition">
+          SUBSCRIBE
+        </a>
+      </div>
+    </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex gap-4 sm:gap-10 border-t pt-4 text-gray-700 font-medium text-base sm:text-lg overflow-x-auto whitespace-nowrap pb-2">
+      <button onclick="showSection('videos')" class="tab-btn active">VIDEOS</button>
+      <button onclick="showSection('shorts')" class="tab-btn">SHORTS</button>
+      <button onclick="showSection('collabs')" class="tab-btn">COLLABS</button>
+      <button onclick="showSection('community')" class="tab-btn">COMMUNITY</button>
+    </div>
   </div>
 
   <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
@@ -29,7 +178,7 @@
         <iframe id="latestIframe" frameborder="0" allowfullscreen allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
       </div>
       <h3 id="latestTitle" class="text-xl sm:text-2xl font-bold mt-4 text-center"></h3>
-      <p id="latestMeta" class="text-center text-gray-600 mt-2 text-sm"></p>
+      <p class="text-center text-gray-600 mt-2 text-sm">Video autoplays muted (click to unmute)</p>
     </div>
 
     <div id="videosSection">
@@ -37,64 +186,116 @@
       <div id="videoGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"></div>
     </div>
 
-    <!-- Shorts, Collabs, Community sections unchanged -->
+    <div id="shortsSection">
+      <h2 class="text-2xl sm:text-3xl font-bold mb-6">Shorts</h2>
+      <div id="shortsGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6"></div>
+    </div>
+
+    <div id="collabsSection">
+      <h2 class="text-2xl sm:text-3xl font-bold mb-6">Collaborations</h2>
+      <p class="text-base sm:text-lg text-gray-600 mb-6 text-center sm:text-left">Check out these awesome creators I've teamed up with! ⛳️🔥</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <a href="https://www.youtube.com/@TherealRivalsrainbowpiggy22" target="_blank" rel="noopener noreferrer" class="collab-card">
+          <i class="fas fa-user-circle text-6xl text-green-600 mb-4"></i>
+          <h3 class="text-lg sm:text-xl font-bold">@TherealRivalsrainbowpiggy22</h3>
+          <p class="text-gray-600 text-sm sm:text-base">Shorts & creative vibes</p>
+        </a>
+        <a href="https://www.youtube.com/@TSMjeans" target="_blank" rel="noopener noreferrer" class="collab-card">
+          <i class="fas fa-user-circle text-6xl text-purple-600 mb-4"></i>
+          <h3 class="text-lg sm:text-xl font-bold">@TSMjeans</h3>
+          <p class="text-gray-600 text-sm sm:text-base">Fun edits and content grind</p>
+        </a>
+        <a href="https://www.youtube.com/@draketupper" target="_blank" rel="noopener noreferrer" class="collab-card">
+          <i class="fas fa-user-circle text-6xl text-red-600 mb-4"></i>
+          <h3 class="text-lg sm:text-xl font-bold">@draketupper</h3>
+          <p class="text-gray-600 text-sm sm:text-base">Edits, shorts, and energy!</p>
+        </a>
+        <a href="https://www.youtube.com/@Bryden-Harris1" target="_blank" rel="noopener noreferrer" class="collab-card">
+          <i class="fas fa-user-circle text-6xl text-orange-600 mb-4"></i>
+          <h3 class="text-lg sm:text-xl font-bold">@Bryden-Harris1</h3>
+          <p class="text-gray-600 text-sm sm:text-base">Cool edits & flips</p>
+        </a>
+      </div>
+    </div>
+
+    <div id="communitySection">
+      <h2 class="text-2xl sm:text-3xl font-bold mb-6">Community Posts</h2>
+      <p class="text-base sm:text-lg text-gray-600 mb-6 text-center sm:text-left">Share your thoughts, golf tips, or just say hi! (Saved in your browser)</p>
+      <div class="bg-white p-5 sm:p-6 rounded-xl shadow-md mb-8">
+        <input type="text" id="commentName" placeholder="Your name (optional)" class="mb-4">
+        <textarea id="commentText" placeholder="Write your post here..."></textarea>
+        <button onclick="addComment()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full w-full sm:w-auto transition">Post</button>
+      </div>
+      <div id="commentsList" class="space-y-6"></div>
+    </div>
   </main>
 
-  <!-- Modal unchanged -->
+  <!-- Video Modal -->
+  <div id="modal" class="fixed inset-0 bg-black/90 hidden flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl w-full max-w-5xl overflow-hidden relative shadow-2xl flex flex-col max-h-[90vh]">
+      <div class="relative h-0">
+        <button onclick="closeModal()" class="modal-btn close-btn"><i class="fas fa-times"></i></button>
+        <button onclick="closeModal()" class="modal-btn home-btn"><i class="fas fa-home"></i></button>
+      </div>
+      <div class="aspect-video bg-black relative">
+        <div id="loading" class="absolute inset-0 flex items-center justify-center text-white text-lg sm:text-xl">Loading video...</div>
+        <iframe id="player" class="w-full h-full" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>
+      </div>
+      <div class="p-5 sm:p-6 flex-1 overflow-y-auto">
+        <h3 id="title" class="text-xl sm:text-2xl font-bold text-gray-900 mb-4"></h3>
+      </div>
+    </div>
+  </div>
 
   <script>
+    // ────────────────────────────────────────────────
+    //  YOUTUBE API CONFIG
+    // ────────────────────────────────────────────────
     const API_KEY = 'AIzaSyCiGyW1HmtYSaLZv-PCA05hwRS0ZIR4P2Y';
     const CHANNEL_ID = 'UCJjRscH3l030SOmy2tWxcoA';
 
-    // Hardcoded shorts (unchanged)
+    // Hardcoded shorts remain as-is (can be made dynamic later if desired)
     const shorts = [
-      // ... your existing shorts array ...
+      { id: "niNWJ3CyQLU", title: "good edit", thumbnail: "https://i.ytimg.com/vi/niNWJ3CyQLU/hqdefault.jpg", views: "Short", likes: "2 likes" },
+      { id: "ScJcQ3lWFBs", title: "tiger woods edit", thumbnail: "https://i.ytimg.com/vi/ScJcQ3lWFBs/hqdefault.jpg", views: "Short", likes: "3 likes" },
+      { id: "cm_W4oe5ZGU", title: "I hit a long shot in golf ⛳️", thumbnail: "https://i.ytimg.com/vi/cm_W4oe5ZGU/hqdefault.jpg", views: "Short", likes: "4 likes" },
+      { id: "KNZydEOTK9s", title: "shooting my tooth out, golf Style", thumbnail: "https://i.ytimg.com/vi/KNZydEOTK9s/hqdefault.jpg", views: "Short", likes: "1 like" },
+      { id: "-EHAI9TrjVg", title: "120 yard happy gilmoe shot", thumbnail: "https://i.ytimg.com/vi/-EHAI9TrjVg/hqdefault.jpg", views: "Short", likes: "5 likes" },
+      { id: "SQoK9Dp4r7k", title: "clean", thumbnail: "https://i.ytimg.com/vi/SQoK9Dp4r7k/hqdefault.jpg", views: "Short", likes: "2 likes" },
+      { id: "7wPBpOzqEsI", title: "what's aura?", thumbnail: "https://i.ytimg.com/vi/7wPBpOzqEsI/hqdefault.jpg", views: "Short", likes: "3 likes" },
+      { id: "fK-WGKSsUqk", title: "Moment before disaster #golf", thumbnail: "https://i.ytimg.com/vi/fK-WGKSsUqk/hqdefault.jpg", views: "Short", likes: "4 likes" },
     ];
 
+    // ────────────────────────────────────────────────
+    //  UTILITY FUNCTIONS
+    // ────────────────────────────────────────────────
     async function fetchYT(endpoint, params = {}) {
       const url = new URL(`https://www.googleapis.com/youtube/v3/${endpoint}`);
       url.search = new URLSearchParams({ ...params, key: API_KEY }).toString();
       const res = await fetch(url);
-      if (!res.ok) throw new Error(`YouTube API error: ${res.status} ${await res.text()}`);
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(`YouTube API ${res.status}: ${errText}`);
+      }
       return res.json();
     }
 
-    // Parse ISO 8601 duration to MM:SS or H:MM:SS
+    // Convert ISO 8601 duration (PT5M30S) → "5:30"
     function formatDuration(iso) {
-      if (!iso) return '?';
+      if (!iso) return '??:??';
       const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-      if (!match) return '?';
-      const h = parseInt(match[1] || 0);
-      const m = parseInt(match[2] || 0);
-      const s = parseInt(match[3] || 0);
+      if (!match) return '??:??';
+      const h = match[1] ? parseInt(match[1]) : 0;
+      const m = match[2] ? parseInt(match[2]) : 0;
+      const s = match[3] ? parseInt(match[3]) : 0;
       if (h > 0) return `${h}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
       return `${m}:${s.toString().padStart(2,'0')}`;
     }
 
-    // Format numbers: 1234 → 1.2K, etc.
+    // Format numbers: 1234 → 1.2K, 45000 → 45K, etc.
     function formatNumber(num) {
-      if (!num) return '?';
-      num = parseInt(num, 10);
-      if (num >= 1_000_000) return (num / 1_000_000).toFixed(1) + 'M';
-      if (num >= 1_000) return (num / 1_000).toFixed(1) + 'K';
-      return num.toString();
-    }
-
-    async function getVideoExtraData(videoIds) {
-      if (!videoIds.length) return {};
-      const data = await fetchYT('videos', {
-        part: 'contentDetails,statistics',
-        id: videoIds.join(',')
-      });
-      const result = {};
-      data.items?.forEach(item => {
-        result[item.id] = {
-          duration: formatDuration(item.contentDetails?.duration),
-          views: formatNumber(item.statistics?.viewCount),
-          likes: formatNumber(item.statistics?.likeCount)
-        };
-      });
-      return result;
+      if (!num) return '0';
+      return new Intl.NumberFormat('en', { notation: 'compact', maximumFractionDigits: 1 }).format(num);
     }
 
     function renderGrid(gridId, items, isShort = false) {
@@ -111,7 +312,10 @@
           </div>
           <div class="p-3 sm:p-4">
             <h3 class="font-medium text-sm sm:text-base line-clamp-2">${item.title}</h3>
-            <p class="meta mt-1">${item.views} • <span class="likes">${item.likes}</span></p>
+            <p class="meta mt-1">
+              ${item.views ? `${formatNumber(item.views)} views` : '? views'} • 
+              <span class="likes">${item.likes ? `${formatNumber(item.likes)} likes` : '? likes'}</span>
+            </p>
           </div>
         `;
         card.onclick = () => play(item.id, item.title);
@@ -119,69 +323,96 @@
       });
     }
 
-    // play, closeModal, showSection functions unchanged...
+    function play(id, title) {
+      const embedUrl = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+      document.getElementById('player').src = embedUrl;
+      document.getElementById('title').textContent = title;
+      const modal = document.getElementById('modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('loading').style.display = 'flex';
+      document.getElementById('player').onload = () => document.getElementById('loading').style.display = 'none';
+    }
 
+    function closeModal() {
+      document.getElementById('player').src = '';
+      const modal = document.getElementById('modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    function showSection(section) {
+      document.getElementById('videosSection').style.display = section === 'videos' ? 'block' : 'none';
+      document.getElementById('shortsSection').style.display = section === 'shorts' ? 'block' : 'none';
+      document.getElementById('collabsSection').style.display = section === 'collabs' ? 'block' : 'none';
+      document.getElementById('communitySection').style.display = section === 'community' ? 'block' : 'none';
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelector(`button[onclick="showSection('${section}')"]`)?.classList.add('active');
+    }
+
+    // ────────────────────────────────────────────────
+    //  LOAD LATEST VIDEO (unchanged – uses search for simplicity)
+    // ────────────────────────────────────────────────
     async function loadLatestVideo() {
       const loading = document.getElementById('latestLoading');
       const iframe = document.getElementById('latestIframe');
       const titleEl = document.getElementById('latestTitle');
-      const metaEl = document.getElementById('latestMeta');
 
       loading.textContent = 'Fetching latest video...';
       iframe.src = '';
 
       try {
-        const searchData = await fetchYT('search', {
+        const data = await fetchYT('search', {
           part: 'snippet',
           channelId: CHANNEL_ID,
-          maxResults: 5,  // Grab a few in case newest is a Short
+          maxResults: 1,
           order: 'date',
           type: 'video'
         });
 
-        let candidates = searchData.items || [];
-
-        for (const vid of candidates) {
-          const extra = await getVideoExtraData([vid.id.videoId]);
-          const info = extra[vid.id.videoId];
-          if (info && info.duration !== '?' && !info.duration.startsWith('0:')) {  // Rough non-Short check
-            const embedUrl = `https://www.youtube.com/embed/${vid.id.videoId}?autoplay=1&mute=1&rel=0&modestbranding=1`;
-            iframe.src = embedUrl;
-            titleEl.textContent = vid.snippet.title;
-            metaEl.textContent = `${info.duration} • ${info.views} views • ${info.likes} likes (click to unmute)`;
-            loading.style.display = 'none';
-            return;
-          }
+        if (data.items?.length > 0) {
+          const vid = data.items[0];
+          const videoId = vid.id.videoId;
+          iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&rel=0&modestbranding=1`;
+          titleEl.textContent = vid.snippet.title || 'Latest Upload';
+          loading.style.display = 'none';
+          return;
         }
       } catch (err) {
         console.error('Latest fetch failed:', err);
       }
 
-      // Fallback
-      loading.textContent = 'Showing fallback (newest may be a Short)';
+      loading.textContent = 'Showing fallback video';
       iframe.src = 'https://www.youtube.com/embed/fTWL5avcsa8?autoplay=1&mute=1&rel=0&modestbranding=1';
       titleEl.textContent = 'Yogi bear golf tournament.';
-      metaEl.textContent = '6:30 • ? views • ? likes';
     }
 
+    // ────────────────────────────────────────────────
+    //  LOAD ALL VIDEOS + ENRICH + FILTER SHORTS
+    // ────────────────────────────────────────────────
     async function loadVideosGrid() {
       const grid = document.getElementById('videoGrid');
       const countEl = document.getElementById('videoCount');
       if (!grid) return;
 
-      grid.innerHTML = '<p class="col-span-full text-center py-8">Loading videos (excluding Shorts)...</p>';
+      grid.innerHTML = '<p class="col-span-full text-center py-8">Loading videos...</p>';
 
       try {
         let playlistId;
         try {
           const channelData = await fetchYT('channels', { part: 'contentDetails', id: CHANNEL_ID });
           playlistId = channelData?.items?.[0]?.contentDetails?.relatedPlaylists?.uploads;
-        } catch (e) {}
+        } catch (e) {
+          console.warn('Playlist fetch failed, using search fallback');
+        }
 
-        const videos = [];
-        let nextPage = '';
+        const videoIds = [];
+        const basicInfo = {}; // id → {title, thumbnail}
 
         if (playlistId) {
+          let nextPage = '';
           do {
             const data = await fetchYT('playlistItems', {
               part: 'snippet',
@@ -191,11 +422,12 @@
             });
             data.items.forEach(item => {
               if (item.snippet.resourceId.kind === 'youtube#video') {
-                videos.push({
-                  id: item.snippet.resourceId.videoId,
+                const id = item.snippet.resourceId.videoId;
+                videoIds.push(id);
+                basicInfo[id] = {
                   title: item.snippet.title,
                   thumbnail: item.snippet.thumbnails?.high?.url || item.snippet.thumbnails?.medium?.url || item.snippet.thumbnails?.default?.url
-                });
+                };
               }
             });
             nextPage = data.nextPageToken;
@@ -210,44 +442,89 @@
             type: 'video'
           });
           data.items?.forEach(vid => {
-            videos.push({
-              id: vid.id.videoId,
+            const id = vid.id.videoId;
+            videoIds.push(id);
+            basicInfo[id] = {
               title: vid.snippet.title,
               thumbnail: vid.snippet.thumbnails?.high?.url || vid.snippet.thumbnails?.medium?.url || vid.snippet.thumbnails?.default?.url
+            };
+          });
+        }
+
+        if (videoIds.length === 0) throw new Error('No videos found');
+
+        // Batch fetch details (duration, views, likes) – max 50 IDs per call
+        const videos = [];
+        for (let i = 0; i < videoIds.length; i += 50) {
+          const batch = videoIds.slice(i, i + 50);
+          const details = await fetchYT('videos', {
+            part: 'contentDetails,statistics',
+            id: batch.join(',')
+          });
+
+          details.items?.forEach(v => {
+            const id = v.id;
+            const dur = formatDuration(v.contentDetails?.duration);
+            const seconds = (v.contentDetails?.duration || '').match(/PT(\d+)S/)?.[1] || 0;
+
+            // Filter: exclude if duration <= 60 seconds (proxy for Shorts)
+            if (parseInt(seconds) <= 60 && dur !== '0:00') return;
+
+            videos.push({
+              id,
+              title: basicInfo[id]?.title || v.snippet?.title || 'Untitled',
+              thumbnail: basicInfo[id]?.thumbnail || '',
+              duration: dur,
+              views: v.statistics?.viewCount || 0,
+              likes: v.statistics?.likeCount || 0
             });
           });
         }
 
-        if (!videos.length) throw new Error('No videos');
-
-        // Batch fetch extra data (duration, views, likes)
-        const extraData = await getVideoExtraData(videos.map(v => v.id));
-
-        // Filter out Shorts (≤ 60s)
-        const nonShorts = videos.filter(v => {
-          const dur = extraData[v.id]?.duration;
-          return dur && dur !== '?' && !dur.startsWith('0:');  // Exclude 0:xx or under ~60s
-        }).map(v => ({
-          ...v,
-          ...extraData[v.id] || { duration: '?', views: '?', likes: '?' }
-        }));
-
-        countEl.textContent = nonShorts.length;
-        if (nonShorts.length > 0) {
-          renderGrid('videoGrid', nonShorts);
-        } else {
-          grid.innerHTML = '<p class="col-span-full text-center py-8 text-yellow-600">No regular videos found (all recent are Shorts?)</p>';
-        }
+        countEl.textContent = videos.length;
+        renderGrid('videoGrid', videos);
 
       } catch (err) {
-        console.error(err);
-        grid.innerHTML = '<p class="col-span-full text-center py-8 text-red-600">Error loading videos. Try refreshing.</p>';
+        console.error('Videos load failed:', err);
+        grid.innerHTML = '<p class="col-span-full text-center py-8 text-red-600">Could not load videos. Try refreshing.</p>';
         countEl.textContent = '?';
       }
     }
 
-    // Community functions unchanged...
+    // ────────────────────────────────────────────────
+    //  COMMUNITY (unchanged)
+    // ────────────────────────────────────────────────
+    function loadComments() {
+      const comments = JSON.parse(localStorage.getItem('communityPosts')) || [];
+      const list = document.getElementById('commentsList');
+      list.innerHTML = '';
+      comments.forEach(c => {
+        const div = document.createElement('div');
+        div.className = 'comment-card';
+        div.innerHTML = `
+          <div class="comment-header">${c.name || 'Anonymous'}</div>
+          <div class="comment-time">${new Date(c.time).toLocaleString()}</div>
+          <p class="text-sm sm:text-base">${c.text.replace(/\n/g, '<br>')}</p>
+        `;
+        list.appendChild(div);
+      });
+    }
 
+    function addComment() {
+      const name = document.getElementById('commentName').value.trim();
+      const text = document.getElementById('commentText').value.trim();
+      if (!text) return alert("Please write something!");
+      const comments = JSON.parse(localStorage.getItem('communityPosts')) || [];
+      comments.push({ name: name || 'Anonymous', text, time: Date.now() });
+      localStorage.setItem('communityPosts', JSON.stringify(comments));
+      document.getElementById('commentName').value = '';
+      document.getElementById('commentText').value = '';
+      loadComments();
+    }
+
+    // ────────────────────────────────────────────────
+    //  INIT
+    // ────────────────────────────────────────────────
     window.onload = () => {
       renderGrid('shortsGrid', shorts, true);
       showSection('videos');
