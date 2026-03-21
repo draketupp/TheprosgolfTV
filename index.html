@@ -149,7 +149,7 @@
            class="w-24 h-24 sm:w-32 sm:h-32 rounded-full ring-4 ring-white shadow-lg mx-auto sm:mx-0">
       <div class="flex-1 text-center sm:text-left">
         <h1 class="text-3xl sm:text-4xl font-bold">the pro's Golf</h1>
-        <div class="text-sm sm:text-base text-gray-600 mt-1">@DTprogolf • 21 subscribers • 25 videos</div>
+        <div class="text-sm sm:text-base text-gray-600 mt-1">@DTprogolf • 21 subscribers • <span id="videoCount">...</span> videos</div>
         <p class="mt-4 text-base sm:text-lg text-gray-800 max-w-3xl mx-auto sm:mx-0">
           Get ready for an EPIC showdown as drake hits to the greens and Watch our day of golf! In this one-of-a-kind golf adventure, it out on the course, show casing his best swings, and some comedy, and just some friends. Whether you're a golf pro or beginner you might just be looking for some laughs, you won't want to miss their epic scores and unexpected surprises! Who will come out on top? 🥳🏆 Join the fun for exciting collaborations with Hudson Harvey Brantley Davis and Bryden Harris. ⛳️🔥 #Golf #Draketupper
         </p>
@@ -168,7 +168,7 @@
   </div>
 
   <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-    <!-- Latest Upload – auto-updates when you upload a new regular video -->
+    <!-- Latest Upload -->
     <div id="latestSection" class="mb-12">
       <h2 class="text-3xl sm:text-4xl font-bold mb-6 text-center">Latest Upload 🔥</h2>
       <div id="latestVideoContainer" class="relative">
@@ -248,18 +248,13 @@
   </div>
 
   <script>
-    const videos = [
-      { id: "fTWL5avcsa8", title: "Yogi bear golf tournament.", duration: "6:30", thumbnail: "https://i.ytimg.com/vi/fTWL5avcsa8/hqdefault.jpg", views: "4 views", likes: "1 like" },
-      { id: "xcZMtN99fEM", title: "TaylorMade golf hat review. from Walmart.", duration: "1:39", thumbnail: "https://i.ytimg.com/vi/xcZMtN99fEM/hqdefault.jpg", views: "26 views", likes: "1 like" },
-      { id: "5t7G-WFLbkU", title: "Happy Gilmore, the generations trailer, #funny #movie", duration: "0:21", thumbnail: "https://i.ytimg.com/vi/5t7G-WFLbkU/hqdefault.jpg", views: "60 views", likes: "3 likes" },
-      { id: "FGmM30YvZTg", title: "Happy gilmore the generations by draketupper", duration: "2:30", thumbnail: "https://i.ytimg.com/vi/FGmM30YvZTg/hqdefault.jpg", views: "80 views", likes: "4 likes" },
-      { id: "nCG4cp4W-tY", title: "I did it. I did the Happy Gilmore!!.", duration: "3:36", thumbnail: "https://i.ytimg.com/vi/nCG4cp4W-tY/hqdefault.jpg", views: "110 views", likes: "5 likes" },
-      { id: "t6nPe-a0hhk", title: "Range time!!", duration: "3:36", thumbnail: "https://i.ytimg.com/vi/t6nPe-a0hhk/hqdefault.jpg", views: "130 views", likes: "3 likes" },
-      { id: "KV9xXJLMuMI", title: "Golfing at my campground", duration: "2:05", thumbnail: "https://i.ytimg.com/vi/KV9xXJLMuMI/hqdefault.jpg", views: "150 views", likes: "4 likes" },
-      { id: "BcTzrV0fGO0", title: "Playing golf in my backyard", duration: "2:29", thumbnail: "https://i.ytimg.com/vi/BcTzrV0fGO0/hqdefault.jpg", views: "180 views", likes: "6 likes" },
-      { id: "CJf6xOPhT_k", title: "Shooting till I run out of balls", duration: "0:55", thumbnail: "https://i.ytimg.com/vi/CJf6xOPhT_k/hqdefault.jpg", views: "15 views", likes: "1 like" },
-    ];
+    // ────────────────────────────────────────────────
+    //  YOUTUBE API CONFIG
+    // ────────────────────────────────────────────────
+    const API_KEY = 'AIzaSyCiGyW1HmtYSaLZv-PCA05hwRS0ZIR4P2Y';
+    const CHANNEL_ID = 'UCJjRscH3l030SOmy2tWxcoA';
 
+    // Your hardcoded shorts (you can later replace with API too)
     const shorts = [
       { id: "niNWJ3CyQLU", title: "good edit", thumbnail: "https://i.ytimg.com/vi/niNWJ3CyQLU/hqdefault.jpg", views: "Short", likes: "2 likes" },
       { id: "ScJcQ3lWFBs", title: "tiger woods edit", thumbnail: "https://i.ytimg.com/vi/ScJcQ3lWFBs/hqdefault.jpg", views: "Short", likes: "3 likes" },
@@ -271,6 +266,17 @@
       { id: "fK-WGKSsUqk", title: "Moment before disaster #golf", thumbnail: "https://i.ytimg.com/vi/fK-WGKSsUqk/hqdefault.jpg", views: "Short", likes: "4 likes" },
     ];
 
+    // ────────────────────────────────────────────────
+    //  UTILITY FUNCTIONS
+    // ────────────────────────────────────────────────
+    async function fetchYT(endpoint, params = {}) {
+      const url = new URL(`https://www.googleapis.com/youtube/v3/${endpoint}`);
+      url.search = new URLSearchParams({ ...params, key: API_KEY }).toString();
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`YouTube API ${res.status}: ${await res.text()}`);
+      return res.json();
+    }
+
     function renderGrid(gridId, items, isShort = false) {
       const grid = document.getElementById(gridId);
       if (!grid) return;
@@ -281,11 +287,11 @@
         card.innerHTML = `
           <div class="relative">
             <img src="${item.thumbnail}" alt="${item.title}" class="w-full aspect-video object-cover">
-            <span class="duration">${item.duration || (isShort ? 'Short' : '')}</span>
+            <span class="duration">${item.duration || (isShort ? 'Short' : 'Video')}</span>
           </div>
           <div class="p-3 sm:p-4">
             <h3 class="font-medium text-sm sm:text-base line-clamp-2">${item.title}</h3>
-            <p class="meta mt-1">${item.views} • <span class="likes">${item.likes}</span></p>
+            <p class="meta mt-1">${item.views || '? views'} • <span class="likes">${item.likes || '? likes'}</span></p>
           </div>
         `;
         card.onclick = () => play(item.id, item.title);
@@ -313,94 +319,174 @@
       modal.classList.add('hidden');
       modal.classList.remove('flex');
       document.body.style.overflow = '';
-      document.getElementById('loading').style.display = 'flex';
     }
 
-    function showSection(section, event) {
-      if (event) event.preventDefault();
+    function showSection(section) {
       document.getElementById('videosSection').style.display = section === 'videos' ? 'block' : 'none';
       document.getElementById('shortsSection').style.display = section === 'shorts' ? 'block' : 'none';
       document.getElementById('collabsSection').style.display = section === 'collabs' ? 'block' : 'none';
       document.getElementById('communitySection').style.display = section === 'community' ? 'block' : 'none';
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      const clickedBtn = document.querySelector(`button[onclick*="showSection('${section}'"]`);
-      if (clickedBtn) clickedBtn.classList.add('active');
+      document.querySelector(`button[onclick="showSection('${section}')"]`)?.classList.add('active');
     }
 
+    // ────────────────────────────────────────────────
+    //  LOAD LATEST VIDEO
+    // ────────────────────────────────────────────────
     async function loadLatestVideo() {
-      const channelID = 'UCJjRscH3l030SOmy2tWxcoA';
-      const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelID}`;
-      const jsonApi = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
-
       const loading = document.getElementById('latestLoading');
       const iframe = document.getElementById('latestIframe');
       const titleEl = document.getElementById('latestTitle');
 
-      loading.textContent = 'Fetching your latest video...';
+      loading.textContent = 'Fetching latest video...';
       iframe.src = '';
 
       try {
-        const response = await fetch(jsonApi);
-        if (!response.ok) throw new Error('Network response was not ok');
-        const data = await response.json();
-        if (data.status === 'ok' && data.items && data.items.length > 0) {
-          const latest = data.items[0];
-          const videoId = latest.link.split('v=')[1]?.split('&')[0] || latest.id.split(':').pop();
-          const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&rel=0&modestbranding=1`;
-          iframe.src = embedUrl;
-          titleEl.textContent = latest.title || 'Latest Upload';
+        const data = await fetchYT('search', {
+          part: 'snippet',
+          channelId: CHANNEL_ID,
+          maxResults: 1,
+          order: 'date',
+          type: 'video'
+        });
+
+        if (data.items?.length > 0) {
+          const vid = data.items[0];
+          const videoId = vid.id.videoId;
+          iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&rel=0&modestbranding=1`;
+          titleEl.textContent = vid.snippet.title || 'Latest Upload';
           loading.style.display = 'none';
           return;
         }
-      } catch (error) {
-        console.error('Could not fetch newest video:', error);
+      } catch (err) {
+        console.error('Latest video fetch failed:', err);
       }
 
       // Fallback
-      loading.textContent = 'Showing most recent known upload (autoplays muted – click to unmute):';
+      loading.textContent = 'Showing fallback video (API issue)';
       iframe.src = 'https://www.youtube.com/embed/fTWL5avcsa8?autoplay=1&mute=1&rel=0&modestbranding=1';
       titleEl.textContent = 'Yogi bear golf tournament.';
     }
 
+    // ────────────────────────────────────────────────
+    //  LOAD ALL VIDEOS (My Videos section)
+    // ────────────────────────────────────────────────
+    async function loadVideosGrid() {
+      const grid = document.getElementById('videoGrid');
+      const countEl = document.getElementById('videoCount');
+      if (!grid) return;
+
+      grid.innerHTML = '<p class="col-span-full text-center py-8">Loading videos...</p>';
+
+      try {
+        // Try to get uploads playlist ID
+        let playlistId;
+        try {
+          const channelData = await fetchYT('channels', {
+            part: 'contentDetails',
+            id: CHANNEL_ID
+          });
+          playlistId = channelData?.items?.[0]?.contentDetails?.relatedPlaylists?.uploads;
+        } catch (e) {
+          console.warn('Could not get uploads playlist, falling back to search');
+        }
+
+        const videos = [];
+
+        if (playlistId) {
+          // Preferred: use playlistItems
+          let nextPage = '';
+          do {
+            const data = await fetchYT('playlistItems', {
+              part: 'snippet',
+              maxResults: 50,
+              playlistId: playlistId,
+              pageToken: nextPage
+            });
+
+            data.items.forEach(item => {
+              if (item.snippet.resourceId.kind === 'youtube#video') {
+                videos.push({
+                  id: item.snippet.resourceId.videoId,
+                  title: item.snippet.title,
+                  thumbnail: item.snippet.thumbnails?.high?.url || item.snippet.thumbnails?.medium?.url || item.snippet.thumbnails?.default?.url,
+                });
+              }
+            });
+
+            nextPage = data.nextPageToken;
+          } while (nextPage);
+        } else {
+          // Fallback: search
+          const data = await fetchYT('search', {
+            part: 'snippet',
+            channelId: CHANNEL_ID,
+            maxResults: 50,
+            order: 'date',
+            type: 'video'
+          });
+          data.items?.forEach(vid => {
+            videos.push({
+              id: vid.id.videoId,
+              title: vid.snippet.title,
+              thumbnail: vid.snippet.thumbnails?.high?.url || vid.snippet.thumbnails?.medium?.url || vid.snippet.thumbnails?.default?.url,
+            });
+          });
+        }
+
+        if (videos.length > 0) {
+          countEl.textContent = videos.length;
+          renderGrid('videoGrid', videos);
+        } else {
+          throw new Error('No videos found');
+        }
+
+      } catch (err) {
+        console.error('Failed to load videos:', err);
+        grid.innerHTML = '<p class="col-span-full text-center py-8 text-red-600">Could not load videos automatically. Please check back later.</p>';
+        countEl.textContent = '?';
+      }
+    }
+
+    // ────────────────────────────────────────────────
+    //  COMMUNITY COMMENTS (localStorage)
+    // ────────────────────────────────────────────────
     function loadComments() {
       const comments = JSON.parse(localStorage.getItem('communityPosts')) || [];
       const list = document.getElementById('commentsList');
-      if (!list) return;
       list.innerHTML = '';
-      comments.forEach(comment => {
+      comments.forEach(c => {
         const div = document.createElement('div');
         div.className = 'comment-card';
         div.innerHTML = `
-          <div class="comment-header">${comment.name || 'Anonymous'}</div>
-          <div class="comment-time">${new Date(comment.time).toLocaleString()}</div>
-          <p class="text-sm sm:text-base">${comment.text.replace(/\n/g, '<br>')}</p>
+          <div class="comment-header">${c.name || 'Anonymous'}</div>
+          <div class="comment-time">${new Date(c.time).toLocaleString()}</div>
+          <p class="text-sm sm:text-base">${c.text.replace(/\n/g, '<br>')}</p>
         `;
         list.appendChild(div);
       });
     }
 
     function addComment() {
-      const nameInput = document.getElementById('commentName');
-      const textArea = document.getElementById('commentText');
-      const name = nameInput.value.trim();
-      const text = textArea.value.trim();
-      if (!text) {
-        alert("Please write something!");
-        return;
-      }
+      const name = document.getElementById('commentName').value.trim();
+      const text = document.getElementById('commentText').value.trim();
+      if (!text) return alert("Please write something!");
       const comments = JSON.parse(localStorage.getItem('communityPosts')) || [];
       comments.push({ name: name || 'Anonymous', text, time: Date.now() });
       localStorage.setItem('communityPosts', JSON.stringify(comments));
-      nameInput.value = '';
-      textArea.value = '';
+      document.getElementById('commentName').value = '';
+      document.getElementById('commentText').value = '';
       loadComments();
     }
 
+    // ────────────────────────────────────────────────
+    //  INIT
+    // ────────────────────────────────────────────────
     window.onload = () => {
-      renderGrid('videoGrid', videos);
       renderGrid('shortsGrid', shorts, true);
       showSection('videos');
       loadLatestVideo();
+      loadVideosGrid();
       loadComments();
     };
   </script>
