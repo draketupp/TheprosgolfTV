@@ -254,16 +254,16 @@
     const API_KEY = 'AIzaSyCiGyW1HmtYSaLZv-PCA05hwRS0ZIR4P2Y';
     const CHANNEL_ID = 'UCJjRscH3l030SOmy2tWxcoA';
 
-    // Your hardcoded shorts (you can later replace with API too)
+    // Hardcoded shorts (with example stats – update as needed)
     const shorts = [
-      { id: "niNWJ3CyQLU", title: "good edit", thumbnail: "https://i.ytimg.com/vi/niNWJ3CyQLU/hqdefault.jpg", views: "Short", likes: "2 likes" },
-      { id: "ScJcQ3lWFBs", title: "tiger woods edit", thumbnail: "https://i.ytimg.com/vi/ScJcQ3lWFBs/hqdefault.jpg", views: "Short", likes: "3 likes" },
-      { id: "cm_W4oe5ZGU", title: "I hit a long shot in golf ⛳️", thumbnail: "https://i.ytimg.com/vi/cm_W4oe5ZGU/hqdefault.jpg", views: "Short", likes: "4 likes" },
-      { id: "KNZydEOTK9s", title: "shooting my tooth out, golf Style", thumbnail: "https://i.ytimg.com/vi/KNZydEOTK9s/hqdefault.jpg", views: "Short", likes: "1 like" },
-      { id: "-EHAI9TrjVg", title: "120 yard happy gilmoe shot", thumbnail: "https://i.ytimg.com/vi/-EHAI9TrjVg/hqdefault.jpg", views: "Short", likes: "5 likes" },
-      { id: "SQoK9Dp4r7k", title: "clean", thumbnail: "https://i.ytimg.com/vi/SQoK9Dp4r7k/hqdefault.jpg", views: "Short", likes: "2 likes" },
-      { id: "7wPBpOzqEsI", title: "what's aura?", thumbnail: "https://i.ytimg.com/vi/7wPBpOzqEsI/hqdefault.jpg", views: "Short", likes: "3 likes" },
-      { id: "fK-WGKSsUqk", title: "Moment before disaster #golf", thumbnail: "https://i.ytimg.com/vi/fK-WGKSsUqk/hqdefault.jpg", views: "Short", likes: "4 likes" },
+      { id: "niNWJ3CyQLU", title: "good edit", thumbnail: "https://i.ytimg.com/vi/niNWJ3CyQLU/hqdefault.jpg", views: "120 views", likes: "8 likes", duration: "0:15" },
+      { id: "ScJcQ3lWFBs", title: "tiger woods edit", thumbnail: "https://i.ytimg.com/vi/ScJcQ3lWFBs/hqdefault.jpg", views: "340 views", likes: "15 likes", duration: "0:28" },
+      { id: "cm_W4oe5ZGU", title: "I hit a long shot in golf ⛳️", thumbnail: "https://i.ytimg.com/vi/cm_W4oe5ZGU/hqdefault.jpg", views: "89 views", likes: "6 likes", duration: "0:42" },
+      { id: "KNZydEOTK9s", title: "shooting my tooth out, golf Style", thumbnail: "https://i.ytimg.com/vi/KNZydEOTK9s/hqdefault.jpg", views: "210 views", likes: "12 likes", duration: "0:19" },
+      { id: "-EHAI9TrjVg", title: "120 yard happy gilmoe shot", thumbnail: "https://i.ytimg.com/vi/-EHAI9TrjVg/hqdefault.jpg", views: "450 views", likes: "22 likes", duration: "0:55" },
+      { id: "SQoK9Dp4r7k", title: "clean", thumbnail: "https://i.ytimg.com/vi/SQoK9Dp4r7k/hqdefault.jpg", views: "67 views", likes: "4 likes", duration: "0:12" },
+      { id: "7wPBpOzqEsI", title: "what's aura?", thumbnail: "https://i.ytimg.com/vi/7wPBpOzqEsI/hqdefault.jpg", views: "180 views", likes: "9 likes", duration: "0:31" },
+      { id: "fK-WGKSsUqk", title: "Moment before disaster #golf", thumbnail: "https://i.ytimg.com/vi/fK-WGKSsUqk/hqdefault.jpg", views: "310 views", likes: "18 likes", duration: "0:47" },
     ];
 
     // ────────────────────────────────────────────────
@@ -273,8 +273,27 @@
       const url = new URL(`https://www.googleapis.com/youtube/v3/${endpoint}`);
       url.search = new URLSearchParams({ ...params, key: API_KEY }).toString();
       const res = await fetch(url);
-      if (!res.ok) throw new Error(`YouTube API ${res.status}: ${await res.text()}`);
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(`YouTube API ${res.status}: ${errText}`);
+      }
       return res.json();
+    }
+
+    function isoToDuration(iso) {
+      if (!iso) return '?';
+      const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+      if (!match) return 'Live';
+      const h = parseInt(match[1] || 0);
+      const m = parseInt(match[2] || 0);
+      const s = parseInt(match[3] || 0);
+      if (h > 0) return `${h}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+      return `${m}:${s.toString().padStart(2,'0')}`;
+    }
+
+    function formatNumber(num) {
+      if (!num) return '0';
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
     function renderGrid(gridId, items, isShort = false) {
@@ -284,14 +303,17 @@
       items.forEach(item => {
         const card = document.createElement('div');
         card.className = 'card';
+        const durText = item.duration || (isShort ? 'Short' : 'Video');
         card.innerHTML = `
           <div class="relative">
             <img src="${item.thumbnail}" alt="${item.title}" class="w-full aspect-video object-cover">
-            <span class="duration">${item.duration || (isShort ? 'Short' : 'Video')}</span>
+            <span class="duration">${durText}</span>
           </div>
           <div class="p-3 sm:p-4">
             <h3 class="font-medium text-sm sm:text-base line-clamp-2">${item.title}</h3>
-            <p class="meta mt-1">${item.views || '? views'} • <span class="likes">${item.likes || '? likes'}</span></p>
+            <p class="meta mt-1">
+              ${formatNumber(item.views)} views • <span class="likes">${formatNumber(item.likes)} likes</span> • ${item.duration || '?'}
+            </p>
           </div>
         `;
         card.onclick = () => play(item.id, item.title);
@@ -331,7 +353,7 @@
     }
 
     // ────────────────────────────────────────────────
-    //  LOAD LATEST VIDEO
+    //  LOAD LATEST VIDEO (kept simple – no stats here)
     // ────────────────────────────────────────────────
     async function loadLatestVideo() {
       const loading = document.getElementById('latestLoading');
@@ -362,14 +384,13 @@
         console.error('Latest video fetch failed:', err);
       }
 
-      // Fallback
       loading.textContent = 'Showing fallback video (API issue)';
       iframe.src = 'https://www.youtube.com/embed/fTWL5avcsa8?autoplay=1&mute=1&rel=0&modestbranding=1';
       titleEl.textContent = 'Yogi bear golf tournament.';
     }
 
     // ────────────────────────────────────────────────
-    //  LOAD ALL VIDEOS (My Videos section)
+    //  LOAD ALL VIDEOS + STATS + FILTER SHORTS
     // ────────────────────────────────────────────────
     async function loadVideosGrid() {
       const grid = document.getElementById('videoGrid');
@@ -379,7 +400,6 @@
       grid.innerHTML = '<p class="col-span-full text-center py-8">Loading videos...</p>';
 
       try {
-        // Try to get uploads playlist ID
         let playlistId;
         try {
           const channelData = await fetchYT('channels', {
@@ -388,13 +408,13 @@
           });
           playlistId = channelData?.items?.[0]?.contentDetails?.relatedPlaylists?.uploads;
         } catch (e) {
-          console.warn('Could not get uploads playlist, falling back to search');
+          console.warn('Could not get uploads playlist, using search fallback');
         }
 
-        const videos = [];
+        const videoIds = [];
+        const basicInfo = {}; // id → {title, thumbnail}
 
         if (playlistId) {
-          // Preferred: use playlistItems
           let nextPage = '';
           do {
             const data = await fetchYT('playlistItems', {
@@ -403,21 +423,19 @@
               playlistId: playlistId,
               pageToken: nextPage
             });
-
             data.items.forEach(item => {
               if (item.snippet.resourceId.kind === 'youtube#video') {
-                videos.push({
-                  id: item.snippet.resourceId.videoId,
+                const vidId = item.snippet.resourceId.videoId;
+                videoIds.push(vidId);
+                basicInfo[vidId] = {
                   title: item.snippet.title,
-                  thumbnail: item.snippet.thumbnails?.high?.url || item.snippet.thumbnails?.medium?.url || item.snippet.thumbnails?.default?.url,
-                });
+                  thumbnail: item.snippet.thumbnails?.high?.url || item.snippet.thumbnails?.medium?.url || item.snippet.thumbnails?.default?.url
+                };
               }
             });
-
             nextPage = data.nextPageToken;
           } while (nextPage);
         } else {
-          // Fallback: search
           const data = await fetchYT('search', {
             part: 'snippet',
             channelId: CHANNEL_ID,
@@ -426,24 +444,54 @@
             type: 'video'
           });
           data.items?.forEach(vid => {
-            videos.push({
-              id: vid.id.videoId,
+            const vidId = vid.id.videoId;
+            videoIds.push(vidId);
+            basicInfo[vidId] = {
               title: vid.snippet.title,
-              thumbnail: vid.snippet.thumbnails?.high?.url || vid.snippet.thumbnails?.medium?.url || vid.snippet.thumbnails?.default?.url,
+              thumbnail: vid.snippet.thumbnails?.high?.url || vid.snippet.thumbnails?.medium?.url || vid.snippet.thumbnails?.default?.url
+            };
+          });
+        }
+
+        if (videoIds.length === 0) throw new Error('No videos found');
+
+        // Batch fetch stats & duration (max 50 per call)
+        const videosData = [];
+        for (let i = 0; i < videoIds.length; i += 50) {
+          const batch = videoIds.slice(i, i + 50);
+          const statsData = await fetchYT('videos', {
+            part: 'statistics,contentDetails',
+            id: batch.join(',')
+          });
+          statsData.items?.forEach(v => {
+            const dur = isoToDuration(v.contentDetails?.duration);
+            const isShort = v.contentDetails?.duration && v.contentDetails.duration.match(/PT\d+S/) && !v.contentDetails.duration.includes('M');
+            videosData.push({
+              id: v.id,
+              title: basicInfo[v.id]?.title || 'Untitled',
+              thumbnail: basicInfo[v.id]?.thumbnail || '',
+              views: v.statistics?.viewCount || '0',
+              likes: v.statistics?.likeCount || '0',
+              duration: dur,
+              isShort
             });
           });
         }
 
-        if (videos.length > 0) {
-          countEl.textContent = videos.length;
-          renderGrid('videoGrid', videos);
+        // Filter: only non-shorts for main videos grid
+        const longVideos = videosData.filter(v => !v.isShort);
+
+        if (longVideos.length > 0) {
+          countEl.textContent = longVideos.length;
+          renderGrid('videoGrid', longVideos);
         } else {
-          throw new Error('No videos found');
+          grid.innerHTML = '<p class="col-span-full text-center py-8">No long-form videos found yet.</p>';
+          countEl.textContent = '0';
         }
 
       } catch (err) {
         console.error('Failed to load videos:', err);
-        grid.innerHTML = '<p class="col-span-full text-center py-8 text-red-600">Could not load videos automatically. Please check back later.</p>';
+        grid.innerHTML = '<p class="col-span-full text-center py-8 text-red-600">Could not load videos. API limit or error – check console.</p>';
         countEl.textContent = '?';
       }
     }
